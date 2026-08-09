@@ -1,0 +1,26 @@
+COLECCIÓN DE IMÁGENES - NEUROPSICOLOGÍA CLÍNICA
+
+Paleta visual aproximada de la referencia:
+- Crema: #F7F2EA
+- Verde agua: #A9D4CB
+- Mostaza suave: #EDB96F
+- Coral suave: #F4C6B4
+- Azul petróleo: #205953
+
+Archivos:
+01-evaluar.png
+02-detectar.png
+03-apoyar-diagnostico.png
+04-rehabilitar.png
+05-mejorar-vida-diaria.png
+06-atender-emocion-conducta.png
+07-prevenir.png
+08-orientar.png
+09-dar-seguimiento.png
+10-trabajar-en-equipo.png
+
+00-indice-visual.png permite revisar la colección completa.
+
+Estilo:
+Ilustraciones planas, sencillas, sin texto incrustado y con fondo crema,
+creadas para integrarse en la infografía proporcionada.

@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Neuropsicología clínica - Verónica Vindas</title>
+  <style>
+    :root{
+      --cream:#f7f2ea;
+      --mint:#a9d4cb;
+      --mint-soft:#dcebe4;
+      --mustard:#edb96f;
+      --mustard-soft:#f3d79f;
+      --coral:#f4c6b4;
+      --coral-soft:#f8ded3;
+      --teal:#205953;
+      --ink:#203a38;
+      --white:#fffdf8;
+    }
+    *{box-sizing:border-box}
+    @page{size:A3 portrait;margin:0}
+    html,body{margin:0;padding:0;background:#d9d6cf;color:var(--ink);font-family:"Trebuchet MS","Segoe UI",Arial,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    body{display:flex;justify-content:center}
+    .poster{position:relative;width:297mm;height:420mm;overflow:hidden;background:var(--cream)}
+    .organic{position:absolute;z-index:0;opacity:.9}
+    .o1{left:-29mm;top:17mm;width:63mm;height:72mm;background:var(--mustard);clip-path:polygon(0 0,78% 19%,100% 72%,0 100%)}
+    .o2{right:-27mm;top:-13mm;width:73mm;height:65mm;background:#dedda4;clip-path:polygon(25% 0,100% 0,100% 100%,48% 85%,0 31%)}
+    .o3{left:-30mm;bottom:-34mm;width:92mm;height:71mm;background:var(--coral);border-radius:50% 55% 0 0;transform:rotate(10deg)}
+    .o4{right:-42mm;bottom:36mm;width:76mm;height:86mm;border:1mm solid rgba(169,212,203,.42);border-radius:50%}
+    header{position:relative;z-index:2;padding:10mm 26mm 5mm;text-align:center}
+    .brain-mark{display:inline-grid;place-items:center;width:15mm;height:15mm;margin-bottom:2mm;border-radius:50%;background:var(--mint-soft)}
+    .brain-mark svg{width:9mm;height:9mm}
+    h1{margin:0;color:#111;font-family:"Arial Rounded MT Bold","Trebuchet MS",sans-serif;font-size:27pt;line-height:.95;letter-spacing:.4px;text-transform:uppercase}
+    .subtitle{margin-top:2mm;color:#456d67;font-size:12pt;letter-spacing:.6px;text-transform:uppercase}
+    .intro{position:relative;z-index:2;display:grid;grid-template-columns:42mm 1fr;gap:4mm;align-items:center;margin:2mm 30mm 4mm;padding:4mm 6mm;border-radius:8mm;background:rgba(169,212,203,.94)}
+    .intro-title{display:flex;align-items:center;justify-content:center;min-height:13mm;border-radius:99px;background:var(--white);color:var(--teal);font-size:12pt;font-weight:900}
+    .intro p{margin:0;padding:0 4mm;color:#172d2b;font-size:8.8pt;line-height:1.55;text-align:center}
+    .functions-label{position:relative;z-index:2;width:105mm;margin:0 auto 4mm;padding:2.5mm;border-radius:99px;background:var(--mustard);color:#1e3734;font-size:11pt;font-weight:900;text-align:center}
+    main{position:relative;z-index:2;padding:0 14mm}
+    .timeline{position:absolute;left:50%;top:2mm;bottom:2mm;width:.8mm;transform:translateX(-50%);border-radius:20px;background:linear-gradient(var(--mustard),var(--mint),var(--coral),var(--mint))}
+    .timeline:after{content:"";position:absolute;left:50%;bottom:-2mm;width:0;height:0;transform:translateX(-50%);border-left:4mm solid transparent;border-right:4mm solid transparent;border-top:6mm solid var(--mint)}
+    .steps{position:relative;display:grid;grid-template-columns:1fr 12mm 1fr;grid-template-rows:repeat(5,47mm);column-gap:4mm;row-gap:3mm}
+    .node{position:relative;z-index:3;display:grid;place-items:center}
+    .node:before{content:"";width:6mm;height:6mm;border:1.3mm solid var(--cream);border-radius:50%;background:var(--mustard);box-shadow:0 0 0 .4mm rgba(32,89,83,.18)}
+    .node.n2:before,.node.n5:before{background:var(--coral)}
+    .node.n3:before,.node.n4:before{background:var(--mint)}
+    .step{position:relative;display:grid;grid-template-columns:30mm 1fr;align-items:center;gap:5mm;padding:5mm 6mm;border-radius:8mm;background:var(--white);border:.4mm solid rgba(32,89,83,.12);box-shadow:0 1.6mm 5mm rgba(58,80,74,.07)}
+    .step.right{grid-template-columns:1fr 30mm}
+    .step.right .art{grid-column:2}.step.right .copy{grid-column:1;grid-row:1}
+    .step:after{content:"";position:absolute;top:50%;width:4mm;height:.6mm;background:var(--mint)}
+    .step.left:after{right:-4mm}.step.right:after{left:-4mm}
+    .step.mustard{background:radial-gradient(circle at 91% 14%,rgba(237,185,111,.12) 0 2mm,transparent 2.2mm),#fff8eb}
+    .step.coral{background:radial-gradient(circle at 9% 86%,rgba(244,198,180,.16) 0 2mm,transparent 2.2mm),#fff5f0}
+    .step.mint{background:radial-gradient(circle at 92% 84%,rgba(169,212,203,.18) 0 2mm,transparent 2.2mm),#f2faf7}
+    .art{position:relative;width:29mm;height:29mm;overflow:hidden;border-radius:6mm;background:var(--cream);outline:.35mm solid rgba(255,255,255,.72);outline-offset:1mm}
+    .art img{width:100%;height:100%;object-fit:cover}
+    .num{position:absolute;z-index:2;top:-3mm;width:12mm;height:12mm;display:grid;place-items:center;border-radius:50%;color:var(--teal);background:var(--cream);font-size:18pt;font-weight:900}
+    .left .num{left:-5mm}.right .num{right:-5mm}
+    .copy{padding:0 3mm;text-align:center}
+    .copy h2{margin:0 0 2mm;color:var(--teal);font-size:11.5pt;line-height:1.12}
+    .copy p{max-width:100mm;margin:0 auto;color:#425c58;font-size:7.3pt;line-height:1.5}
+    .pill{display:inline-block;margin-top:2.4mm;padding:1mm 2.5mm;border-radius:99px;color:var(--teal);background:var(--mint-soft);font-size:5.5pt;font-weight:800;text-transform:uppercase;letter-spacing:.45px}
+    .row1{grid-row:1}.row2{grid-row:2}.row3{grid-row:3}.row4{grid-row:4}.row5{grid-row:5}
+    .colL{grid-column:1}.colM{grid-column:2}.colR{grid-column:3}
+    .closing{position:relative;z-index:2;display:grid;grid-template-columns:.9fr 1.1fr;gap:5mm;margin:7mm 14mm 0}
+    .closing section{padding:5mm 6mm;border-radius:8mm}
+    .importance{background:var(--mint)}
+    .references{background:var(--coral)}
+    .closing h2{margin:0 0 2mm;color:var(--teal);font-size:12pt;text-align:center}
+    .closing p{margin:0;font-size:7.2pt;line-height:1.52;text-align:center}
+    .impact-list{display:grid;grid-template-columns:repeat(2,1fr);gap:1.7mm;margin-top:2.5mm}
+    .impact-list span{padding:1.5mm 2mm;border-radius:99px;background:rgba(255,255,255,.55);font-size:6.3pt;font-weight:800}
+    .impact-list span:before{content:"✓";margin-right:1.2mm;color:var(--teal)}
+    footer{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;gap:3mm;margin-top:4mm;color:#152c29;font-size:7pt;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}
+    footer:before,footer:after{content:"";width:24mm;height:.35mm;background:var(--mustard)}
+    @media print{html,body{background:transparent}.poster{margin:0}}
+  </style>
+</head>
+<body>
+<article class="poster">
+  <div class="organic o1"></div><div class="organic o2"></div><div class="organic o3"></div><div class="organic o4"></div>
+  <header>
+    <div class="brain-mark">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 14c-6-9-19-5-18 5-9 1-11 12-5 17-5 8 2 17 11 15 4 8 13 5 14-2 3 7 13 8 16 0 8 0 12-10 6-16 5-7-2-16-10-14-2-8-10-11-14-5z" fill="none" stroke="#205953" stroke-width="3"/><path d="M32 15v34M20 23c7 0 7 8 2 11 8 0 8 9 2 12M44 22c-7 1-7 8-2 11-8 1-7 10-1 12" fill="none" stroke="#205953" stroke-width="3" stroke-linecap="round"/></svg>
+    </div>
+    <h1>Neuropsicología clínica</h1>
+    <div class="subtitle">La relación entre el cerebro y la conducta</div>
+  </header>
+
+  <section class="intro">
+    <div class="intro-title">¿Qué es?</div>
+    <p>Es una especialidad de la Psicología que estudia la relación entre el funcionamiento del cerebro y la conducta humana. Analiza procesos como la <strong>memoria, atención, lenguaje, emociones y comportamiento</strong> (Caro, 2023).</p>
+  </section>
+  <div class="functions-label">Sus principales funciones</div>
+
+  <main>
+    <div class="timeline"></div>
+    <div class="steps">
+      <article class="step left mustard colL row1">
+        <span class="num">1</span>
+        <div class="art"><img src="../imagegen/neuropsicologia-puntos-pastel/01-evaluar.png" alt=""></div>
+        <div class="copy"><h2>Evaluar</h2><p>Explora memoria, atención, lenguaje, percepción y razonamiento mediante pruebas neuropsicológicas.</p><span class="pill">Comprender capacidades</span></div>
+      </article>
+      <div class="node n1 colM row1"></div>
+      <article class="step right coral colR row1">
+        <span class="num">2</span>
+        <div class="art"><img src="../imagegen/neuropsicologia-puntos-pastel/02-detectar.png" alt=""></div>
+        <div class="copy"><h2>Detectar</h2><p>Reconoce cambios cognitivos, emocionales o conductuales relacionados con una lesión o enfermedad cerebral.</p><span class="pill">Reconocer cambios</span></div>
+      </article>
+
+      <article class="step left mint colL row2">
+        <span class="num">3</span>
+        <div class="art"><img src="../imagegen/neuropsicologia-puntos-pastel/03-apoyar-diagnostico.png" alt=""></div>
+        <div class="copy"><h2>Diagnosticar</h2><p>Contribuye a determinar el tipo y grado de afectación mediante pruebas, entrevista y observación clínica.</p><span class="pill">Precisar necesidades</span></div>
+      </article>
+      <div class="node n2 colM row2"></div>
+      <article class="step right mustard colR row2">
+        <span class="num">4</span>
+        <div class="art"><img src="../imagegen/neuropsicologia-puntos-pastel/04-rehabilitar.png" alt=""></div>
+        <div class="copy"><h2>Rehabilitar</h2><p>Diseña estrategias para recuperar, fortalecer o compensar funciones afectadas y alcanzar objetivos significativos.</p><span class="pill">Recuperar y compensar</span></div>
+      </article>
+
+      <article class="step left coral colL row3">
+        <span class="num">5</span>
+        <div class="art"><img src="../imagegen/neuropsicologia-puntos-pastel/06-atender-emocion-conducta.png" alt=""></div>
+        <div class="copy"><h2>Atender emociones y conducta</h2><p>Acompaña cambios en las emociones, la personalidad, la motivación, las relaciones sociales y el comportamiento.</p><span class="pill">Acompañamiento integral</span></div>
+      </article>
+      <div class="node n3 colM row3"></div>
+      <article class="step right mint colR row3">
+        <span class="num">6</span>
+        <div class="art"><img src="../imagegen/neuropsicologia-puntos-pastel/05-mejorar-vida-diaria.png" alt=""></div>
+        <div class="copy"><h2>Mejorar la vida diaria</h2><p>Facilita la organización, la toma de decisiones y el desempeño seguro en las actividades cotidianas.</p><span class="pill">Funcionalidad cotidiana</span></div>
+      </article>
+
+      <article class="step left mustard colL row4">
+        <span class="num">7</span>
+        <div class="art"><img src="../imagegen/neuropsicologia-puntos-pastel/08-orientar.png" alt=""></div>
+        <div class="copy"><h2>Orientar</h2><p>Ofrece a familiares y personas cuidadoras información clara, estrategias prácticas y pautas de acompañamiento.</p><span class="pill">Apoyo familiar</span></div>
+      </article>
+      <div class="node n4 colM row4"></div>
+      <article class="step right coral colR row4">
+        <span class="num">8</span>
+        <div class="art"><img src="../imagegen/neuropsicologia-puntos-pastel/10-trabajar-en-equipo.png" alt=""></div>
+        <div class="copy"><h2>Favorecer la autonomía</h2><p>Promueve la participación activa, la toma de decisiones y la mayor independencia posible en cada contexto.</p><span class="pill">Participación e independencia</span></div>
+      </article>
+
+      <article class="step left mint colL row5">
+        <span class="num">9</span>
+        <div class="art"><img src="../imagegen/neuropsicologia-puntos-pastel/07-prevenir.png" alt=""></div>
+        <div class="copy"><h2>Prevenir</h2><p>Fomenta sueño adecuado, actividad física, estimulación cognitiva y otros hábitos que protegen la salud cerebral.</p><span class="pill">Protección cerebral</span></div>
+      </article>
+      <div class="node n5 colM row5"></div>
+      <article class="step right mustard colR row5">
+        <span class="num">10</span>
+        <div class="art"><img src="../imagegen/neuropsicologia-puntos-pastel/09-dar-seguimiento.png" alt=""></div>
+        <div class="copy"><h2>Dar seguimiento</h2><p>Valora los avances, revisa los objetivos y ajusta la intervención según la evolución y las necesidades de la persona.</p><span class="pill">Revisar y ajustar</span></div>
+      </article>
+    </div>
+  </main>
+
+  <div class="closing">
+    <section class="references">
+      <h2>Referencias</h2>
+      <p>Caro, J. (2023). <em>Aplicaciones de la psicología del desarrollo en los ámbitos de la Psicología.</em> Universidad San Marcos.<br>Junqué, C. y Barroso, J. (1994). <em>Neuropsicología.</em> Síntesis.</p>
+    </section>
+    <section class="importance">
+      <h2>¿Por qué es importante?</h2>
+      <p>Contribuye a mejorar la autonomía, la recuperación, la adaptación al entorno y la calidad de vida de las personas con lesiones o enfermedades cerebrales.</p>
+      <div class="impact-list"><span>Recuperación</span><span>Autonomía</span><span>Adaptación</span><span>Calidad de vida</span></div>
+    </section>
+  </div>
+
+  <footer>Verónica Vindas</footer>
+</article>
+</body>
+</html>

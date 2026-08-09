@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Neuropsicología clínica - Infografía</title>
+  <style>
+    :root{
+      --navy:#11263f;
+      --navy-2:#183c5b;
+      --blue:#2d6cdf;
+      --cyan:#2db9c3;
+      --mint:#dff5f1;
+      --coral:#ef6f61;
+      --amber:#f3b84b;
+      --violet:#7557c7;
+      --paper:#f6f2e9;
+      --white:#fff;
+      --ink:#203147;
+      --muted:#627184;
+      --line:#cbd7df;
+    }
+    *{box-sizing:border-box}
+    @page{size:A3 portrait;margin:0}
+    html,body{margin:0;padding:0;background:#cfd6da;color:var(--ink);font-family:"Segoe UI",Arial,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    body{display:flex;justify-content:center}
+    .poster{position:relative;width:297mm;height:420mm;overflow:hidden;background:var(--paper)}
+    .poster:before{content:"";position:absolute;width:165mm;height:165mm;border:1px solid rgba(45,108,223,.12);border-radius:50%;right:-82mm;top:114mm}
+    .poster:after{content:"";position:absolute;width:120mm;height:120mm;border:1px solid rgba(45,185,195,.14);border-radius:50%;left:-70mm;bottom:63mm}
+    .hero{position:relative;height:85mm;padding:13mm 18mm 10mm;color:#fff;background:
+      radial-gradient(circle at 79% 18%,rgba(45,185,195,.35),transparent 29%),
+      linear-gradient(128deg,var(--navy) 0%,var(--navy-2) 64%,#185b72 100%)}
+    .hero:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:11mm;background:var(--paper);clip-path:polygon(0 76%,100% 0,100% 100%,0 100%)}
+    .eyebrow{display:flex;align-items:center;gap:3mm;margin-bottom:5mm;color:#8be0df;font-size:8pt;font-weight:800;letter-spacing:1.8px;text-transform:uppercase}
+    .eyebrow:before{content:"";width:9mm;height:1.2mm;border-radius:10px;background:var(--coral)}
+    h1{width:182mm;margin:0;font-size:35pt;line-height:.93;letter-spacing:-1.4px;text-transform:uppercase}
+    h1 span{display:block;margin-top:2mm;color:#8be0df;font-size:18pt;letter-spacing:.1px;text-transform:none}
+    .hero-copy{width:170mm;margin:5mm 0 0;color:#d7e7ed;font-size:10pt;line-height:1.42}
+    .brain{position:absolute;right:14mm;top:8mm;width:75mm;height:66mm}
+    .brain .halo{fill:none;stroke:rgba(255,255,255,.13);stroke-width:2}
+    .brain .main{fill:#f5b94c;stroke:#fff;stroke-width:2.2}
+    .brain .fold{fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round}
+    .brain .node{fill:#ef6f61;stroke:#fff;stroke-width:1.2}
+    .hero-tag{position:absolute;right:17mm;bottom:14mm;padding:2mm 4mm;border:1px solid rgba(255,255,255,.28);border-radius:30px;background:rgba(17,38,63,.46);font-size:7.3pt;font-weight:700}
+    main{position:relative;z-index:2;padding:1mm 15mm 0}
+    .intro-grid{display:grid;grid-template-columns:1.22fr .78fr;gap:5mm;margin-top:1mm}
+    .card{border:1px solid rgba(17,38,63,.09);border-radius:5mm;background:rgba(255,255,255,.88);box-shadow:0 2mm 7mm rgba(17,38,63,.06)}
+    .definition{display:grid;grid-template-columns:1fr 55mm;gap:5mm;padding:6mm}
+    .kicker{margin-bottom:2mm;color:var(--blue);font-size:7pt;font-weight:900;letter-spacing:1.1px;text-transform:uppercase}
+    h2{margin:0 0 2.3mm;color:var(--navy);font-size:16pt;line-height:1.05}
+    p{margin:0;font-size:8.7pt;line-height:1.42}
+    .processes{display:grid;grid-template-columns:repeat(2,1fr);gap:2mm}
+    .process{display:flex;align-items:center;gap:2mm;padding:2.2mm;border-radius:2.7mm;background:#edf4f8;color:var(--navy);font-size:7.2pt;font-weight:800}
+    .process b{display:grid;place-items:center;width:7mm;height:7mm;border-radius:50%;color:#fff;background:var(--blue);font-size:6.5pt}
+    .process:last-child{grid-column:1/-1}
+    .luria{position:relative;padding:6mm 6mm 5mm 18mm;background:linear-gradient(145deg,#fff7e5,#fff)}
+    .luria:before{content:"AL";position:absolute;left:5mm;top:6mm;display:grid;place-items:center;width:10mm;height:10mm;border-radius:50%;color:#fff;background:var(--coral);font-size:7pt;font-weight:900}
+    .luria h2{font-size:13.5pt}
+    .luria p{font-size:8pt}
+    .luria strong{color:var(--coral)}
+    .section-title{display:flex;align-items:end;justify-content:space-between;margin:7mm 1mm 3.5mm}
+    .section-title h2{margin:0;font-size:18pt}
+    .section-title p{max-width:87mm;color:var(--muted);font-size:7.6pt;text-align:right}
+    .route{position:relative;display:grid;grid-template-columns:1fr 12mm 1fr;grid-template-rows:repeat(5,31mm);column-gap:4mm;row-gap:3mm}
+    .route:before{content:"";position:absolute;left:50%;top:4mm;bottom:4mm;width:1.2mm;transform:translateX(-50%);border-radius:10px;background:linear-gradient(var(--blue),var(--cyan),var(--violet))}
+    .step{position:relative;display:grid;grid-template-columns:12mm 1fr;gap:3mm;padding:4mm 4.5mm;border-radius:4mm;background:#fff;border:1px solid rgba(17,38,63,.09);box-shadow:0 1.5mm 4mm rgba(17,38,63,.055)}
+    .step:nth-child(4n+1),.step:nth-child(4n+2){background:#f5f9ff}
+    .step:nth-child(4n+3),.step:nth-child(4n+4){background:#f0faf8}
+    .step .num{display:grid;place-items:center;width:11mm;height:11mm;border-radius:3.2mm;color:#fff;background:var(--blue);font-size:13pt;font-weight:900}
+    .step:nth-of-type(3n) .num{background:var(--cyan)}
+    .step:nth-of-type(4n) .num{background:var(--violet)}
+    .step h3{margin:0 0 1mm;color:var(--navy);font-size:10.2pt;line-height:1.08;text-transform:uppercase}
+    .step p{color:#53657a;font-size:7.35pt;line-height:1.3}
+    .step small{display:block;margin-bottom:.7mm;color:var(--blue);font-size:5.6pt;font-weight:900;letter-spacing:.8px;text-transform:uppercase}
+    .connector{position:relative;z-index:2;display:grid;place-items:center}
+    .connector:before{content:"";width:6mm;height:6mm;border:1.4mm solid var(--paper);border-radius:50%;background:var(--blue);box-shadow:0 0 0 .5mm rgba(45,108,223,.25)}
+    .connector.c2:before,.connector.c5:before{background:var(--cyan)}
+    .connector.c3:before{background:var(--coral)}
+    .connector.c4:before{background:var(--violet)}
+    .left{grid-column:1}.right{grid-column:3}.mid{grid-column:2}
+    .r1{grid-row:1}.r2{grid-row:2}.r3{grid-row:3}.r4{grid-row:4}.r5{grid-row:5}
+    .bottom-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:5mm;margin-top:6mm}
+    .beneficiaries{padding:5.5mm}
+    .benefit-list{display:grid;grid-template-columns:repeat(2,1fr);gap:2mm;margin-top:3mm}
+    .benefit{display:flex;align-items:center;gap:2mm;padding:2mm 2.4mm;border-radius:2.5mm;background:#edf4f8;font-size:7pt;font-weight:750}
+    .benefit i{display:grid;place-items:center;width:6mm;height:6mm;border-radius:50%;font-style:normal;color:#fff;background:var(--navy-2);font-size:5.5pt}
+    .impact{padding:5.5mm;color:#fff;background:linear-gradient(140deg,var(--violet),#50439f)}
+    .impact h2{color:#fff}
+    .impact-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2.5mm;margin-top:3mm}
+    .impact-item{padding:2.5mm;border:1px solid rgba(255,255,255,.2);border-radius:2.5mm;background:rgba(255,255,255,.1);font-size:7pt;font-weight:750}
+    .impact-item:before{content:"✓";margin-right:2mm;color:#b7f1df;font-weight:900}
+    footer{position:absolute;z-index:3;left:15mm;right:15mm;bottom:7mm;display:grid;grid-template-columns:1fr auto;align-items:end;gap:7mm;padding-top:3mm;border-top:.4mm solid #c8d2d8}
+    footer p{max-width:218mm;color:#697789;font-size:5.3pt;line-height:1.3}
+    .seal{text-align:right;color:var(--navy);font-size:6pt;font-weight:900;letter-spacing:.7px;text-transform:uppercase}
+    .seal span{display:block;margin-top:.7mm;color:var(--coral);font-size:5pt}
+    @media print{html,body{background:transparent}.poster{margin:0}}
+  </style>
+</head>
+<body>
+<article class="poster">
+  <header class="hero">
+    <div class="eyebrow">Infografía clínica</div>
+    <h1>Neuropsicología clínica<span>La relación entre el cerebro y la conducta</span></h1>
+    <p class="hero-copy">Comprende cómo los procesos cerebrales se expresan en la memoria, la atención, el lenguaje, las emociones y la vida cotidiana.</p>
+    <svg class="brain" viewBox="0 0 260 220" aria-label="Ilustración de cerebro y conexiones">
+      <circle class="halo" cx="130" cy="107" r="99"/><circle class="halo" cx="130" cy="107" r="79"/>
+      <path class="main" d="M129 37c-21-23-63-7-62 24-29 1-39 39-18 56-18 26 4 56 31 51 9 30 49 25 54 2 10 23 48 23 56-5 29 0 45-34 26-55 18-25-3-57-31-52-5-27-39-39-56-21z"/>
+      <path class="fold" d="M128 39v132M103 51c-17 9-14 28 1 35-22 3-30 28-12 39-14 8-14 25-3 34M153 49c18 8 19 29 3 38 24-1 31 27 12 38 15 10 12 30 0 38M72 72c13-4 24 6 22 19M189 75c-14-5-25 8-21 21M61 126c14-7 27 0 28 13M199 124c-13-5-25 4-26 17"/>
+      <circle class="node" cx="42" cy="42" r="8"/><circle class="node" cx="220" cy="39" r="7"/><circle class="node" cx="229" cy="175" r="9"/><circle class="node" cx="35" cy="177" r="6"/>
+      <path class="fold" d="M49 48l24 25M213 45l-24 27M220 169l-29-23M42 173l28-25"/>
+    </svg>
+    <div class="hero-tag">Cerebro · Cognición · Emoción · Conducta</div>
+  </header>
+
+  <main>
+    <section class="intro-grid">
+      <div class="definition card">
+        <div>
+          <div class="kicker">¿Qué es?</div>
+          <h2>Una especialidad que estudia a la persona completa</h2>
+          <p>Analiza la relación entre las <strong>estructuras y procesos cerebrales</strong>, las funciones cognitivas y la conducta humana, considerando la historia individual y el entorno social y cultural.</p>
+        </div>
+        <div class="processes" aria-label="Procesos analizados">
+          <div class="process"><b>M</b>Memoria</div>
+          <div class="process"><b>A</b>Atención</div>
+          <div class="process"><b>L</b>Lenguaje</div>
+          <div class="process"><b>E</b>Emociones</div>
+          <div class="process"><b>C</b>Conducta</div>
+        </div>
+      </div>
+      <aside class="luria card">
+        <div class="kicker">Fundamento clínico</div>
+        <h2>El aporte de Alexander Luria</h2>
+        <p>Sus estudios demostraron que las <strong>lesiones cerebrales pueden modificar la conducta y las funciones cognitivas</strong>, sentando bases esenciales para la evaluación neuropsicológica moderna.</p>
+      </aside>
+    </section>
+
+    <div class="section-title">
+      <h2>Ruta de atención neuropsicológica</h2>
+      <p>Un proceso continuo: comprender, intervenir, acompañar y ajustar según la evolución de cada persona.</p>
+    </div>
+
+    <section class="route" aria-label="Diez funciones de la neuropsicología clínica">
+      <article class="step left r1"><div class="num">01</div><div><small>Comprender</small><h3>Evaluar</h3><p>Examina memoria, atención, lenguaje, percepción, razonamiento y resolución de problemas.</p></div></article>
+      <div class="connector mid r1"></div>
+      <article class="step right r1"><div class="num">02</div><div><small>Identificar</small><h3>Detectar</h3><p>Reconoce cambios cognitivos, emocionales y conductuales vinculados con lesión o enfermedad.</p></div></article>
+
+      <article class="step left r2"><div class="num">03</div><div><small>Precisar</small><h3>Apoyar el diagnóstico</h3><p>Determina tipo y grado de afectación mediante pruebas, entrevista y observación clínica.</p></div></article>
+      <div class="connector mid r2 c2"></div>
+      <article class="step right r2"><div class="num">04</div><div><small>Intervenir</small><h3>Rehabilitar</h3><p>Recupera, fortalece o compensa capacidades afectadas con objetivos funcionales.</p></div></article>
+
+      <article class="step left r3"><div class="num">05</div><div><small>Funcionar</small><h3>Mejorar la vida diaria</h3><p>Favorece independencia, procesamiento de información y desempeño cotidiano.</p></div></article>
+      <div class="connector mid r3 c3"></div>
+      <article class="step right r3"><div class="num">06</div><div><small>Acompañar</small><h3>Atender emoción y conducta</h3><p>Interviene en emociones, personalidad, motivación, relaciones y comportamiento.</p></div></article>
+
+      <article class="step left r4"><div class="num">07</div><div><small>Proteger</small><h3>Prevenir</h3><p>Promueve hábitos y estrategias saludables para cuidar la salud cerebral.</p></div></article>
+      <div class="connector mid r4 c4"></div>
+      <article class="step right r4"><div class="num">08</div><div><small>Sostener</small><h3>Orientar</h3><p>Brinda información y herramientas prácticas a familiares y personas cuidadoras.</p></div></article>
+
+      <article class="step left r5"><div class="num">09</div><div><small>Ajustar</small><h3>Dar seguimiento</h3><p>Evalúa avances y adapta el tratamiento a las necesidades y evolución del paciente.</p></div></article>
+      <div class="connector mid r5 c5"></div>
+      <article class="step right r5"><div class="num">10</div><div><small>Integrar</small><h3>Trabajar en equipo</h3><p>Colabora con medicina, psicología, psiquiatría, enfermería y fisioterapia.</p></div></article>
+    </section>
+
+    <section class="bottom-grid">
+      <div class="beneficiaries card">
+        <div class="kicker">¿A quiénes puede ayudar?</div>
+        <h2>Atención a lo largo de la vida</h2>
+        <div class="benefit-list">
+          <div class="benefit"><i>LC</i>Lesiones cerebrales</div>
+          <div class="benefit"><i>AC</i>Accidente cerebrovascular</div>
+          <div class="benefit"><i>TC</i>Traumatismo craneoencefálico</div>
+          <div class="benefit"><i>DE</i>Demencias</div>
+          <div class="benefit"><i>ND</i>Enfermedad neurodegenerativa</div>
+          <div class="benefit"><i>AD</i>Alteraciones del desarrollo</div>
+          <div class="benefit"><i>EC</i>Envejecimiento cognitivo</div>
+          <div class="benefit"><i>FC</i>Familias y cuidadores</div>
+        </div>
+      </div>
+      <div class="impact card">
+        <div class="kicker" style="color:#c9c4ff">¿Por qué es importante?</div>
+        <h2>Impacto que trasciende la consulta</h2>
+        <div class="impact-grid">
+          <div class="impact-item">Mejora la recuperación</div>
+          <div class="impact-item">Favorece la autonomía</div>
+          <div class="impact-item">Facilita la adaptación</div>
+          <div class="impact-item">Eleva la calidad de vida</div>
+          <div class="impact-item">Apoya a la familia</div>
+          <div class="impact-item">Orienta la rehabilitación</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p><strong>Referencias:</strong> Caro, J. (2023). <em>Aplicaciones de la psicología del desarrollo en los ámbitos de la Psicología</em>. Universidad San Marcos. · Junqué, C. y Barroso, J. (1994). <em>Neuropsicología</em>. Síntesis. · Sohlberg, M. y Mateer, C. (1993). Contemporary approaches to the management of executive control dysfunction. <em>Journal of Head Trauma Rehabilitation, 8</em>, 45-58.</p>
+    <div class="seal">Neuropsicología clínica<span>Evaluar · intervenir · acompañar</span></div>
+  </footer>
+</article>
+</body>
+</html>
