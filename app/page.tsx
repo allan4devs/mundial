@@ -92,7 +92,8 @@ export default function HomePage() {
   const liveCount = PROJECTS.filter((p) => p.status === "live").length;
 
   return (
-    <main className="mx-auto w-full max-w-6xl px-6 py-16 sm:py-24">
+    <main className="min-h-screen bg-[#0a0a0b] text-neutral-200">
+      <div className="mx-auto w-full max-w-6xl px-6 py-16 sm:py-24">
       <header className="max-w-2xl">
         <p className="text-sm font-medium uppercase tracking-widest text-neutral-500">
           Portafolio
@@ -154,9 +155,10 @@ export default function HomePage() {
         })}
       </div>
 
-      <footer className="mt-24 border-t border-neutral-800/80 pt-8 text-sm text-neutral-600">
-        Hecho con Next.js y Tailwind CSS.
-      </footer>
+        <footer className="mt-24 border-t border-neutral-800/80 pt-8 text-sm text-neutral-600">
+          Hecho con Next.js y Tailwind CSS.
+        </footer>
+      </div>
     </main>
   );
 }

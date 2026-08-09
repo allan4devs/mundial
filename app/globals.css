@@ -1,19 +1,22 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+/* The pages under app/(page_routes) live outside this file's directory, so
+   point Tailwind's source detection at the whole repo. */
+@source "../app";
+@source "../components";
+@source "../lib";
+
+@theme {
+  /* `font-display` is used across maps-scrapper and the client proposal sites. */
+  --font-display: "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+}
 
 :root {
   --background: #0a0a0b;
   --foreground: #ededed;
 }
 
-html {
-  color-scheme: dark;
-}
-
 body {
-  background: var(--background);
-  color: var(--foreground);
   font-family:
     ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
     Arial, sans-serif;

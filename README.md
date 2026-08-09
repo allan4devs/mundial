@@ -65,6 +65,10 @@ ver [`lib/security/runtime-secret.ts`](lib/security/runtime-secret.ts).
 
 ## Notas
 
+- **Tailwind CSS v4**, configurado desde CSS en [`app/globals.css`](app/globals.css)
+  (no hay `tailwind.config`). Tiene que ser v4: el código usa opacidades como
+  `border-white/12` o `bg-white/8`, y v3 solo genera múltiplos de 5 — en v3
+  más de 600 clases del diseño no producen ningún estilo.
 - El build usa Turbopack (`next build --turbopack`). El pipeline de webpack
   falla en este proyecto con un error interno del plugin de minificación.
 - `nsfwjs` + `@tensorflow/tfjs` se cargan de forma diferida y solo se usan para
