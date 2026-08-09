@@ -12,6 +12,7 @@ import {
   Scissors,
   ShoppingBag,
   Soup,
+  Tractor,
   UtensilsCrossed,
   Wheat,
 } from "lucide-react";
@@ -31,6 +32,14 @@ type Proposal = {
 };
 
 const PROPOSALS: Proposal[] = [
+  {
+    slug: "soluciones-tropicales",
+    name: "Soluciones Tropicales",
+    category: "Equipos agrícolas y servicio técnico",
+    location: "Ciudad Quesada, San Carlos",
+    accent: "from-blue-600 to-emerald-500",
+    icon: Tractor,
+  },
   {
     slug: "grupo-jess",
     name: "JESS Music",

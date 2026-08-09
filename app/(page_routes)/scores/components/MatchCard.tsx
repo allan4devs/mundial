@@ -1,7 +1,7 @@
 "use client";
 
 import { Loader2, Save } from "lucide-react";
-import type { Draft, ScoreMatch, ScorePrediction } from "@/lib/scores/types";
+import type { Draft, ScoreMatch, ScorePrediction } from "../types";
 import {
   cn,
   displayScore,

@@ -1,4 +1,4 @@
-import type { Draft, ScoreMatch } from "@/lib/scores/types";
+import type { Draft, ScoreMatch } from "./types";
 import { REQUEST_TIMEOUT_MS } from "./constants";
 
 export function cn(...parts: Array<string | false | null | undefined>) {

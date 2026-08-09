@@ -12,7 +12,7 @@ import type {
   ScorePrediction,
   ViewMode,
   Viewer,
-} from "@/lib/scores/types";
+} from "./types";
 import {
   emptyDraft,
   fetchWithTimeout,

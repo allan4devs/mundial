@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Loader2, Plus, RefreshCw, Save, CloudDownload } from "lucide-react";
-import type { CompetitionInfo, LeaderboardEntry, ScoreMatch } from "@/lib/scores/types";
+import type { CompetitionInfo, LeaderboardEntry, ScoreMatch } from "../types";
 import { cn, formatKickoff, liveLabel, matchStatus } from "../utils";
 
 type AdminData = {

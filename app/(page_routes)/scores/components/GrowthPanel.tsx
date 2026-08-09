@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Loader2, Trophy, Users, X } from "lucide-react";
-import type { Viewer } from "@/lib/scores/types";
+import type { Viewer } from "../types";
 
 type Profile = {
   displayName: string;

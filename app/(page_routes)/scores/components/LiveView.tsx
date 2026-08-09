@@ -1,6 +1,6 @@
 "use client";
 
-import type { Draft, ScoreMatch, ScorePrediction } from "@/lib/scores/types";
+import type { Draft, ScoreMatch, ScorePrediction } from "../types";
 import { emptyDraft } from "../utils";
 import { MatchCard } from "./MatchCard";
 

@@ -1,4 +1,4 @@
-export { getScoresDb, SCORES_DB_NAME, SCORES_COLLECTIONS } from "./scores/db";
+export { getScoresDb, SCORES_DB_NAME, SCORES_COLLECTIONS } from "./db";
 export type {
   Match,
   Prediction,
@@ -9,9 +9,9 @@ export type {
   Sport,
   WinnerSide,
   Competition,
-} from "./scores/types";
-export { computePoints, buildLeaderboard } from "./scores/scoring/index";
-export { serializePublicLeaderboard } from "./scores/public-serialization";
+} from "./types";
+export { computePoints, buildLeaderboard } from "./scoring/index";
+export { serializePublicLeaderboard } from "./public-serialization";
 export {
   SCORES_ACHIEVEMENTS,
   recordScoresAnalyticsEvent,
@@ -20,7 +20,7 @@ export {
   normalizeNotificationEmail,
   normalizeTimezone,
   type ScoresAnalyticsEvent,
-} from "./scores/growth";
+} from "./growth";
 export {
   ensureScoresData,
   readMatches,
@@ -31,10 +31,10 @@ export {
   type MatchDoc,
   type PredictionDoc,
   type CompetitionDoc,
-} from "./scores/store";
-export { listSources, getSource, isSourceEnabled } from "./scores/sources/index";
-export type { ScoreSource, SeedMatch } from "./scores/sources/index";
-export { requireAdmin, isAdminResult } from "./scores/auth";
+} from "./store";
+export { listSources, getSource, isSourceEnabled } from "./sources/index";
+export type { ScoreSource, SeedMatch } from "./sources/index";
+export { requireAdmin, isAdminResult } from "./auth";
 export {
   readViewer,
   ensureIdentityIndexes,
@@ -51,10 +51,10 @@ export {
   SCORES_SESSION_COOKIE,
   type ScoresViewer,
   type ScoresIdentityDoc,
-} from "./scores/identity";
-export { writeAdminAudit } from "./scores/audit";
-export { parseScore, maxScoreForSport, cleanText, parseIsoDate } from "./scores/validators";
-export { syncCompetition, markStaleCompetitions, rescoreMatch } from "./scores/sync";
-export { listProviders, getProvider } from "./scores/providers/index";
-export { rateLimit } from "./scores/rate-limit";
-export { savePredictionForViewer, PredictionsError } from "./scores/predictions-service";
+} from "./identity";
+export { writeAdminAudit } from "./audit";
+export { parseScore, maxScoreForSport, cleanText, parseIsoDate } from "./validators";
+export { syncCompetition, markStaleCompetitions, rescoreMatch } from "./sync";
+export { listProviders, getProvider } from "./providers/index";
+export { rateLimit } from "./rate-limit";
+export { savePredictionForViewer, PredictionsError } from "./predictions-service";

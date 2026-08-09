@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { CompetitionInfo, LeaderboardEntry } from "@/lib/scores/types";
+import type { CompetitionInfo, LeaderboardEntry } from "../types";
 import { cn, fetchWithTimeout } from "../utils";
 
 type Props = {
