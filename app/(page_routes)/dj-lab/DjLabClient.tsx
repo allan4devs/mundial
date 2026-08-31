@@ -8,6 +8,7 @@ import {
   Download,
   Gauge,
   Headphones,
+  Layers,
   Library,
   ListMusic,
   Pause,
@@ -667,13 +668,22 @@ export default function DjLabClient(): JSX.Element {
                 Consola profesional en Next.js con dos decks, mezcla A/B, motor Web Audio, FX, EQ,
                 hot cues, loops, biblioteca y metrica de energia para estudiar mezcla, ritmo y timbre.
               </p>
-              <Link
-                href="/dj-lab/voice-decoder"
-                className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-md border border-sky-300/35 bg-sky-300/10 px-4 text-sm font-black text-sky-100 transition hover:border-sky-200 hover:bg-sky-300/15"
-              >
-                <AudioLines size={18} />
-                Voice Decoder
-              </Link>
+              <div className="mt-4 flex flex-wrap gap-3">
+                <Link
+                  href="/dj-lab/song-builder"
+                  className="inline-flex min-h-11 items-center gap-2 rounded-md border border-emerald-300/35 bg-emerald-300/10 px-4 text-sm font-black text-emerald-100 transition hover:border-emerald-200 hover:bg-emerald-300/15"
+                >
+                  <Layers size={18} />
+                  Song Builder
+                </Link>
+                <Link
+                  href="/dj-lab/voice-decoder"
+                  className="inline-flex min-h-11 items-center gap-2 rounded-md border border-sky-300/35 bg-sky-300/10 px-4 text-sm font-black text-sky-100 transition hover:border-sky-200 hover:bg-sky-300/15"
+                >
+                  <AudioLines size={18} />
+                  Voice Decoder
+                </Link>
+              </div>
             </div>
 
             <div className="grid grid-cols-3 gap-2 rounded-lg border border-white/10 bg-black/30 p-2 backdrop-blur">

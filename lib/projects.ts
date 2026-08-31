@@ -153,6 +153,17 @@ export const PROJECTS: Project[] = [
     status: "live",
   },
   {
+    id: "song-builder",
+    title: "Song Builder",
+    tagline: "Chop, layer y loop",
+    description:
+      "Subí tus MP3, cortá los pedazos que querés, apilá una capa por instrumento y dejá que el loop las repita en sincronía. Exporta la mezcla a WAV con render offline.",
+    href: "/dj-lab/song-builder",
+    stack: ["Web Audio API", "OfflineAudioContext", "Canvas"],
+    category: "herramientas",
+    status: "beta",
+  },
+  {
     id: "maps-scrapper",
     title: "Maps Scrapper",
     tagline: "Leads sin sitio web",
