@@ -155,11 +155,11 @@ export const PROJECTS: Project[] = [
   {
     id: "song-builder",
     title: "Song Builder",
-    tagline: "Chop, layer y loop",
+    tagline: "Cantá el ritmo, suena la banda",
     description:
-      "Subí tus MP3, cortá los pedazos que querés, apilá una capa por instrumento y dejá que el loop las repita en sincronía. Exporta la mezcla a WAV con render offline.",
+      "Cinco filas: guitarra, bajo, batería, relleno y sinte. Grabás cinco segundos con la boca en cada una, el estudio decodifica los golpes en un patrón de pasos y te lo devuelve tocado con un instrumento de verdad. Los patrones se guardan en MongoDB.",
     href: "/dj-lab/song-builder",
-    stack: ["Web Audio API", "OfflineAudioContext", "Canvas"],
+    stack: ["Web Audio API", "MediaRecorder", "Onset detection", "MongoDB"],
     category: "herramientas",
     status: "beta",
   },

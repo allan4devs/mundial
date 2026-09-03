@@ -1,82 +1,145 @@
 "use client";
 
-import { Play, Square } from "lucide-react";
+import { Pause, Play, Sparkles } from "lucide-react";
 import { memo } from "react";
 
-import { MAX_BPM, MIN_BPM } from "../lib/constants";
-import { clamp, formatTime, toNumber } from "../lib/format";
+import {
+  MAX_BPM,
+  MAX_ROOT,
+  MIN_BPM,
+  MIN_ROOT,
+  SCALES,
+  STEPS_PER_BEAT,
+} from "@/lib/song-builder/types";
+import { midiToName } from "../lib/music";
+import { percent, seconds } from "../lib/format";
 import type { TransportBarProps } from "../props";
+import { Fader, Stat } from "./ui";
 
-/** Play / stop, the clock, and the two project-wide values: tempo and master gain. */
+/** Grid lengths on offer, in sixteenths — one, one-and-a-half, two, three and four bars. */
+const STEP_CHOICES = [16, 24, 32, 48, 64] as const;
+
+const SCALE_LABELS: Record<(typeof SCALES)[number], string> = {
+  minor: "Minor",
+  major: "Major",
+  pentatonic: "Pentatonic",
+};
+
+/**
+ * Transport and the song-wide settings.
+ *
+ * Tempo and grid length change what a take is: the microphone stays open for
+ * exactly one loop, so the record button and the count-in follow whatever is set
+ * here. That is why the loop length is shown as plainly as the BPM.
+ */
 export const TransportBar = memo(function TransportBar({
+  song,
   playing,
-  canPlay,
-  elapsed,
-  bpm,
-  masterGain,
+  master,
+  sensitivity,
+  loopSeconds,
   onToggle,
-  onBpm,
-  onMasterGain,
+  onSong,
+  onMaster,
+  onSensitivity,
 }: TransportBarProps) {
   return (
-    <div className="grid gap-3 rounded-lg border border-white/10 bg-black/45 p-4 shadow-2xl lg:grid-cols-[auto_1fr_auto]">
-      <div className="flex items-center gap-3">
-        <button
-          type="button"
-          onClick={onToggle}
-          disabled={!canPlay}
-          className={`inline-flex min-h-14 items-center justify-center gap-2 rounded-md border px-6 text-sm font-black transition disabled:cursor-not-allowed disabled:opacity-40 ${
-            playing
-              ? "border-red-300 bg-red-400 text-black hover:bg-red-300"
-              : "border-emerald-300/45 bg-emerald-300/15 text-emerald-100 hover:bg-emerald-300/25"
-          }`}
-        >
-          {playing ? <Square size={18} /> : <Play size={18} />}
-          {playing ? "Stop" : "Play"}
-        </button>
+    <section className="rounded-lg border border-white/10 bg-black/30 p-4">
+      <div className="grid gap-4 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-center">
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={onToggle}
+            className="inline-flex min-h-12 items-center gap-2 rounded-md border border-emerald-300/35 bg-emerald-300/10 px-5 text-base font-black text-emerald-100 transition hover:border-emerald-200 hover:bg-emerald-300/15"
+          >
+            {playing ? <Pause size={20} /> : <Play size={20} />}
+            {playing ? "Stop" : "Play loop"}
+          </button>
 
-        <div className="rounded-md border border-white/10 bg-white/[0.04] px-3 py-2">
-          <span className="block text-[0.68rem] font-black uppercase text-slate-500">Elapsed</span>
-          <span className="text-lg font-black text-white">{formatTime(elapsed)}</span>
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+            <Stat label="Loop" value={seconds(loopSeconds)} />
+            <Stat label="Bars" value={String(song.steps / STEPS_PER_BEAT / 4)} />
+            <Stat label="Key" value={`${midiToName(song.root)} ${SCALE_LABELS[song.scale]}`} />
+          </div>
         </div>
-      </div>
 
-      <div className="flex min-w-0 items-center rounded-md border border-white/10 bg-white/[0.04] px-4 py-2 text-xs leading-5 text-slate-400">
-        Loop layers repeat their own slice. Steps layers fire from the Beat Grid, locked to Project BPM — use it to
-        beat-match a vocal too.
-      </div>
-
-      <div className="flex items-center gap-3">
-        <label className="w-28 rounded-md border border-white/10 bg-white/[0.04] px-3 py-2">
-          <span className="mb-1 flex items-center justify-between text-[0.68rem] font-black uppercase text-slate-500">
-            <span>Proj. BPM</span>
-          </span>
-          <input
-            className="w-full rounded bg-transparent text-lg font-black text-white outline-none"
-            type="number"
+        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <Fader
+            label="Tempo"
+            value={song.bpm}
             min={MIN_BPM}
             max={MAX_BPM}
             step={1}
-            value={bpm}
-            onChange={(e) => onBpm(clamp(toNumber(e.target.value, bpm), MIN_BPM, MAX_BPM))}
+            display={`${song.bpm} bpm`}
+            onChange={(bpm) => onSong({ bpm })}
           />
-        </label>
-        <label className="w-40 rounded-md border border-white/10 bg-white/[0.04] px-3 py-2">
-          <span className="mb-1 flex items-center justify-between text-[0.68rem] font-black uppercase text-slate-500">
-            <span>Master</span>
-            <span className="text-slate-300">{Math.round(masterGain * 100)}%</span>
-          </span>
-          <input
-            className="w-full accent-sky-300"
-            type="range"
+          <Fader
+            label="Root"
+            value={song.root}
+            min={MIN_ROOT}
+            max={MAX_ROOT}
+            step={1}
+            display={midiToName(song.root)}
+            onChange={(root) => onSong({ root })}
+          />
+          <Fader
+            label="Master"
+            value={master}
             min={0}
-            max={1.4}
+            max={1}
             step={0.01}
-            value={masterGain}
-            onChange={(e) => onMasterGain(Number(e.target.value))}
+            display={percent(master)}
+            onChange={onMaster}
           />
-        </label>
+          <Fader
+            label="Sensitivity"
+            value={sensitivity}
+            min={0}
+            max={1}
+            step={0.01}
+            display={percent(sensitivity)}
+            accent="sky"
+            onChange={onSensitivity}
+          />
+        </div>
       </div>
-    </div>
+
+      <div className="mt-4 flex flex-wrap items-end gap-3">
+        <label className="min-w-[140px]">
+          <span className="text-[0.68rem] font-black uppercase text-slate-500">Grid</span>
+          <select
+            className="mt-1 w-full rounded-md border border-white/10 bg-black/50 px-2 py-2 text-sm font-black text-white"
+            value={song.steps}
+            onChange={(event) => onSong({ steps: Number(event.target.value) })}
+          >
+            {STEP_CHOICES.map((choice) => (
+              <option key={choice} value={choice}>
+                {choice} steps
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label className="min-w-[140px]">
+          <span className="text-[0.68rem] font-black uppercase text-slate-500">Scale</span>
+          <select
+            className="mt-1 w-full rounded-md border border-white/10 bg-black/50 px-2 py-2 text-sm font-black text-white"
+            value={song.scale}
+            onChange={(event) => onSong({ scale: event.target.value as typeof song.scale })}
+          >
+            {SCALES.map((scale) => (
+              <option key={scale} value={scale}>
+                {SCALE_LABELS[scale]}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <p className="flex items-center gap-2 text-xs text-slate-400">
+          <Sparkles size={14} className="text-emerald-200" />
+          Sensitivity re-reads a take without re-recording it — hit the refresh icon on a row.
+        </p>
+      </div>
+    </section>
   );
 });

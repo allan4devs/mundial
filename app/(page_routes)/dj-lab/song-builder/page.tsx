@@ -4,7 +4,7 @@ import SongBuilderClient from "./SongBuilderClient";
 export const metadata: Metadata = {
   title: "Song Builder | DJ Sound Science Lab",
   description:
-    "Upload your own MP3s, chop slices, stack looping layers per instrument, and bounce the mix to a WAV — all in the browser with the Web Audio API.",
+    "Beat-box a rhythm into any of five rows and hear it played back as a guitar, a bass or a drum kit. The studio decodes your voice into a step pattern and saves it to MongoDB.",
 };
 
 export default function SongBuilderPage() {

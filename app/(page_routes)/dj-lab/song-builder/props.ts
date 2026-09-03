@@ -1,196 +1,16 @@
 /**
- * Prop contracts for every Song Builder component.
+ * Prop types for the studio components.
  *
- * Handlers here take the id they act on rather than closing over it, so the studio
- * can hand each child a callback whose identity never changes — that is what makes
- * the `React.memo` wrappers actually skip work while the transport is running.
+ * They live apart from the components so the shell can import them without
+ * pulling in the render tree, and so the shape of the callback surface — every
+ * one of them id-taking and stable — is visible in one place.
  */
 
-import type React from "react";
+import type { ReactNode } from "react";
 
-import type { GenreId } from "./lib/songForge";
-import type { Layer, Sample, SampleMap, Spectral, Spectrogram, TriggerMode } from "./types";
-
-export type LayerPatch = Partial<Layer>;
-export type SpectralPatch = Partial<Spectral>;
-export type InstrumentPreset = { name: string; color: string };
-
-export type StudioHeaderProps = {
-  layerCount: number;
-  sampleCount: number;
-  masterGain: number;
-};
-
-export type InstantStudioPanelProps = {
-  genre: GenreId;
-  rootPc: number;
-  bpm: number;
-  generating: boolean;
-  hasGenerated: boolean;
-  onPickGenre: (id: GenreId) => void;
-  onPickRoot: (pitchClass: number) => void;
-  onBpm: (bpm: number) => void;
-  onGenerate: () => void;
-  onSurprise: () => void;
-  onRemix: () => void;
-};
-
-export type TransportBarProps = {
-  playing: boolean;
-  canPlay: boolean;
-  /** Whole seconds since the transport started. */
-  elapsed: number;
-  bpm: number;
-  masterGain: number;
-  onToggle: () => void;
-  onBpm: (bpm: number) => void;
-  onMasterGain: (gain: number) => void;
-};
-
-export type BeatGridPanelProps = {
-  layers: Layer[];
-  sampleById: SampleMap;
-  playing: boolean;
-  activeStep: number;
-  onToggleStep: (layerId: string, stepIndex: number, value: boolean) => void;
-  onSetMode: (layerId: string, mode: TriggerMode) => void;
-  onClearSteps: (layerId: string) => void;
-};
-
-export type BeatGridRowProps = {
-  layer: Layer;
-  sample: Sample | null;
-  playing: boolean;
-  activeStep: number;
-  onToggleStep: BeatGridPanelProps["onToggleStep"];
-  onSetMode: BeatGridPanelProps["onSetMode"];
-  onClearSteps: BeatGridPanelProps["onClearSteps"];
-};
-
-export type StepCellProps = {
-  layerId: string;
-  index: number;
-  on: boolean;
-  color: string;
-  disabled: boolean;
-  onToggle: BeatGridPanelProps["onToggleStep"];
-};
-
-export type SamplePoolProps = {
-  samples: Sample[];
-  onAddFiles: (files: FileList | File[] | null) => void;
-  onRemove: (sampleId: string) => void;
-};
-
-/** Everything a `LayerCard` needs that is not derived from the layer itself. */
-export type LayerRackProps = {
-  layers: Layer[];
-  samples: Sample[];
-  sampleById: SampleMap;
-  soloActive: boolean;
-  playing: boolean;
-  projectBpm: number;
-  focusedLayerId: string | null;
-  bandLevels: number[];
-  spectro: Spectrogram | null;
-  spectroBusy: boolean;
-  onAddLayer: (preset?: InstrumentPreset) => void;
-  onToggleFocus: (layerId: string) => void;
-  onChange: (layerId: string, patch: LayerPatch) => void;
-  onAssign: (layerId: string, sampleId: string) => void;
-  onPreview: (layerId: string) => void;
-  onRemove: (layerId: string) => void;
-};
-
-export type LayerCardProps = Pick<
-  LayerRackProps,
-  | "samples"
-  | "soloActive"
-  | "playing"
-  | "projectBpm"
-  | "bandLevels"
-  | "spectro"
-  | "spectroBusy"
-  | "onToggleFocus"
-  | "onChange"
-  | "onAssign"
-  | "onPreview"
-  | "onRemove"
-> & {
-  layer: Layer;
-  /** Already resolved by the rack, so the card never rescans the pool. */
-  sample: Sample | null;
-  focused: boolean;
-};
-
-export type ChopStripProps = {
-  sample: Sample;
-  layer: Layer;
-  onChange: (patch: LayerPatch) => void;
-};
-
-export type ChopFieldsProps = ChopStripProps;
-
-export type PlaybackControlsProps = {
-  layer: Layer;
-  onChange: (patch: LayerPatch) => void;
-};
-
-export type BeatMatchControlProps = {
-  sourceBpm: number | null;
-  speed: number;
-  projectBpm: number;
-  onMatch: (sourceBpm: number) => void;
-};
-
-export type SpectralPanelProps = {
-  spectral: Spectral;
-  color: string;
-  bandLevels: number[];
-  spectro: Spectrogram | null;
-  spectroBusy: boolean;
-  onChange: (patch: SpectralPatch) => void;
-};
-
-export type SpectrogramCanvasProps = {
-  spectro: Spectrogram | null;
-  spectral: Spectral;
-  onFocusHz: (hz: number) => void;
-};
-
-export type EqCurveCanvasProps = {
-  spectral: Spectral;
-  centers: number[];
-  spectro: Spectrogram | null;
-  onBandDb: (index: number, db: number) => void;
-  onFocusHz: (hz: number) => void;
-};
-
-export type BandMeterProps = {
-  centers: number[];
-  spectral: Spectral;
-  bandLevels: number[];
-  color: string;
-  onToggleBand: (index: number) => void;
-};
-
-export type LayerLoopsProps = {
-  layers: Layer[];
-  sampleById: SampleMap;
-  playing: boolean;
-};
-
-export type ExportPanelProps = {
-  seconds: number;
-  rendering: boolean;
-  canExport: boolean;
-  onSeconds: (seconds: number) => void;
-  onExport: () => void;
-};
-
-export type StudioNotesProps = {
-  message: string;
-};
+import type { Hit, ScaleName, Song, SongWire, Track, TrackKind } from "@/lib/song-builder/types";
+import type { RecorderState } from "./hooks/useRecorder";
+import type { Library } from "./hooks/useSongLibrary";
 
 export type FaderProps = {
   label: string;
@@ -203,26 +23,70 @@ export type FaderProps = {
   onChange: (value: number) => void;
 };
 
-export type StatProps = {
-  label: string;
-  value: string;
+export type StatProps = { label: string; value: string };
+
+export type PanelTitleProps = { eyebrow: string; title: string; icon?: ReactNode };
+
+export type PatternGridProps = {
+  hits: readonly Hit[];
+  steps: number;
+  /** Step the speakers are on, or -1 when stopped. */
+  playStep: number;
+  color: string;
+  /** Loudness of the take behind the grid, one value per step. */
+  envelope?: number[];
+  onToggle: (step: number) => void;
 };
 
-export type InfoTileProps = StatProps & {
-  icon: React.ReactNode;
+export type TrackRowProps = {
+  track: Track;
+  steps: number;
+  playStep: number;
+  envelope?: number[];
+  /** Recorder state while this row is the one recording, otherwise null. */
+  recording: RecorderState | null;
+  /** Seconds per beat, for turning the count-in countdown into beats. */
+  beatSeconds: number;
+  /** Length of one take, shown on the record button. */
+  takeSeconds: number;
+  /** True once a take exists for this row and can be decoded again. */
+  hasTake: boolean;
+  busy: boolean;
+  onRecord: (kind: TrackKind) => void;
+  onCancel: () => void;
+  onRedecode: (kind: TrackKind) => void;
+  onToggleStep: (kind: TrackKind, step: number) => void;
+  onPatch: (kind: TrackKind, patch: Partial<Track>) => void;
+  onAudition: (kind: TrackKind) => void;
+  onClear: (kind: TrackKind) => void;
 };
 
-export type PanelTitleProps = {
-  eyebrow: string;
-  title: string;
-  icon?: React.ReactNode;
-};
-
-export type LoopSweepProps = {
-  /** Length of one pass, in real seconds. */
-  seconds: number;
-  loop: boolean;
+export type TransportBarProps = {
+  song: Song;
   playing: boolean;
-  /** Any CSS colour — layers pass their own, the rail dims it. */
-  background: string;
+  master: number;
+  sensitivity: number;
+  loopSeconds: number;
+  onToggle: () => void;
+  onSong: (patch: Partial<Song>) => void;
+  onMaster: (value: number) => void;
+  onSensitivity: (value: number) => void;
 };
+
+export type SongLibraryPanelProps = {
+  library: Library;
+  song: Song;
+  onSong: (patch: Partial<Song>) => void;
+  onNew: () => void;
+};
+
+export type SongCardProps = {
+  entry: SongWire;
+  active: boolean;
+  /** Only this browser's own songs can be deleted, so only they show the button. */
+  removable: boolean;
+  onOpen: (id: string) => void;
+  onRemove: (id: string) => void;
+};
+
+export type ScaleOption = { value: ScaleName; label: string };

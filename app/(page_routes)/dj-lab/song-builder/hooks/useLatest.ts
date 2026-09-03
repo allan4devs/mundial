@@ -1,13 +1,14 @@
-"use client";
-
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 /**
- * Keeps a ref pointed at the newest value so long-lived callbacks (rAF loops,
- * audio scheduling) can read fresh state without being re-created every render.
+ * Mirrors a value into a ref so callbacks can read the current one without
+ * taking it as a dependency — which is what keeps the memoised rows from
+ * re-rendering on every edit.
  */
 export function useLatest<T>(value: T) {
   const ref = useRef(value);
-  ref.current = value;
+  useEffect(() => {
+    ref.current = value;
+  }, [value]);
   return ref;
 }

@@ -1,84 +1,79 @@
-/** Tunable limits and palettes shared across the Song Builder. */
+/** Studio copy, palette and tuning knobs. The wire model lives in `@/lib/song-builder`. */
 
-export const SAMPLE_COLORS = [
-  "#22c55e",
-  "#38bdf8",
-  "#f97316",
-  "#e879f9",
-  "#facc15",
-  "#a855f7",
-  "#f43f5e",
-  "#2dd4bf",
-] as const;
+import type { TrackKind } from "@/lib/song-builder/types";
 
-export const INSTRUMENT_PRESETS = [
-  { name: "Drums", color: "#f97316" },
-  { name: "Bass", color: "#22c55e" },
-  { name: "Keys", color: "#38bdf8" },
-  { name: "Vocal", color: "#e879f9" },
-  { name: "FX", color: "#facc15" },
-] as const satisfies readonly { name: string; color: string }[];
+export type TrackMeta = {
+  label: string;
+  /** What the row does in the arrangement. */
+  role: string;
+  /** What to make with your mouth so the decoder hears it clearly. */
+  cue: string;
+  color: string;
+};
 
-/** Quick chop lengths, in seconds. */
-export const SNAP_OPTIONS = [0.5, 1, 2, 4] as const;
+/** One entry per row, keyed by the canonical `TRACK_KINDS` order. */
+export const TRACK_META: Record<TrackKind, TrackMeta> = {
+  guitarLead: {
+    label: "Guitar lead",
+    role: "The hook that sits on top",
+    cue: 'Sing the melody — "na  na-naa"',
+    color: "#f97316",
+  },
+  bass: {
+    label: "Bass",
+    role: "The low pulse under everything",
+    cue: 'Short and low — "dum  dum-dum"',
+    color: "#22c55e",
+  },
+  drums: {
+    label: "Drums",
+    role: "Kick, snare and hats from one take",
+    cue: '"boom" = kick, "ka" = snare, "tss" = hat',
+    color: "#38bdf8",
+  },
+  guitarFill: {
+    label: "Fill guitar",
+    role: "Chord stabs in the gaps",
+    cue: 'Chop the spaces — "chk  chk-chk"',
+    color: "#e879f9",
+  },
+  synth: {
+    label: "Synth",
+    role: "Pads and sparkle",
+    cue: 'Hold the notes — "aaah  aah"',
+    color: "#facc15",
+  },
+};
 
-/** New layers chop this many seconds by default (clamped to the sample length). */
-export const DEFAULT_CLIP_SECONDS = 2;
+/** Analysis window. 1024/256 at 44.1 kHz is a ~5.8 ms hop — tight enough for hats. */
+export const FRAME_SIZE = 1024;
+export const HOP_SIZE = 256;
 
-/** Shortest slice the engine will play — below this a looping source stutters. */
-export const MIN_CLIP_SECONDS = 0.02;
+/** Two vocal hits closer than this are one hit that wobbled. */
+export const MIN_HIT_SECONDS = 0.06;
 
-export const MIN_SPEED = 0.25;
-export const MAX_SPEED = 4;
+export const DEFAULT_SENSITIVITY = 0.5;
 
-/** Beat Grid: one bar of 16th-note steps. */
-export const STEP_COUNT = 16;
-export const STEPS_PER_BEAT = 4;
+/** Beats of metronome before the microphone opens, so the take lands on the grid. */
+export const COUNT_IN_BEATS = 4;
 
-export const MIN_BPM = 40;
-export const MAX_BPM = 220;
-/** Tap-tempo and the per-layer source BPM field accept a wider range than the project clock. */
-export const MIN_SOURCE_BPM = 20;
-export const MAX_SOURCE_BPM = 300;
+/** Recorded past the end of the loop, so a hit right on the boundary is captured. */
+export const TAKE_TAIL_SECONDS = 0.25;
 
-export const MIN_EXPORT_SECONDS = 2;
-export const MAX_EXPORT_SECONDS = 120;
-/** Extra tail rendered past the bounce length so decaying one-shots are not clipped. */
-export const EXPORT_TAIL_SECONDS = 0.4;
+/** Look-ahead scheduling: wake often, schedule a little into the future. */
+export const SCHEDULER_TICK_MS = 25;
+export const SCHEDULE_AHEAD_SECONDS = 0.12;
 
-/** Filterbank frequency span. */
-export const FB_MIN_HZ = 32;
-export const FB_MAX_HZ = 18000;
-export const MIN_BANDS = 3;
-export const MAX_BANDS = 32;
-export const DEFAULT_BANDS = 12;
+/** Master bus headroom, so five rows at once do not clip. */
+export const MASTER_CEILING_DB = -6;
 
-/** dB window used by the EQ curve editor. */
-export const DB_MIN = -60;
-export const DB_MAX = 18;
-/** Sentinel gain for a hard-muted band. */
-export const DB_OFF = -120;
-
-/** Frozen empty array so "no meters" keeps a stable identity for memoised children. */
-export const EMPTY_LEVELS: number[] = [];
-
-/** Smoothing time constants for `setTargetAtTime`, in seconds. */
-export const RAMP_FAST = 0.02;
-export const RAMP_SLOW = 0.03;
-
-/** Lead-in before a freshly created source starts, so scheduling never lands in the past. */
-export const START_LEAD_SECONDS = 0.03;
-
-export const AUDIO_FILE_ACCEPT = "audio/*,.mp3,.wav,.m4a,.ogg";
-export const AUDIO_FILE_RE = /\.(mp3|wav|m4a|ogg|aac|flac)$/i;
-
-export const WELCOME_MESSAGE =
-  "New here? Pick a vibe in Instant Studio and hit Generate — a full track appears, no uploads needed.";
+/** Time constant for `setTargetAtTime` on the faders - short enough to feel instant. */
+export const RAMP_SECONDS = 0.02;
 
 export const HOW_IT_WORKS = [
-  ["Generate", "Pick a genre + key — a full locked track appears, no uploads."],
-  ["Remix", "Same vibe, fresh chords and melody. Or Surprise for a random one."],
-  ["Chop", "Drag the waveform handles, or the middle to slide the slice."],
-  ["Split", "Open Spectral engine to fan a layer into N filter bands."],
-  ["Bounce", "Offline render a fixed number of seconds to one WAV."],
+  ["Hum it", "Hit record on a row and beat-box the rhythm for five seconds."],
+  ["Decode", "Onsets become steps; loudness becomes velocity, brightness picks the sound."],
+  ["Swap", "The same rhythm plays back as a guitar, a bass or a kit."],
+  ["Stack", "Five rows, one loop. Edit any step by hand on the grid."],
+  ["Save", "The pattern goes to Mongo as `....|..|` — small, readable, trainable."],
 ] as const satisfies readonly (readonly [string, string])[];

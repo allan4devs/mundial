@@ -677,6 +677,13 @@ export default function DjLabClient(): JSX.Element {
                   Song Builder
                 </Link>
                 <Link
+                  href="/dj-lab/archive/song-builder-v0"
+                  className="inline-flex min-h-11 items-center gap-2 rounded-md border border-white/10 bg-white/[0.04] px-4 text-sm font-black text-slate-400 transition hover:border-white/25"
+                >
+                  <Layers size={18} />
+                  Song Builder v0
+                </Link>
+                <Link
                   href="/dj-lab/voice-decoder"
                   className="inline-flex min-h-11 items-center gap-2 rounded-md border border-sky-300/35 bg-sky-300/10 px-4 text-sm font-black text-sky-100 transition hover:border-sky-200 hover:bg-sky-300/15"
                 >
