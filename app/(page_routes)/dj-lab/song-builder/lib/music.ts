@@ -11,7 +11,7 @@ import type { ScaleName } from "@/lib/song-builder/types";
 import { clamp } from "./format";
 
 /** Semitone offsets from the root, one octave of each scale. */
-export const SCALE_STEPS: Record<ScaleName, readonly number[]> = {
+const SCALE_STEPS: Record<ScaleName, readonly number[]> = {
   minor: [0, 2, 3, 5, 7, 8, 10],
   major: [0, 2, 4, 5, 7, 9, 11],
   pentatonic: [0, 3, 5, 7, 10],

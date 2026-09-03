@@ -53,7 +53,7 @@ export type Song = {
   id: string;
   title: string;
   author: string;
-  /** Playback tempo. The recording window is always `RECORD_SECONDS` long. */
+  /** Playback tempo. It also sets how long a take is: the mic is open for one loop. */
   bpm: number;
   /** Steps in one loop. Always sixteenth notes, so `steps / 4` beats. */
   steps: number;
@@ -71,13 +71,13 @@ export type Song = {
  * its hits. It is derived from `hits` on read — never stored — so the two can
  * never drift apart.
  */
-export type TrackWire = Track & { pattern: string };
+type TrackWire = Track & { pattern: string };
 export type SongWire = Omit<Song, "tracks"> & { tracks: TrackWire[] };
 
-/** How long the microphone stays open for one row. */
-export const RECORD_SECONDS = 5;
-
-/** Sixteenth-note grid. `DEFAULT_STEPS` sixteenths at `DEFAULT_BPM` last exactly 5s. */
+/**
+ * Sixteenth-note grid. The microphone stays open for exactly one loop, and the
+ * defaults are chosen so that loop is 5 seconds: 32 sixteenths at 96 BPM.
+ */
 export const STEPS_PER_BEAT = 4;
 export const DEFAULT_STEPS = 32;
 export const DEFAULT_BPM = 96;

@@ -61,7 +61,7 @@ export function requireOwnerKey(value: unknown): string {
   return value;
 }
 
-export function newSongId() {
+function newSongId() {
   return `s-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
 }
 

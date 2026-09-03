@@ -16,7 +16,7 @@ import type { Song, SongWire } from "./types";
 import { SongBuilderError, type SongInput } from "./validate";
 
 /** Bump when a stored shape changes, so a migration can find old documents. */
-export const SONG_SCHEMA_VERSION = 1;
+const SONG_SCHEMA_VERSION = 1;
 
 type SongDoc = Omit<Song, "createdAt" | "updatedAt"> & {
   /** Opaque per-browser key. Never leaves the server. */
@@ -40,7 +40,7 @@ async function collection(): Promise<Collection<SongDoc>> {
   return songs;
 }
 
-export async function ensureSongIndexes(db: Db) {
+async function ensureSongIndexes(db: Db) {
   await db.collection<SongDoc>(COLLECTIONS.SONG_BUILDER_SONGS).createIndexes([
     { key: { id: 1 }, unique: true, name: "song_id_unique" },
     { key: { updatedAt: -1 }, name: "song_recent" },
@@ -64,7 +64,7 @@ function toWire(doc: SongDoc): SongWire {
   };
 }
 
-export const MAX_LIST_LIMIT = 50;
+const MAX_LIST_LIMIT = 50;
 
 /** Most recently touched songs, optionally narrowed to one browser's own. */
 export async function listSongs(options: { ownerKey?: string; limit?: number } = {}) {

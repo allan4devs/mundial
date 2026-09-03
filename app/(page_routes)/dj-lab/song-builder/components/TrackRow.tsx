@@ -6,6 +6,7 @@ import { memo } from "react";
 import { INSTRUMENTS } from "../lib/instruments";
 import { TRACK_META } from "../lib/constants";
 import { percent } from "../lib/format";
+import type { RecorderPhase } from "../hooks/useRecorder";
 import type { TrackRowProps } from "../props";
 import { PatternGrid } from "./PatternGrid";
 
@@ -176,7 +177,7 @@ function RecordingLabel({
   remaining,
   beatSeconds,
 }: {
-  phase: string;
+  phase: RecorderPhase;
   remaining: number;
   beatSeconds: number;
 }) {

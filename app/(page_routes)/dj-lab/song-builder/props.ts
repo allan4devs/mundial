@@ -8,7 +8,7 @@
 
 import type { ReactNode } from "react";
 
-import type { Hit, ScaleName, Song, SongWire, Track, TrackKind } from "@/lib/song-builder/types";
+import type { Hit, Song, SongWire, Track, TrackKind } from "@/lib/song-builder/types";
 import type { RecorderState } from "./hooks/useRecorder";
 import type { Library } from "./hooks/useSongLibrary";
 
@@ -78,6 +78,7 @@ export type SongLibraryPanelProps = {
   song: Song;
   onSong: (patch: Partial<Song>) => void;
   onNew: () => void;
+  onDemo: () => void;
 };
 
 export type SongCardProps = {
@@ -88,5 +89,3 @@ export type SongCardProps = {
   onOpen: (id: string) => void;
   onRemove: (id: string) => void;
 };
-
-export type ScaleOption = { value: ScaleName; label: string };

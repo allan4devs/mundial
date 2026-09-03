@@ -23,6 +23,7 @@ import { useTransport } from "./hooks/useTransport";
 import { DEFAULT_SENSITIVITY } from "./lib/constants";
 import { auditionHit, auditionTrack } from "./lib/scheduler";
 import {
+  createDemoSong,
   createSong,
   patchTrack,
   recallAuthor,
@@ -134,6 +135,12 @@ export default function SongBuilderClient() {
     setMessage(WELCOME);
   }, [stopTransport]);
 
+  const onDemo = useCallback(() => {
+    stopTransport();
+    setSong({ ...createDemoSong(), author: recallAuthor() });
+    setMessage("Loaded a demo groove. Hit Play, then record over any row to make it yours.");
+  }, [stopTransport]);
+
   const take = loopSeconds(song.bpm, song.steps);
   const beatSeconds = 60 / song.bpm;
   const busy = recorder.state.phase !== "idle";
@@ -182,7 +189,13 @@ export default function SongBuilderClient() {
             </div>
 
             <div className="grid content-start gap-5">
-              <SongLibraryPanel library={library} song={song} onSong={patchSong} onNew={onNew} />
+              <SongLibraryPanel
+                library={library}
+                song={song}
+                onSong={patchSong}
+                onNew={onNew}
+                onDemo={onDemo}
+              />
               <StudioNotes />
             </div>
           </div>

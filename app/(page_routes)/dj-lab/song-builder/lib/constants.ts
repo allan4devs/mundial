@@ -2,7 +2,7 @@
 
 import type { TrackKind } from "@/lib/song-builder/types";
 
-export type TrackMeta = {
+type TrackMeta = {
   label: string;
   /** What the row does in the arrangement. */
   role: string;

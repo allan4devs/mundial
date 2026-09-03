@@ -26,9 +26,9 @@ const CHAR_VELOCITY: Record<string, number> = {
 };
 
 /** Neutral brightness for hits that were typed rather than decoded from a voice. */
-export const DEFAULT_TONE = 0.5;
+const DEFAULT_TONE = 0.5;
 
-export function velocityChar(velocity: number) {
+function velocityChar(velocity: number) {
   if (velocity >= ACCENT_AT) return ACCENT_CHAR;
   if (velocity < GHOST_AT) return GHOST_CHAR;
   return HIT_CHAR;

@@ -1,6 +1,6 @@
 "use client";
 
-import { FilePlus2, Library, Loader2, Save, Trash2 } from "lucide-react";
+import { FilePlus2, Library, Loader2, Save, Sparkles, Trash2 } from "lucide-react";
 import { memo } from "react";
 
 import { MAX_AUTHOR_LENGTH, MAX_TITLE_LENGTH } from "@/lib/song-builder/types";
@@ -17,6 +17,7 @@ export const SongLibraryPanel = memo(function SongLibraryPanel({
   song,
   onSong,
   onNew,
+  onDemo,
 }: SongLibraryPanelProps) {
   const { songs, scope, setScope, loading, saving } = library;
 
@@ -63,6 +64,15 @@ export const SongLibraryPanel = memo(function SongLibraryPanel({
         >
           <FilePlus2 size={16} />
           New song
+        </button>
+        <button
+          type="button"
+          onClick={onDemo}
+          title="Load a hand-written groove — no microphone needed"
+          className="inline-flex min-h-10 items-center gap-2 rounded-md border border-white/10 bg-white/[0.04] px-4 text-sm font-black text-slate-200 transition hover:border-white/25"
+        >
+          <Sparkles size={16} />
+          Demo groove
         </button>
       </div>
 

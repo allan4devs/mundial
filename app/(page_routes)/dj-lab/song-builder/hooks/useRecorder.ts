@@ -23,7 +23,7 @@ export type RecorderState = {
 
 const IDLE: RecorderState = { phase: "idle", kind: null, remaining: 0 };
 
-export type RecorderDeps = {
+type RecorderDeps = {
   engine: AudioEngine;
   song: Song;
   sensitivity: number;

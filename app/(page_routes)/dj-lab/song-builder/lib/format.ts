@@ -4,12 +4,6 @@ export function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
 }
 
-/** Parses a possibly-empty numeric input, falling back when blank or NaN. */
-export function toNumber(raw: string, fallback: number) {
-  const parsed = Number(raw);
-  return Number.isFinite(parsed) && raw.trim() !== "" ? parsed : fallback;
-}
-
 /** `0.42` -> `42%`. */
 export function percent(value: number) {
   return `${Math.round(value * 100)}%`;

@@ -14,7 +14,7 @@ import {
   type Track,
   type TrackKind,
 } from "@/lib/song-builder/types";
-import { fitHits } from "@/lib/song-builder/pattern";
+import { decodePattern, fitHits, normalizeHits } from "@/lib/song-builder/pattern";
 import { defaultInstrumentId } from "./instruments";
 import { uid } from "./format";
 
@@ -42,8 +42,44 @@ export function recallAuthor() {
   return window.localStorage.getItem(AUTHOR_STORAGE_KEY) ?? "";
 }
 
-export function createTrack(kind: TrackKind): Track {
+function createTrack(kind: TrackKind): Track {
   return { kind, instrumentId: defaultInstrumentId(kind), hits: [], gain: 0.8, muted: false };
+}
+
+/**
+ * A hand-written starter, so the studio makes noise before anyone reaches for a
+ * microphone — most first visits never grant mic access at all.
+ *
+ * Each line is one pass over a row. `tone` is what a take would have carried:
+ * the drums get three passes because brightness is what picks the kit piece, and
+ * writing them separately is how that reads. `normalizeHits` merges the passes.
+ */
+const DEMO_ROWS: { kind: TrackKind; pattern: string; tone: number }[] = [
+  { kind: "drums", pattern: "!.......|.......!.......|...|...", tone: 0.08 },
+  { kind: "drums", pattern: "....|.......|.......|.......|...", tone: 0.45 },
+  { kind: "drums", pattern: "..|...|...|...|...|...|...|...|.", tone: 0.9 },
+  { kind: "bass", pattern: "|.......|...|...|.......|...|...", tone: 0.0 },
+  { kind: "guitarLead", pattern: "....|...|.....|.....|...|.|.....", tone: 0.62 },
+  { kind: "guitarFill", pattern: "..|...|.....|.....|.....|...|...", tone: 0.4 },
+  { kind: "synth", pattern: "|...............!...............", tone: 0.5 },
+];
+
+/** `createSong` with the demo rows decoded into it. */
+export function createDemoSong(): Song {
+  const song = createSong();
+  return {
+    ...song,
+    title: "Demo groove",
+    tracks: song.tracks.map((track) => ({
+      ...track,
+      hits: normalizeHits(
+        DEMO_ROWS.filter((row) => row.kind === track.kind).flatMap((row) =>
+          decodePattern(row.pattern).map((hit) => ({ ...hit, tone: row.tone })),
+        ),
+        song.steps,
+      ),
+    })),
+  };
 }
 
 export function createSong(): Song {
@@ -101,8 +137,4 @@ export function resizeSong(song: Song, steps: number): Song {
 
 export function trackFor(song: Song, kind: TrackKind) {
   return song.tracks.find((track) => track.kind === kind) ?? createTrack(kind);
-}
-
-export function isEmpty(song: Song) {
-  return song.tracks.every((track) => track.hits.length === 0);
 }
