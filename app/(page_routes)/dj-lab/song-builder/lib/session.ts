@@ -55,7 +55,7 @@ function createTrack(kind: TrackKind): Track {
  * writing them separately is how that reads. `normalizeHits` merges the passes.
  */
 const DEMO_ROWS: { kind: TrackKind; pattern: string; tone: number }[] = [
-  { kind: "drums", pattern: "!.......|.......!.......|...|...", tone: 0.08 },
+  { kind: "drums", pattern: "!.......|.......!.......|.|.....", tone: 0.08 },
   { kind: "drums", pattern: "....|.......|.......|.......|...", tone: 0.45 },
   { kind: "drums", pattern: "..|...|...|...|...|...|...|...|.", tone: 0.9 },
   { kind: "bass", pattern: "|.......|...|...|.......|...|...", tone: 0.0 },
