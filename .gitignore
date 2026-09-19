@@ -18,5 +18,9 @@ yarn-error.log*
 .vercel
 tmp/
 
+# Local video-editor media library (keep large source media out of Git)
+app/(page_routes)/video-generator/videos-reel1/*
+!app/(page_routes)/video-generator/videos-reel1/.gitkeep
+
 .vercel
 .env*.local

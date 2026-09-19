@@ -1,12 +1,15 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
 
-import { createLimiter, decodeBlob } from "../lib/audio";
+import { decodeBlob } from "../lib/audio";
+import { TAKE_TAIL_SECONDS } from "../lib/constants";
 import { captureStream, closeMic, micMessage, openMic, type Capture } from "../lib/mic";
+import { createTakeChain, type TakeChain } from "../lib/mix";
 import { encodeWav } from "../lib/wav";
 import { useLatest } from "./useLatest";
 import type { AudioEngine } from "./useAudioEngine";
+import type { Transport, VoiceTake } from "./useTransport";
 
 /** A finished mix, held only as a link the browser can save. */
 export type Take = {
@@ -18,14 +21,18 @@ export type VocalTake = {
   recording: boolean;
   /** The last finished take, until the next one replaces it. */
   take: Take | null;
-  /** Opens the mic onto the master bus. True once it is running - the caller starts the loop. */
-  start: () => Promise<boolean>;
-  /** Closes the mic and renders the mix. A no-op when nothing is recording. */
-  stop: () => Promise<void>;
+  /** Sings over the loop, or finishes the take that is already running. */
+  toggle: () => Promise<void>;
+  /** Finishes a take in flight. A no-op otherwise, so anything that stops the loop can call it. */
+  finish: () => Promise<void>;
 };
 
 type VocalTakeDeps = {
   engine: AudioEngine;
+  /** The loop the take is sung over - this hook runs it, so the two can never drift apart. */
+  transport: Transport;
+  /** Where the finished vocal is left for the transport to play back over the loop. */
+  voice: RefObject<VoiceTake | null>;
   /** Base name for the file, without an extension. */
   name: string;
   onMessage: (message: string) => void;
@@ -34,11 +41,16 @@ type VocalTakeDeps = {
 /** The graph a take builds on top of the band, torn down again when it ends. */
 type Live = {
   ctx: AudioContext;
-  band: AudioNode;
-  voice: MediaStreamAudioSourceNode;
-  bus: DynamicsCompressorNode;
+  /** Rumble filter, de-esser, compressor, presence and a plate - see `lib/mix.ts`. */
+  chain: TakeChain;
   stream: MediaStream;
-  capture: Capture;
+  /** Band and voice together - the thing that downloads. */
+  mix: Capture;
+  /** The voice on its own, so Play can put it back over a loop that is already sounding. */
+  solo: Capture;
+  /** Audio time the mics opened at, until the downbeat is known and it becomes the offset. */
+  openedAt: number;
+  offset: number;
 };
 
 /**
@@ -51,74 +63,107 @@ type Live = {
  *
  * This is the one place in the studio that keeps audio. It keeps it as an object
  * URL and nothing more: reload the page and the take is gone, same as the song.
+ *
+ * Starting the loop is part of the take rather than something the caller has to
+ * remember, which is what keeps "Sing" one button instead of a sequence.
+ *
+ * Two recorders run at once, and they are not redundant. The mix is band plus
+ * voice and becomes the file. The solo is the voice alone, which is the only
+ * thing that can be played back *over* a live loop without doubling the band.
  */
 export function useVocalTake(deps: VocalTakeDeps): VocalTake {
   const [recording, setRecording] = useState(false);
   const [take, setTake] = useState<Take | null>(null);
 
   const nameRef = useLatest(deps.name);
+  const transportRef = useLatest(deps.transport);
   const takeRef = useLatest(take);
   const onMessageRef = useLatest(deps.onMessage);
   const activeRef = useRef<Live | null>(null);
 
-  const start = useCallback(async () => {
-    if (activeRef.current) return false;
+  const begin = useCallback(async () => {
+    if (activeRef.current) return;
 
     let stream: MediaStream | null = null;
     try {
       const rig = await deps.engine.getRig();
       stream = await openMic("sing");
 
-      const bus = createLimiter(rig.ctx);
-      const mix = rig.ctx.createMediaStreamDestination();
-      const voice = rig.ctx.createMediaStreamSource(stream);
-      voice.connect(bus);
-      rig.output.connect(bus);
-      bus.connect(mix);
+      const chain = createTakeChain(rig.ctx, rig.output, rig.ctx.createMediaStreamSource(stream));
 
-      activeRef.current = {
+      // A previous vocal must not bleed into this one: clearing it before the
+      // transport starts is what makes re-singing a take replace it, not layer.
+      deps.voice.current = null;
+
+      const active: Live = {
         ctx: rig.ctx,
-        band: rig.output,
-        voice,
-        bus,
+        chain,
         stream,
-        capture: captureStream(mix.stream),
+        mix: captureStream(chain.stream),
+        solo: captureStream(chain.voiceStream),
+        openedAt: rig.ctx.currentTime,
+        offset: 0,
       };
+      activeRef.current = active;
       setRecording(true);
-      return true;
+      onMessageRef.current("Mic is open over the loop. Headphones keep the band out of your voice.");
+
+      // From the top, so the take opens on the downbeat of a fresh loop. The gap
+      // between the mic opening and that downbeat is what playback trims off.
+      transportRef.current.stop();
+      const downbeat = await transportRef.current.toggle();
+      active.offset = downbeat === null ? 0 : downbeat - active.openedAt;
     } catch (error) {
+      // Half a take is worse than none: drop the graph rather than leave a
+      // capture running with no way to press Finish.
+      activeRef.current?.mix.abort();
+      activeRef.current?.solo.abort();
+      activeRef.current = null;
+      setRecording(false);
       closeMic(stream);
       onMessageRef.current(micMessage(error));
-      return false;
     }
-  }, [deps.engine, onMessageRef]);
+  }, [deps.engine, deps.voice, onMessageRef, transportRef]);
 
-  const stop = useCallback(async () => {
+  const finish = useCallback(async () => {
     const active = activeRef.current;
     if (!active) return;
     activeRef.current = null;
     setRecording(false);
+    transportRef.current.stop();
 
-    const blob = await active.capture.stop();
+    // The scheduler's last notes are already on the audio clock. Hold the file
+    // open for their decay, or every take ends on a chopped-off chord.
+    await new Promise((resolve) => setTimeout(resolve, TAKE_TAIL_SECONDS * 1000));
+    const [mixBlob, soloBlob] = await Promise.all([active.mix.stop(), active.solo.stop()]);
     closeMic(active.stream);
-    active.voice.disconnect();
-    active.band.disconnect(active.bus);
-    active.bus.disconnect();
+    active.chain.dispose();
 
     try {
-      const buffer = await decodeBlob(active.ctx, blob);
-      const url = URL.createObjectURL(encodeWav(buffer));
+      const [mixed, solo] = await Promise.all([
+        decodeBlob(active.ctx, mixBlob),
+        decodeBlob(active.ctx, soloBlob),
+      ]);
+      deps.voice.current = { buffer: solo, offset: active.offset };
+
+      const url = URL.createObjectURL(encodeWav(mixed));
       setTake((current) => {
         if (current) URL.revokeObjectURL(current.url);
         return { url, filename: `${nameRef.current}.wav` };
       });
       onMessageRef.current(
-        `Take ready — ${buffer.duration.toFixed(1)}s. Download it now; nothing here survives a reload.`,
+        `Take ready — ${mixed.duration.toFixed(1)}s. Press Play to hear the song with your voice, ` +
+          `or Download to keep it. Nothing here survives a reload.`,
       );
     } catch {
       onMessageRef.current("That take came out empty. Check the microphone and sing another one.");
     }
-  }, [nameRef, onMessageRef]);
+  }, [deps.voice, nameRef, onMessageRef, transportRef]);
+
+  const toggle = useCallback(
+    async () => (activeRef.current ? finish() : begin()),
+    [begin, finish],
+  );
 
   // Leaving the page mid-take would otherwise hold the microphone open.
   useEffect(
@@ -126,7 +171,8 @@ export function useVocalTake(deps: VocalTakeDeps): VocalTake {
       const active = activeRef.current;
       activeRef.current = null;
       if (active) {
-        active.capture.abort();
+        active.mix.abort();
+        active.solo.abort();
         closeMic(active.stream);
       }
       if (takeRef.current) URL.revokeObjectURL(takeRef.current.url);
@@ -134,5 +180,5 @@ export function useVocalTake(deps: VocalTakeDeps): VocalTake {
     [takeRef],
   );
 
-  return { recording, take, start, stop };
+  return { recording, take, toggle, finish };
 }

@@ -1,7 +1,16 @@
-/** Web Audio plumbing: the shared context, the master bus and a row's channel strip. */
+/** The shared context, and the channel strip every row is played through. */
 
 import type { Sound } from "@/lib/song-builder/types";
-import { EQ_HIGH_HZ, EQ_LOW_HZ, EQ_MID_HZ, MASTER_CEILING_DB, MASTER_LEVEL, RAMP_SECONDS } from "./constants";
+import {
+  EQ_HIGH_HZ,
+  EQ_LOW_HZ,
+  EQ_MID_HZ,
+  DUCK_RELEASE_SECONDS,
+  HPF_BASE_HZ,
+  HPF_MAX_HZ,
+  RAMP_SECONDS,
+} from "./constants";
+import { driveCurve } from "./dsp";
 
 let context: AudioContext | null = null;
 
@@ -13,69 +22,60 @@ function getAudioCtor(): typeof AudioContext {
 
 /**
  * The one `AudioContext` for the studio, resumed on demand. Browsers only let it
- * start inside a gesture, so every entry point (record, play, preview) awaits this.
+ * start inside a gesture, so every entry point (record, play, preview) awaits
+ * this. `interactive` asks the browser for the smallest buffer it can manage,
+ * which is what keeps an auditioned step feeling like a key press.
  */
 export async function getAudioContext(): Promise<AudioContext> {
-  context ??= new (getAudioCtor())();
+  context ??= new (getAudioCtor())({ latencyHint: "interactive" });
   if (context.state === "suspended") await context.resume();
   return context;
 }
 
-/**
- * A soft ceiling. The master wears one so five rows at once do not clip, and a
- * sung take wears another so the band plus a voice does not.
- */
-export function createLimiter(ctx: AudioContext) {
-  const limiter = ctx.createDynamicsCompressor();
-  limiter.threshold.value = MASTER_CEILING_DB;
-  limiter.knee.value = 6;
-  limiter.ratio.value = 12;
-  limiter.attack.value = 0.003;
-  limiter.release.value = 0.18;
-  return limiter;
-}
+/** What a strip needs to reach: the dry bus and the two shared effect buses. */
+export type SendBus = {
+  input: AudioNode;
+  reverbBus: AudioNode;
+  delayBus: AudioNode;
+};
 
 /**
- * Master bus: every row lands on `input` and the whole band leaves through
- * `output`, which is both the speakers and the tap a sung take records off.
- */
-export function createMasterBus(ctx: AudioContext) {
-  const input = ctx.createGain();
-  input.gain.value = 1;
-
-  const limiter = createLimiter(ctx);
-
-  const output = ctx.createGain();
-  output.gain.value = MASTER_LEVEL;
-
-  input.connect(limiter);
-  limiter.connect(output);
-  output.connect(ctx.destination);
-
-  return { input, output };
-}
-
-/**
- * One row's channel strip: an amplifier, then three bands of equalisation.
+ * One row's channel strip - the desk, one channel of it.
  *
- * This is what a sound document's `amp` and `eq` drive, and it is what makes
- * "crunch stack" and "clean sparkle" genuinely different instruments rather than
- * two labels on the same oscillators. Notes are fired into `input`; the strip is
- * built once per row and only ever retuned, so changing sound mid-loop does not
- * interrupt a ringing note.
+ * Signal order is the order a mixing engineer would reach for the controls, and
+ * it is not arbitrary: filter the rubbish out first, shape what is left, then set
+ * the level, then duck it under the kick, then place it in the stereo field, and
+ * only then split off the sends - so a row that is turned down or ducked is
+ * quieter in the reverb too, which is what "post-fader" means and why the room
+ * does not swell every time the mix gets quiet.
+ *
+ * The strip is built once per row and only ever retuned, so changing sound
+ * mid-loop moves the amplifier and the EQ without interrupting a ringing note.
  */
 export type Strip = {
   /** The drive stage - voices connect here. */
   input: WaveShaperNode;
+  cut: BiquadFilterNode;
   low: BiquadFilterNode;
   mid: BiquadFilterNode;
   high: BiquadFilterNode;
   level: GainNode;
+  /** Automated down on every kick. See `duckStrip`. */
+  duck: GainNode;
+  pan: StereoPannerNode;
+  reverbSend: GainNode;
+  delaySend: GainNode;
+  /** How far this row gets out of the kick's way, 0..1. Read by `duckStrip`. */
+  depth: number;
 };
 
-export function createStrip(ctx: AudioContext, destination: AudioNode): Strip {
+export function createStrip(ctx: AudioContext, bus: SendBus): Strip {
   const input = ctx.createWaveShaper();
   input.oversample = "2x";
+
+  const cut = ctx.createBiquadFilter();
+  cut.type = "highpass";
+  cut.Q.value = 0.7;
 
   const low = ctx.createBiquadFilter();
   low.type = "lowshelf";
@@ -91,50 +91,72 @@ export function createStrip(ctx: AudioContext, destination: AudioNode): Strip {
   high.frequency.value = EQ_HIGH_HZ;
 
   const level = ctx.createGain();
+  const duck = ctx.createGain();
+  const pan = ctx.createStereoPanner();
+  const reverbSend = ctx.createGain();
+  const delaySend = ctx.createGain();
+  reverbSend.gain.value = 0;
+  delaySend.gain.value = 0;
 
-  input.connect(low);
+  input.connect(cut);
+  cut.connect(low);
   low.connect(mid);
   mid.connect(high);
   high.connect(level);
-  level.connect(destination);
+  level.connect(duck);
+  duck.connect(pan);
+  pan.connect(bus.input);
+  pan.connect(reverbSend);
+  pan.connect(delaySend);
+  reverbSend.connect(bus.reverbBus);
+  delaySend.connect(bus.delayBus);
 
-  return { input, low, mid, high, level };
+  return { input, cut, low, mid, high, level, duck, pan, reverbSend, delaySend, depth: 0 };
 }
 
-/** Pushes a sound's amplifier and EQ into a strip already in the graph. */
-export function applyStrip(ctx: AudioContext, strip: Strip, sound: Sound) {
+/**
+ * Pushes a sound's amplifier, EQ and mix position into a strip already in the graph.
+ *
+ * A silenced row rides the strip's own fader down rather than getting a gain of
+ * its own: because the sends hang off the far end of the strip, that is also what
+ * takes it out of the reverb and the delay, which a mute that only skipped the
+ * notes would leave ringing.
+ */
+export function applyStrip(ctx: AudioContext, strip: Strip, sound: Sound, muted: boolean) {
   strip.input.curve = driveCurve(sound.amp.drive);
+  strip.depth = sound.mix.duck;
+
   const now = ctx.currentTime;
-  strip.low.gain.setTargetAtTime(sound.eq.low, now, RAMP_SECONDS);
-  strip.mid.gain.setTargetAtTime(sound.eq.mid, now, RAMP_SECONDS);
-  strip.high.gain.setTargetAtTime(sound.eq.high, now, RAMP_SECONDS);
-  strip.level.gain.setTargetAtTime(sound.amp.level, now, RAMP_SECONDS);
+  const set = (param: AudioParam, value: number) => param.setTargetAtTime(value, now, RAMP_SECONDS);
+
+  // The higher a row sits, the more of the bottom it can give away. A row's
+  // register is already written down as `transpose`, so the filter follows it
+  // rather than asking for a knob nobody would know how to set.
+  set(strip.cut.frequency, Math.min(HPF_MAX_HZ, HPF_BASE_HZ * 2 ** (sound.transpose / 12)));
+  set(strip.low.gain, sound.eq.low);
+  set(strip.mid.gain, sound.eq.mid);
+  set(strip.high.gain, sound.eq.high);
+  set(strip.level.gain, muted ? 0 : sound.amp.level);
+  set(strip.pan.pan, sound.mix.pan);
+  set(strip.reverbSend.gain, sound.mix.reverb);
+  set(strip.delaySend.gain, sound.mix.delay);
 }
 
-/** Soft asymmetric clipping. At `amount` 0 the curve is a straight line, so no bypass is needed. */
-function driveCurve(amount: number) {
-  const samples = 1024;
-  const curve = new Float32Array(samples);
-  const k = amount * 40;
-  for (let i = 0; i < samples; i += 1) {
-    const x = (i * 2) / samples - 1;
-    curve[i] = ((1 + k) * x) / (1 + k * Math.abs(x));
-  }
-  return curve;
-}
-
-const noiseCache = new WeakMap<BaseAudioContext, AudioBuffer>();
-
-/** One second of white noise, reused by every snare and hat in the session. */
-export function noiseBuffer(ctx: BaseAudioContext) {
-  const cached = noiseCache.get(ctx);
-  if (cached) return cached;
-
-  const buffer = ctx.createBuffer(1, Math.floor(ctx.sampleRate), ctx.sampleRate);
-  const data = buffer.getChannelData(0);
-  for (let i = 0; i < data.length; i += 1) data[i] = Math.random() * 2 - 1;
-  noiseCache.set(ctx, buffer);
-  return buffer;
+/**
+ * Gets a row out of the kick's way.
+ *
+ * Web Audio has no sidechain input, and it does not need one: the scheduler
+ * knows exactly when every kick lands, so the duck is drawn on the gain curve
+ * ahead of time instead of being detected after the fact. That is both cleaner
+ * than a real sidechain and the reason the pump is dead in time with the beat.
+ */
+export function duckStrip(strip: Strip, time: number, seconds: number) {
+  if (strip.depth <= 0) return;
+  const gain = strip.duck.gain;
+  gain.cancelScheduledValues(time);
+  gain.setValueAtTime(1, time);
+  gain.linearRampToValueAtTime(1 - strip.depth, time + 0.012);
+  gain.linearRampToValueAtTime(1, time + Math.min(seconds, DUCK_RELEASE_SECONDS));
 }
 
 /** Averages every channel into one array - all analysis works on mono. */

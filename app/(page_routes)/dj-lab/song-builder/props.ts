@@ -8,6 +8,7 @@
 
 import type { Hit, Sound, Style, StylePack, TrackKind } from "@/lib/song-builder/types";
 import type { RecorderState } from "./hooks/useRecorder";
+import type { Take } from "./hooks/useVocalTake";
 
 export type FaderProps = {
   label: string;
@@ -48,10 +49,13 @@ export type TrackRowProps = {
   takeSeconds: number;
   /** True while another row is recording. */
   busy: boolean;
+  /** True when this row is silenced - the name is the switch. */
+  muted: boolean;
   onRecord: (kind: TrackKind) => void;
   onCancel: () => void;
   onToggleStep: (kind: TrackKind, step: number) => void;
   onSound: (kind: TrackKind, soundId: string) => void;
+  onMute: (kind: TrackKind) => void;
 };
 
 export type TransportBarProps = {
@@ -61,7 +65,12 @@ export type TransportBarProps = {
   /** True while a new style pack is on its way from Mongo. */
   loading: boolean;
   sensitivity: number;
+  /** True while the microphone is open over the playing loop. */
+  singing: boolean;
+  /** The last finished mix, once there is one to download. */
+  take: Take | null;
   onToggle: () => void;
+  onSing: () => void;
   onStyle: (style: Style) => void;
   onBpm: (bpm: number) => void;
   onSensitivity: (value: number) => void;

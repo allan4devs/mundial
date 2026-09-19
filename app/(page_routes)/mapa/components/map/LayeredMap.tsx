@@ -10,12 +10,15 @@ interface LayeredMapProps {
   activePoint: MapPoint;
   onSelectPoint: (point: MapPoint) => void;
   unlockedLevel: number;
+  offsets?: Record<string, { x: number; y: number }>;
+  editMode?: boolean;
+  selectedId?: string | null;
 }
 
-export default function LayeredMap({ layers, activePoint, onSelectPoint, unlockedLevel }: LayeredMapProps) {
+export default function LayeredMap({ layers, activePoint, onSelectPoint, unlockedLevel, offsets = {}, editMode = false, selectedId }: LayeredMapProps) {
   return (
     <div className="relative min-w-[1120px]" style={{ width: VIEWBOX.width, height: VIEWBOX.height }}>
-      <BackgroundCanvas layers={layers} />
+      <BackgroundCanvas layers={layers} offsets={offsets} editMode={editMode} selectedId={selectedId} />
       {MAP_POINTS
         .filter((point) => layers.platforms || point.type !== 'platform')
         .filter((point) => layers.service || point.type !== 'service')
@@ -26,6 +29,8 @@ export default function LayeredMap({ layers, activePoint, onSelectPoint, unlocke
               isActive={activePoint.id === point.id}
               onSelect={onSelectPoint}
               unlockedLevel={unlockedLevel}
+              editMode={editMode}
+              offset={offsets[point.id]}
             />
             {activePoint.id === point.id ? <PointCard point={point} /> : null}
           </Fragment>

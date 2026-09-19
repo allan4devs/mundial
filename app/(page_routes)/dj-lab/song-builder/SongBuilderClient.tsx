@@ -1,7 +1,7 @@
 "use client";
 
 import { Loader2 } from "lucide-react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { toggleHit } from "@/lib/song-builder/pattern";
 import {
@@ -20,6 +20,8 @@ import { useLatest } from "./hooks/useLatest";
 import { useRecorder } from "./hooks/useRecorder";
 import { useStylePack } from "./hooks/useStylePack";
 import { useTransport } from "./hooks/useTransport";
+import type { VoiceTake } from "./hooks/useTransport";
+import { useVocalTake } from "./hooks/useVocalTake";
 import { DEFAULT_SENSITIVITY } from "./lib/constants";
 import { auditionHit } from "./lib/scheduler";
 import {
@@ -39,12 +41,14 @@ const WELCOME = "Hit Record on a row, wait for the four count-in clicks, then be
  *
  * It owns the song and hands stable, kind-taking callbacks down to the five
  * rows. The sounds come from Mongo via `useStylePack`; everything that makes
- * noise lives behind `useAudioEngine`; the microphone behind `useRecorder`.
+ * noise lives behind `useAudioEngine`; the microphone behind `useRecorder` when
+ * a row is being beat-boxed, and behind `useVocalTake` when the whole loop is
+ * being sung over.
  *
- * The layout is a fixed-height column: header and transport take what they need,
- * the five rows split the rest. Above `lg` nothing scrolls — the whole studio is
- * one screen. Below it the column falls back to normal flow, because five
- * instrument rows genuinely do not fit on a phone.
+ * The layout is a fixed-height column: header and transport are always on screen,
+ * and the ten rows take the rest and scroll inside it. Ten rows stopped fitting a
+ * laptop viewport, so the frame stayed fixed and the list gave way — the controls
+ * you reach for mid-take (Play, Sing, Download) must never scroll off.
  *
  * The song is null until the first style pack lands, which is the one loading
  * state in the app.
@@ -59,8 +63,12 @@ export default function SongBuilderClient() {
   const packRef = useLatest(pack);
 
   const engine = useAudioEngine(song, pack);
-  const transport = useTransport(engine, song, pack, setMessage);
+  // A ref, not state: a new take clears the old vocal and starts the loop in one
+  // gesture, and state would still be showing the old buffer when it did.
+  const voiceRef = useRef<VoiceTake | null>(null);
+  const transport = useTransport(engine, song, pack, voiceRef, setMessage);
   const stopTransport = transport.stop;
+  const toggleTransport = transport.toggle;
 
   const setHits = useCallback((kind: TrackKind, hits: Hit[]) => {
     setSong((current) => (current ? patchTrack(current, kind, { hits }) : current));
@@ -69,29 +77,52 @@ export default function SongBuilderClient() {
   const recorder = useRecorder({ engine, song, sensitivity, onHits: setHits, onMessage: setMessage });
   const startTake = recorder.record;
 
+  // The file is named after what it is: this style, at this tempo.
+  const takeName = useMemo(
+    () => (pack && song ? `song-builder-${pack.style}-${song.bpm}bpm` : "song-builder-take"),
+    [pack, song],
+  );
+  const vocal = useVocalTake({ engine, transport, voice: voiceRef, name: takeName, onMessage: setMessage });
+  const finishTake = vocal.finish;
+
+  /**
+   * Everything goes quiet: the loop stops, and a sung take that was running is
+   * closed out into a file rather than lost. Every control that interrupts
+   * playback goes through here, so none of them has to know about the others.
+   */
+  const halt = useCallback(async () => {
+    stopTransport();
+    await finishTake();
+  }, [finishTake, stopTransport]);
+
+  const onToggle = useCallback(async () => {
+    if (vocal.recording) await finishTake();
+    else await toggleTransport();
+  }, [finishTake, toggleTransport, vocal.recording]);
+
   const onRecord = useCallback(
     (kind: TrackKind) => {
       // Stop the loop first: on speakers it bleeds into the take, and the decoder
       // hears the other rows as extra hits.
-      stopTransport();
-      void startTake(kind);
+      void halt().then(() => startTake(kind));
     },
-    [startTake, stopTransport],
+    [halt, startTake],
   );
 
   // A new pack means a new style: build the song on the first one, and re-seat
   // the rhythms on every one after that.
   useEffect(() => {
     if (!pack) return;
-    setSong((current) => (current ? restyle(current, pack) : createSong(pack)));
+    // The demo groove, not an empty grid: Play has to make noise on arrival.
+    setSong((current) => (current ? restyle(current, pack) : createDemoSong(pack)));
   }, [pack]);
 
   const onStyle = useCallback(
     (style: Style) => {
-      stopTransport();
+      void halt();
       select(style);
     },
-    [select, stopTransport],
+    [halt, select],
   );
 
   const onBpm = useCallback((bpm: number) => {
@@ -100,6 +131,16 @@ export default function SongBuilderClient() {
 
   const onSound = useCallback((kind: TrackKind, soundId: string) => {
     setSong((current) => (current ? patchTrack(current, kind, { soundId }) : current));
+  }, []);
+
+  // Silencing a row is a mix decision, not an edit: the rhythm stays on the grid
+  // and the strip's fader goes to zero, so it comes back exactly as it was.
+  const onMute = useCallback((kind: TrackKind) => {
+    setSong((current) => {
+      if (!current) return current;
+      const track = trackFor(current, kind);
+      return track ? patchTrack(current, kind, { muted: !track.muted }) : current;
+    });
   }, []);
 
   const onToggleStep = useCallback(
@@ -128,17 +169,19 @@ export default function SongBuilderClient() {
 
   const onDemo = useCallback(() => {
     if (!pack) return;
-    stopTransport();
+    void halt();
     setSong(createDemoSong(pack));
     setMessage("Demo groove loaded. Hit Play, then record over any row to make it yours.");
-  }, [pack, stopTransport]);
+  }, [halt, pack]);
 
   const onClear = useCallback(() => {
     if (!pack) return;
-    stopTransport();
+    void halt();
+    // Clear all means all of it - the vocal goes with the rows.
+    voiceRef.current = null;
     setSong(createSong(pack));
     setMessage(WELCOME);
-  }, [pack, stopTransport]);
+  }, [halt, pack]);
 
   const rows = useMemo(
     () =>
@@ -150,6 +193,7 @@ export default function SongBuilderClient() {
               hits: track?.hits ?? [],
               sound: soundFor(pack, kind, track?.soundId ?? ""),
               options: soundsFor(pack, kind),
+              muted: track?.muted ?? false,
             };
           })
         : [],
@@ -170,7 +214,10 @@ export default function SongBuilderClient() {
                 playing={transport.playing}
                 loading={loading}
                 sensitivity={sensitivity}
-                onToggle={transport.toggle}
+                singing={vocal.recording}
+                take={vocal.take}
+                onToggle={onToggle}
+                onSing={vocal.toggle}
                 onStyle={onStyle}
                 onBpm={onBpm}
                 onSensitivity={setSensitivity}
@@ -178,7 +225,7 @@ export default function SongBuilderClient() {
                 onClear={onClear}
               />
 
-              <div className="grid min-h-0 flex-1 gap-2 lg:grid-rows-5">
+              <div className="grid min-h-0 flex-1 content-start gap-2 overflow-y-auto lg:auto-rows-[minmax(104px,1fr)]">
                 {rows.map((row) => (
                   <TrackRow
                     key={row.kind}
@@ -192,10 +239,12 @@ export default function SongBuilderClient() {
                     beatSeconds={60 / song.bpm}
                     takeSeconds={loopSeconds(song.bpm)}
                     busy={recorder.state.phase !== "idle"}
+                    muted={row.muted}
                     onRecord={onRecord}
                     onCancel={recorder.cancel}
                     onToggleStep={onToggleStep}
                     onSound={onSound}
+                    onMute={onMute}
                   />
                 ))}
               </div>

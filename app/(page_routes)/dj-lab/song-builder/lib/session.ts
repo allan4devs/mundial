@@ -31,7 +31,7 @@ export function soundFor(pack: StylePack, kind: TrackKind, soundId: string): Sou
 }
 
 function createTrack(pack: StylePack, kind: TrackKind, hits: Track["hits"] = []): Track {
-  return { kind, soundId: soundFor(pack, kind, "").id, hits };
+  return { kind, soundId: soundFor(pack, kind, "").id, hits, muted: false };
 }
 
 export function createSong(pack: StylePack): Song {
@@ -43,20 +43,23 @@ export function createSong(pack: StylePack): Song {
 }
 
 /**
- * Re-seats a song on a new style pack: the rhythms survive, every row moves to
- * the new pack's first sound, and the tempo follows the style.
+ * Re-seats a song on a new style pack: the rhythms survive, so does a row you
+ * silenced, every row moves to the new pack's first sound, and the tempo follows
+ * the style.
  */
 export function restyle(song: Song, pack: StylePack): Song {
   return {
     style: pack.style,
     bpm: pack.bpm,
-    tracks: song.tracks.map((track) => createTrack(pack, track.kind, track.hits)),
+    tracks: song.tracks.map((track) => ({ ...createTrack(pack, track.kind, track.hits), muted: track.muted })),
   };
 }
 
 /**
- * A hand-written starter, so the studio makes noise before anyone reaches for a
- * microphone - most first visits never grant mic access at all.
+ * A hand-written starter, and what the studio boots with - pressing Play has to
+ * make noise before anyone reaches for a microphone, because most first visits
+ * never grant mic access at all. `createSong` (ten empty rows) is what Clear all
+ * gives you, not what you arrive at.
  *
  * Each line is one pass over a row. `tone` is what a take would have carried:
  * the drums get three passes because brightness is what picks the kit piece, and
@@ -71,6 +74,11 @@ const DEMO_ROWS: { kind: TrackKind; pattern: string; tone: number }[] = [
   { kind: "guitarLead", pattern: "....|...|.....|.....|...|.|.....", tone: 0.62 },
   { kind: "guitarFill", pattern: "..|...|.....|.....|.....|...|...", tone: 0.4 },
   { kind: "synth", pattern: "|...............!...............", tone: 0.5 },
+  { kind: "keys", pattern: "..|.....|.....|...|.....|.....|.", tone: 0.5 },
+  { kind: "brass", pattern: ".......!.......|.......!........", tone: 0.55 },
+  { kind: "strings", pattern: "|...............|...............", tone: 0.45 },
+  { kind: "arp", pattern: "|.|.|.|.|.|.|.|.|.|.|.|.|.|.|.|.", tone: 0.72 },
+  { kind: "perc", pattern: "....|.......|...!...|.......|...", tone: 0.8 },
 ];
 
 export function createDemoSong(pack: StylePack): Song {

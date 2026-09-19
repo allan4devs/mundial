@@ -1,9 +1,9 @@
 "use client";
 
-import { Loader2, Mic, Square } from "lucide-react";
+import { Loader2, Mic, Square, VolumeX } from "lucide-react";
 import { memo } from "react";
 
-import { TRACK_META } from "../lib/constants";
+import { MUTED_COLOR, TRACK_META } from "../lib/constants";
 import type { RecorderPhase } from "../hooks/useRecorder";
 import type { TrackRowProps } from "../props";
 import { PatternGrid } from "./PatternGrid";
@@ -12,9 +12,13 @@ import { PatternGrid } from "./PatternGrid";
  * One row, and only three things: the microphone, the sound it plays through,
  * and when it sounds.
  *
- * The controls sit in a fixed-width column beside the grid so that all five rows
- * fit one viewport; the grid takes whatever height is left. Everything else a
- * mixer would put here — level, mute, solo, audition — was removed on purpose.
+ * The fourth thing is the row's own name, which is also its mute: clicking it
+ * takes the instrument out of the mix and greys the row, so silencing one costs
+ * no space that the label was not already spending. Everything else a mixer would
+ * put here — level, solo, audition — is still deliberately absent.
+ *
+ * The controls sit in a fixed-width column beside the grid so a row stays short
+ * enough that several fit at once; the grid takes the width that is left.
  */
 export const TrackRow = memo(function TrackRow({
   kind,
@@ -27,13 +31,18 @@ export const TrackRow = memo(function TrackRow({
   beatSeconds,
   takeSeconds,
   busy,
+  muted,
   onRecord,
   onCancel,
   onToggleStep,
   onSound,
+  onMute,
 }: TrackRowProps) {
   const meta = TRACK_META[kind];
   const active = recording !== null;
+  // A silenced row keeps its shape and loses its colour, which is the whole
+  // visual difference: the dot, the name and every hit on the grid go grey.
+  const tint = muted ? MUTED_COLOR : meta.color;
 
   return (
     <article
@@ -41,10 +50,19 @@ export const TrackRow = memo(function TrackRow({
       style={active ? { borderColor: meta.color } : undefined}
     >
       <div className="flex min-w-0 flex-wrap items-center gap-2 lg:flex-col lg:items-stretch lg:justify-center">
-        <div className="flex min-w-0 flex-1 items-center gap-2 lg:flex-none">
-          <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: meta.color }} />
-          <h2 className="truncate text-sm font-black text-white">{meta.label}</h2>
-        </div>
+        <h2 className="flex min-w-0 flex-1 lg:flex-none">
+          <button
+            type="button"
+            onClick={() => onMute(kind)}
+            aria-pressed={muted}
+            title={muted ? `Unmute ${meta.label}` : `Silence ${meta.label}`}
+            className="flex w-full min-w-0 items-center gap-2 rounded text-left text-sm font-black transition hover:opacity-75"
+          >
+            <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: tint }} />
+            <span className={`truncate ${muted ? "text-slate-500 line-through" : "text-white"}`}>{meta.label}</span>
+            {muted ? <VolumeX size={13} className="shrink-0 text-slate-500" /> : null}
+          </button>
+        </h2>
 
         <div className="flex min-w-0 items-center gap-2">
           {active ? (
@@ -86,7 +104,7 @@ export const TrackRow = memo(function TrackRow({
       <PatternGrid
         hits={hits}
         playStep={playStep}
-        color={meta.color}
+        color={tint}
         envelope={envelope}
         hint={meta.cue}
         onToggle={(step) => onToggleStep(kind, step)}

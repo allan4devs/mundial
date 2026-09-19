@@ -1,0 +1,74 @@
+.ve-timeline { color: #e7e9ed; background: #15171b; border-top: 1px solid #2a2d32; min-width: 0; font-family: inherit; flex-shrink: 0; }
+.ve-timeline button, .ve-timeline input { font: inherit; }
+.ve-timeline button { cursor: pointer; }
+.ve-timeline button:disabled { opacity: .3; cursor: default; }
+.ve-timeline-heading { height: 39px; padding: 0 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid #24272c; }
+.ve-timeline-heading-title { display: flex; gap: 13px; align-items: center; font-size: 11px; font-weight: 650; }
+.ve-timeline-count { color: #777e88; font-size: 10px; font-weight: 400; font-variant-numeric: tabular-nums; }
+.ve-timeline-zoom { display: flex; gap: 8px; align-items: center; }
+.ve-timeline-zoom button { display: grid; place-items: center; background: transparent; color: #9aa1ab; border: 0; padding: 3px; border-radius: 4px; }
+.ve-timeline-zoom button:hover { color: #e7e9ed; background: #292d33; }
+.ve-timeline-zoom input { width: 68px; height: 3px; accent-color: #b2b9c2; cursor: pointer; }
+.ve-timeline-zoom .ve-timeline-fit { font-size: 10px; border: 1px solid #34383f; padding: 3px 7px; margin-left: 3px; }
+.ve-timeline-body { display: flex; min-width: 0; }
+.ve-timeline-labels { width: 67px; flex: 0 0 67px; background: #181a1e; border-right: 1px solid #292c32; }
+.ve-timeline-label-spacer { height: 27px; }
+.ve-timeline-label { height: 36px; display: flex; align-items: center; justify-content: flex-start; gap: 6px; padding-left: 12px; color: #8e95a0; font-size: 9px; }
+.ve-timeline-video-label { height: 66px; }
+.ve-timeline-label:nth-child(3) { color: #b4a2df; }
+.ve-timeline-label:nth-child(4) { color: #80b6b2; }
+.ve-timeline-scroll { flex: 1; min-width: 0; overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; scrollbar-color: #41464e #181a1e; }
+.ve-timeline-scroll::-webkit-scrollbar { height: 6px; }
+.ve-timeline-scroll::-webkit-scrollbar-thumb { background: #41464e; border-radius: 5px; }
+.ve-timeline-tracks { position: relative; padding-bottom: 6px; min-height: 171px; }
+.ve-timeline-ruler { position: relative; height: 27px; cursor: ew-resize; user-select: none; touch-action: none; overflow: hidden; }
+.ve-timeline-tick { position: absolute; top: 4px; color: #69717e; font-size: 9px; font-variant-numeric: tabular-nums; pointer-events: none; padding-left: 6px; }
+.ve-timeline-tick::after { content: ""; position: absolute; left: 0; top: 15px; height: 6px; border-left: 1px solid #3c424a; }
+.ve-timeline-track { position: relative; height: 36px; border-bottom: 1px solid #202329; }
+.ve-timeline-video-track { height: 66px; cursor: default; transition: background .15s; }
+.ve-timeline-video-track.is-dropping { background: #c7f36b0b; }
+.ve-timeline-clip { position: absolute; top: 3px; height: 57px; border-radius: 5px; background: #343e2d; border: 1px solid #566646; overflow: hidden; user-select: none; cursor: grab; outline: none; isolation: isolate; }
+.ve-timeline-clip:active { cursor: grabbing; }
+.ve-timeline-clip:hover { border-color: #a1bd7a; }
+.ve-timeline-clip.is-selected { border: 2px solid #c7f36b; box-shadow: 0 0 0 1px #c7f36b12; }
+.ve-timeline-clip.is-dragging { opacity: .45; }
+.ve-timeline-clip-image { position: absolute; inset: 0; z-index: -2; opacity: .48; background: linear-gradient(115deg, #667851, #2c3b2d 52%, #647353); background-repeat: repeat-x; background-size: auto 100%; background-position: center; }
+.ve-timeline-clip-image.has-image { opacity: .64; }
+.ve-timeline-clip::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, #11161b24, #11161b20 25%, #11161bcf 100%); pointer-events: none; }
+.ve-timeline-clip-index { position: absolute; left: 10px; top: 5px; font-size: 9px; font-weight: 600; letter-spacing: .03em; color: #eaf9d3; text-shadow: 0 1px 3px #000; }
+.ve-timeline-clip-caption { position: absolute; bottom: 5px; left: 10px; right: 8px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: flex; flex-direction: column; gap: 1px; pointer-events: none; }
+.ve-timeline-clip-caption > span { overflow: hidden; text-overflow: ellipsis; font-size: 10px; line-height: 12px; font-weight: 550; }
+.ve-timeline-clip-caption small { color: #c0c8b5; font-size: 8px; line-height: 10px; font-variant-numeric: tabular-nums; }
+.ve-timeline-order { display: flex; align-items: center; gap: 0; position: absolute; top: 3px; right: 8px; background: #12170ee0; border-radius: 4px; color: #c7f36b; }
+.ve-timeline-order button { padding: 1px; border: 0; display: grid; place-items: center; color: #c7f36b; background: transparent; }
+.ve-timeline-order button:hover { background: #c7f36b30; }
+.ve-timeline-handle { position: absolute; top: 0; bottom: 0; width: 9px; cursor: ew-resize; background: #c7f36b00; touch-action: none; z-index: 4; }
+.ve-timeline-handle-start { left: 0; }
+.ve-timeline-handle-end { right: 0; }
+.ve-timeline-handle::after { content: ""; position: absolute; width: 2px; height: 13px; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 2px; background: currentColor; opacity: 0; }
+.ve-timeline-clip .ve-timeline-handle { color: #17210d; }
+.ve-timeline-clip.is-selected .ve-timeline-handle, .ve-timeline-clip:hover .ve-timeline-handle { background: #c7f36b; }
+.ve-timeline-clip.is-selected .ve-timeline-handle::after, .ve-timeline-clip:hover .ve-timeline-handle::after { opacity: .8; }
+.ve-timeline-empty { display: flex; height: 100%; align-items: center; justify-content: flex-start; padding-left: 22px; gap: 10px; color: #929b85; font-size: 11px; pointer-events: none; }
+.ve-timeline-insertion { position: absolute; top: -2px; bottom: 0; width: 2px; background: #c7f36b; z-index: 8; pointer-events: none; }
+.ve-timeline-insertion::after { content: ""; width: 8px; height: 8px; position: absolute; background: #c7f36b; border-radius: 50%; left: -3px; top: 0; }
+.ve-timeline-insertion > span { position: absolute; top: 23px; left: 6px; padding: 3px 6px; background: #c7f36b; color: #17210d; font-size: 9px; border-radius: 3px; }
+.ve-timeline-text, .ve-timeline-music { position: absolute; top: 3px; height: 27px; border-radius: 4px; padding: 0 13px; display: flex; align-items: center; gap: 6px; color: #e2d4ff; background: #493467; border: 1px solid #785a9f; overflow: hidden; font-size: 10px; cursor: grab; user-select: none; touch-action: none; outline: none; }
+.ve-timeline-text > span:not(.ve-timeline-handle), .ve-timeline-music > span:not(.ve-timeline-handle) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ve-timeline-text > svg, .ve-timeline-music > svg { flex-shrink: 0; }
+.ve-timeline-text.is-selected { border: 2px solid #c4a3ff; z-index: 2; }
+.ve-timeline-text:hover { z-index: 3; border-color: #c4a3ff; }
+.ve-timeline-text.is-selected .ve-timeline-handle, .ve-timeline-text:hover .ve-timeline-handle { background: #9874cd; color: #30213f; }
+.ve-timeline-text.is-selected .ve-timeline-handle::after, .ve-timeline-text:hover .ve-timeline-handle::after { opacity: 1; }
+.ve-timeline-music { background: #234e4c; border-color: #407572; color: #b4e5de; isolation: isolate; }
+.ve-timeline-music.is-selected { border: 2px solid #75dacc; }
+.ve-timeline-music:hover { border-color: #75dacc; }
+.ve-timeline-music.is-selected .ve-timeline-handle, .ve-timeline-music:hover .ve-timeline-handle { background: #75dacc; color: #204540; }
+.ve-timeline-music.is-selected .ve-timeline-handle::after, .ve-timeline-music:hover .ve-timeline-handle::after { opacity: 1; }
+.ve-timeline-audio-pattern { position: absolute; inset: 3px 0; opacity: .12; z-index: -1; background: repeating-linear-gradient(90deg, transparent 0px, transparent 3px, #9ae4d5 3px, #9ae4d5 4px); mask-image: linear-gradient(180deg, transparent 0%, #000 35%, #000 65%, transparent 100%); }
+.ve-timeline-track-hint { padding-left: 16px; height: 100%; display: flex; align-items: center; font-size: 10px; color: #575f6c; pointer-events: none; }
+.ve-timeline-playhead { position: absolute; top: 0; bottom: 5px; width: 1px; background: #f0f1f3; pointer-events: none; z-index: 10; box-shadow: 0 0 2px #0009; }
+.ve-timeline-playhead > span { position: absolute; top: 0; left: -5px; width: 11px; height: 18px; background: #f0f1f3; clip-path: polygon(0 0, 100% 0, 100% 68%, 50% 100%, 0 68%); pointer-events: auto; cursor: ew-resize; touch-action: none; }
+.ve-timeline-footer { display: flex; justify-content: space-between; gap: 16px; padding: 5px 17px 7px; color: #626a77; font-size: 9px; }
+.ve-timeline :is(button, input, [tabindex]):focus-visible { outline: 2px solid #e1fac0; outline-offset: 2px; }
+@media (max-width: 680px) { .ve-timeline-heading { padding-inline: 10px; } .ve-timeline-heading-title { gap: 6px; } .ve-timeline-count { font-size: 9px; } .ve-timeline-zoom { gap: 4px; } .ve-timeline-zoom input { width: 40px; } .ve-timeline-labels { width: 47px; flex-basis: 47px; } .ve-timeline-label { padding-left: 8px; } .ve-timeline-label span { display: none; } .ve-timeline-footer span:last-child { display: none; } }

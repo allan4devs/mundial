@@ -7,9 +7,11 @@ interface MarkerProps {
   isActive: boolean;
   onSelect: (point: MapPoint) => void;
   unlockedLevel: number;
+  offset?: { x: number; y: number };
+  editMode?: boolean;
 }
 
-export default function Marker({ point, isActive, onSelect, unlockedLevel }: MarkerProps) {
+export default function Marker({ point, isActive, onSelect, unlockedLevel, offset, editMode = false }: MarkerProps) {
   const Icon = point.type === 'service' ? Home
     : point.type === 'lookout' ? Binoculars
     : point.type === 'trail' ? Footprints
@@ -23,6 +25,7 @@ export default function Marker({ point, isActive, onSelect, unlockedLevel }: Mar
     <button
       type="button"
       aria-label={point.name}
+      data-map-item={point.id}
       onClick={() => onSelect(point)}
       className={cn(
         'absolute z-30 grid -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border-[3px] border-white text-white shadow-lg transition hover:scale-110',
@@ -35,7 +38,7 @@ export default function Marker({ point, isActive, onSelect, unlockedLevel }: Mar
         isActive && hasLevel && isUnlocked && 'bg-orange-500 hover:bg-orange-400',
         isActive && (!hasLevel || isLocked) && 'bg-orange-500',
       )}
-      style={{ left: point.x, top: point.y }}
+      style={{ left: point.x + (offset?.x ?? 0), top: point.y + (offset?.y ?? 0), cursor: editMode ? 'move' : undefined }}
     >
       {isLocked ? (
         <span className="text-xs">🔒</span>
