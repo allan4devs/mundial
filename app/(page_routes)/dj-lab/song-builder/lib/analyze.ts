@@ -1,10 +1,10 @@
 /**
- * The decoder: a five-second mouth take in, grid-snapped `Hit`s out.
+ * The decoder: one loop of mouth noises in, grid-snapped `Hit`s out.
  *
  * Three passes, all in the time domain so there is no FFT to pay for:
  *
- *  1. `analyzeVoice`  - per-frame loudness (RMS), brightness (zero-crossing rate)
- *     and onset strength (the rise in compressed loudness since the last frame).
+ *  1. `analyzeVoice`  - per-frame loudness (RMS), brightness (the share of energy
+ *     above 500 Hz) and onset strength (the rise in compressed loudness).
  *  2. `detectOnsets`  - adaptive-threshold peak picking over the onset strength.
  *  3. `quantizeHits`  - snap each onset to the nearest sixteenth of the loop.
  *
@@ -13,7 +13,7 @@
  * classifier, and the rest of the studio does not change.
  */
 
-import type { Hit } from "@/lib/song-builder/types";
+import { STEPS, type Hit } from "@/lib/song-builder/types";
 import { toMono } from "./audio";
 import { FRAME_SIZE, HOP_SIZE, MIN_HIT_SECONDS } from "./constants";
 import { clamp } from "./format";
@@ -147,18 +147,17 @@ export function detectOnsets(analysis: VoiceAnalysis, sensitivity: number): Onse
  */
 export function quantizeHits(
   onsets: readonly Onset[],
-  steps: number,
   stepSeconds: number,
   offset = 0,
 ): Hit[] {
-  const limit = (steps + 0.5) * stepSeconds;
+  const limit = (STEPS + 0.5) * stepSeconds;
   const inLoop = onsets.filter((onset) => onset.at + offset < limit);
 
   let loudest = 1e-6;
   for (const onset of inLoop) if (onset.loudness > loudest) loudest = onset.loudness;
 
   return inLoop.map((onset) => ({
-    step: Math.round((onset.at + offset) / stepSeconds) % steps,
+    step: Math.round((onset.at + offset) / stepSeconds) % STEPS,
     // sqrt keeps quiet ghost notes audible instead of collapsing them to nothing.
     velocity: clamp(0.2 + 0.8 * Math.sqrt(onset.loudness / loudest), 0, 1),
     tone: onset.tone,

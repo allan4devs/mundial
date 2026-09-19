@@ -2,17 +2,20 @@
 
 import { useCallback, useEffect, useMemo, useRef } from "react";
 
-import { TRACK_KINDS, type Song, type TrackKind } from "@/lib/song-builder/types";
-import { createMasterBus, getAudioContext, type MasterBus } from "../lib/audio";
-import { RAMP_SECONDS } from "../lib/constants";
+import { TRACK_KINDS, type Song, type StylePack, type TrackKind } from "@/lib/song-builder/types";
+import { applyStrip, createMasterBus, createStrip, getAudioContext, type Strip } from "../lib/audio";
+import { soundFor } from "../lib/session";
 import { useLatest } from "./useLatest";
 
 /** Everything the studio needs a live `AudioContext` for, built once on first use. */
 export type Rig = {
   ctx: AudioContext;
-  master: MasterBus;
-  /** One gain node per row, permanently wired into the master bus. */
-  buses: Map<TrackKind, GainNode>;
+  /** One channel strip per row, permanently wired into the master bus. */
+  strips: Map<TrackKind, Strip>;
+  /** Where the count-in metronome goes. */
+  master: AudioNode;
+  /** The end of the master bus - what a sung take records the band off. */
+  output: AudioNode;
 };
 
 export type AudioEngine = {
@@ -26,50 +29,47 @@ export type AudioEngine = {
 };
 
 /**
- * Owns the audio graph. Row gains and the master level are pushed into the graph
- * by effects rather than rebuilt, so a fader move never interrupts a ringing note.
+ * Owns the audio graph.
+ *
+ * Each row gets a strip once and is only ever retuned, so switching sound or
+ * style never interrupts a ringing note - the amplifier and EQ just move.
  */
-export function useAudioEngine(song: Song, masterLevel: number): AudioEngine {
+export function useAudioEngine(song: Song | null, pack: StylePack | null): AudioEngine {
   const rigRef = useRef<Rig | null>(null);
-  // The rig is built lazily, long after mount, so it reads levels off refs
-  // instead of taking them as dependencies and rebuilding itself.
+  // The rig is built lazily, long after mount, so it reads the current song off
+  // a ref instead of taking it as a dependency and rebuilding itself.
   const songRef = useLatest(song);
-  const masterRef = useLatest(masterLevel);
+  const packRef = useLatest(pack);
 
   const getRig = useCallback(async () => {
     const ctx = await getAudioContext();
     if (rigRef.current) return rigRef.current;
 
-    const master = createMasterBus(ctx, masterRef.current);
-    const buses = new Map<TrackKind, GainNode>();
+    const master = createMasterBus(ctx);
+    const strips = new Map<TrackKind, Strip>();
     for (const kind of TRACK_KINDS) {
-      const track = songRef.current.tracks.find((candidate) => candidate.kind === kind);
-      const bus = ctx.createGain();
-      bus.gain.value = !track || track.muted ? 0 : track.gain;
-      bus.connect(master.input);
-      buses.set(kind, bus);
+      const strip = createStrip(ctx, master.input);
+      const currentPack = packRef.current;
+      const track = songRef.current?.tracks.find((candidate) => candidate.kind === kind);
+      if (currentPack && track) applyStrip(ctx, strip, soundFor(currentPack, kind, track.soundId));
+      strips.set(kind, strip);
     }
 
-    rigRef.current = { ctx, master, buses };
+    rigRef.current = { ctx, strips, master: master.input, output: master.output };
     return rigRef.current;
-  }, [masterRef, songRef]);
+  }, [packRef, songRef]);
 
   const peekRig = useCallback(() => rigRef.current, []);
 
+  // Retune every strip whenever a row changes sound, or the whole pack changes.
   useEffect(() => {
     const rig = rigRef.current;
-    if (!rig) return;
-    rig.master.gain.gain.setTargetAtTime(masterLevel, rig.ctx.currentTime, RAMP_SECONDS);
-  }, [masterLevel]);
-
-  useEffect(() => {
-    const rig = rigRef.current;
-    if (!rig) return;
+    if (!rig || !song || !pack) return;
     for (const track of song.tracks) {
-      const bus = rig.buses.get(track.kind);
-      bus?.gain.setTargetAtTime(track.muted ? 0 : track.gain, rig.ctx.currentTime, RAMP_SECONDS);
+      const strip = rig.strips.get(track.kind);
+      if (strip) applyStrip(rig.ctx, strip, soundFor(pack, track.kind, track.soundId));
     }
-  }, [song.tracks]);
+  }, [pack, song]);
 
   // Held stable: the recorder and the transport take the engine as a dependency,
   // and a fresh object every render would re-create every callback below them.

@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import type { Song } from "@/lib/song-builder/types";
+import type { Song, StylePack } from "@/lib/song-builder/types";
 import { createScheduler, type Scheduler } from "../lib/scheduler";
 import type { AudioEngine } from "./useAudioEngine";
 import { useLatest } from "./useLatest";
@@ -22,11 +22,17 @@ export type Transport = {
  * are queued with the audio time they will sound at and drained on animation
  * frames. Without that the highlight visibly leads the beat.
  */
-export function useTransport(engine: AudioEngine, song: Song, onError: (message: string) => void): Transport {
+export function useTransport(
+  engine: AudioEngine,
+  song: Song | null,
+  pack: StylePack | null,
+  onError: (message: string) => void,
+): Transport {
   const [playing, setPlaying] = useState(false);
   const [step, setStep] = useState(-1);
 
   const songRef = useLatest(song);
+  const packRef = useLatest(pack);
   const errorRef = useLatest(onError);
   const schedulerRef = useRef<Scheduler | null>(null);
   const queueRef = useRef<{ step: number; time: number }[]>([]);
@@ -44,12 +50,16 @@ export function useTransport(engine: AudioEngine, song: Song, onError: (message:
       stop();
       return;
     }
+    if (!songRef.current || !packRef.current) return;
+
     try {
       const rig = await engine.getRig();
       const scheduler = createScheduler({
         ctx: rig.ctx,
-        busFor: (kind) => rig.buses.get(kind) ?? rig.master.input,
-        getSong: () => songRef.current,
+        stripFor: (kind) => rig.strips.get(kind)?.input ?? rig.master,
+        // Non-null by the guard above, and neither can become null afterwards.
+        getSong: () => songRef.current!,
+        getPack: () => packRef.current!,
         onStep: (at, time) => queueRef.current.push({ step: at, time }),
       });
       schedulerRef.current = scheduler;
@@ -58,7 +68,7 @@ export function useTransport(engine: AudioEngine, song: Song, onError: (message:
     } catch (error) {
       errorRef.current(error instanceof Error ? error.message : "Playback could not start.");
     }
-  }, [engine, errorRef, songRef, stop]);
+  }, [engine, errorRef, packRef, songRef, stop]);
 
   // Drains the queue in sync with the audio clock while the transport runs.
   useEffect(() => {

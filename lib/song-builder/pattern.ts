@@ -2,17 +2,17 @@
  * The `....|....|.|||..|...` codec.
  *
  * A pattern string is one character per grid step, which makes a rhythm readable
- * in a log line, a Mongo shell, a URL or a training set. It is a *view* of a
- * `Hit[]`: hits are canonical (they carry velocity and tone), the string is
- * derived. Only `decodePattern` goes the other way, for hand-typed rhythms.
+ * in a log line, a Mongo shell or a training set. It is a *view* of a `Hit[]`:
+ * hits are canonical (they carry velocity and tone), the string is derived. Only
+ * `decodePattern` goes the other way, for the hand-written demo groove.
  */
 
-import type { Hit } from "./types";
+import { STEPS, type Hit } from "./types";
 
-export const REST_CHAR = ".";
-export const GHOST_CHAR = "-";
-export const HIT_CHAR = "|";
-export const ACCENT_CHAR = "!";
+const REST_CHAR = ".";
+const GHOST_CHAR = "-";
+const HIT_CHAR = "|";
+const ACCENT_CHAR = "!";
 
 /** Velocity below this reads as a ghost note, above `ACCENT_AT` as an accent. */
 const GHOST_AT = 0.34;
@@ -25,7 +25,7 @@ const CHAR_VELOCITY: Record<string, number> = {
   [ACCENT_CHAR]: 0.95,
 };
 
-/** Neutral brightness for hits that were typed rather than decoded from a voice. */
+/** Neutral brightness for hits that were written rather than decoded from a voice. */
 const DEFAULT_TONE = 0.5;
 
 function velocityChar(velocity: number) {
@@ -34,11 +34,18 @@ function velocityChar(velocity: number) {
   return HIT_CHAR;
 }
 
-/** `Hit[]` -> `"....|...!"`. Out-of-range hits are ignored. */
-export function encodePattern(hits: readonly Hit[], steps: number) {
-  const row = new Array<string>(steps).fill(REST_CHAR);
+/**
+ * `Hit[]` -> `"....|...!"`.
+ *
+ * Nothing on screen renders this - the grid is the rhythm - but the decoder
+ * verification harness in the guideline prints patterns to compare what was
+ * played against what came back, so it is the one function here kept for a
+ * caller that lives outside the repo.
+ */
+export function encodePattern(hits: readonly Hit[]) {
+  const row = new Array<string>(STEPS).fill(REST_CHAR);
   for (const hit of hits) {
-    if (hit.step >= 0 && hit.step < steps) row[hit.step] = velocityChar(hit.velocity);
+    if (hit.step >= 0 && hit.step < STEPS) row[hit.step] = velocityChar(hit.velocity);
   }
   return row.join("");
 }
@@ -53,25 +60,16 @@ export function decodePattern(pattern: string): Hit[] {
   return hits;
 }
 
-/** Groups a pattern into beats for display: `....|... ....` */
-export function groupPattern(pattern: string, stepsPerGroup = 4) {
-  const groups: string[] = [];
-  for (let i = 0; i < pattern.length; i += stepsPerGroup) {
-    groups.push(pattern.slice(i, i + stepsPerGroup));
-  }
-  return groups.join(" ");
-}
-
 /**
  * Sorts hits by step, clamps every field into range, and keeps only the loudest
- * hit per step. Every path that produces hits — the decoder, the grid editor,
- * an API payload — funnels through here so the rest of the app can assume it.
+ * hit per step. Every path that produces hits - the decoder, the grid editor,
+ * the demo groove - funnels through here so the rest of the app can assume it.
  */
-export function normalizeHits(hits: readonly Hit[], steps: number): Hit[] {
+export function normalizeHits(hits: readonly Hit[]): Hit[] {
   const strongest = new Map<number, Hit>();
   for (const hit of hits) {
     const step = Math.round(Number(hit?.step));
-    if (!Number.isFinite(step) || step < 0 || step >= steps) continue;
+    if (!Number.isFinite(step) || step < 0 || step >= STEPS) continue;
     const next: Hit = {
       step,
       velocity: clamp01(Number(hit.velocity), 0.65),
@@ -84,17 +82,12 @@ export function normalizeHits(hits: readonly Hit[], steps: number): Hit[] {
 }
 
 /** Adds a hit at `step`, or removes the one already there. */
-export function toggleHit(hits: readonly Hit[], step: number, steps: number, velocity = 0.7): Hit[] {
+export function toggleHit(hits: readonly Hit[], step: number, velocity = 0.7): Hit[] {
   const existing = hits.find((hit) => hit.step === step);
   const next = existing
     ? hits.filter((hit) => hit.step !== step)
     : [...hits, { step, velocity, tone: DEFAULT_TONE }];
-  return normalizeHits(next, steps);
-}
-
-/** Drops hits that fell outside the grid after `steps` shrank. */
-export function fitHits(hits: readonly Hit[], steps: number) {
-  return normalizeHits(hits, steps);
+  return normalizeHits(next);
 }
 
 function clamp01(value: number, fallback: number) {

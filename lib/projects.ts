@@ -157,7 +157,7 @@ export const PROJECTS: Project[] = [
     title: "Song Builder",
     tagline: "Cantá el ritmo, suena la banda",
     description:
-      "Cinco filas: guitarra, bajo, batería, relleno y sinte. Grabás cinco segundos con la boca en cada una, el estudio decodifica los golpes en un patrón de pasos y te lo devuelve tocado con un instrumento de verdad. Los patrones se guardan en MongoDB.",
+      "Cinco filas: guitarra, bajo, batería, relleno y sinte. Grabás con la boca en cada una, el estudio decodifica los golpes en tiempos y te los devuelve tocados por un instrumento de verdad. Elegís groovy, rock o pop y cada fila se llena con los sonidos de ese estilo, con su amplificador y ecualización, cargados desde MongoDB.",
     href: "/dj-lab/song-builder",
     stack: ["Web Audio API", "MediaRecorder", "Onset detection", "MongoDB"],
     category: "herramientas",

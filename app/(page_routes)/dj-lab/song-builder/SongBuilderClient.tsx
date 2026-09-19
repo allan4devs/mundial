@@ -1,34 +1,34 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { Loader2 } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { toggleHit } from "@/lib/song-builder/pattern";
 import {
+  TRACK_KINDS,
   loopSeconds,
   type Hit,
   type Song,
-  type Track,
+  type Style,
   type TrackKind,
 } from "@/lib/song-builder/types";
-import { SongLibraryPanel } from "./components/SongLibraryPanel";
 import { StudioHeader } from "./components/StudioHeader";
-import { StudioNotes } from "./components/StudioNotes";
 import { TrackRow } from "./components/TrackRow";
 import { TransportBar } from "./components/TransportBar";
 import { useAudioEngine } from "./hooks/useAudioEngine";
 import { useLatest } from "./hooks/useLatest";
 import { useRecorder } from "./hooks/useRecorder";
-import { useSongLibrary } from "./hooks/useSongLibrary";
+import { useStylePack } from "./hooks/useStylePack";
 import { useTransport } from "./hooks/useTransport";
 import { DEFAULT_SENSITIVITY } from "./lib/constants";
-import { auditionHit, auditionTrack } from "./lib/scheduler";
+import { auditionHit } from "./lib/scheduler";
 import {
   createDemoSong,
   createSong,
   patchTrack,
-  recallAuthor,
-  rememberAuthor,
-  resizeSong,
+  restyle,
+  soundFor,
+  soundsFor,
   trackFor,
 } from "./lib/session";
 
@@ -37,170 +37,177 @@ const WELCOME = "Hit Record on a row, wait for the four count-in clicks, then be
 /**
  * The studio shell.
  *
- * It owns the song and hands stable, kind-taking callbacks down to the five rows.
- * Everything that makes noise lives behind `useAudioEngine`; the microphone and
- * the decoder behind `useRecorder`; persistence behind `useSongLibrary`.
+ * It owns the song and hands stable, kind-taking callbacks down to the five
+ * rows. The sounds come from Mongo via `useStylePack`; everything that makes
+ * noise lives behind `useAudioEngine`; the microphone behind `useRecorder`.
+ *
+ * The layout is a fixed-height column: header and transport take what they need,
+ * the five rows split the rest. Above `lg` nothing scrolls — the whole studio is
+ * one screen. Below it the column falls back to normal flow, because five
+ * instrument rows genuinely do not fit on a phone.
+ *
+ * The song is null until the first style pack lands, which is the one loading
+ * state in the app.
  */
 export default function SongBuilderClient() {
-  const [song, setSong] = useState<Song>(createSong);
-  const [master, setMaster] = useState(0.9);
+  const [song, setSong] = useState<Song | null>(null);
   const [sensitivity, setSensitivity] = useState(DEFAULT_SENSITIVITY);
   const [message, setMessage] = useState(WELCOME);
 
+  const { pack, loading, select } = useStylePack("groovy", setMessage);
   const songRef = useLatest(song);
+  const packRef = useLatest(pack);
 
-  const engine = useAudioEngine(song, master);
-  const transport = useTransport(engine, song, setMessage);
+  const engine = useAudioEngine(song, pack);
+  const transport = useTransport(engine, song, pack, setMessage);
   const stopTransport = transport.stop;
 
   const setHits = useCallback((kind: TrackKind, hits: Hit[]) => {
-    setSong((current) => patchTrack(current, kind, { hits }));
+    setSong((current) => (current ? patchTrack(current, kind, { hits }) : current));
   }, []);
 
   const recorder = useRecorder({ engine, song, sensitivity, onHits: setHits, onMessage: setMessage });
+  const startTake = recorder.record;
 
-  const openSong = useCallback(
-    (loaded: Song) => {
+  const onRecord = useCallback(
+    (kind: TrackKind) => {
+      // Stop the loop first: on speakers it bleeds into the take, and the decoder
+      // hears the other rows as extra hits.
       stopTransport();
-      setSong(loaded);
+      void startTake(kind);
     },
-    [stopTransport],
+    [startTake, stopTransport],
   );
 
-  const library = useSongLibrary({ onOpen: openSong, onMessage: setMessage });
-
-  // The author name is a browser preference, not part of the song being edited.
+  // A new pack means a new style: build the song on the first one, and re-seat
+  // the rhythms on every one after that.
   useEffect(() => {
-    const remembered = recallAuthor();
-    if (remembered) setSong((current) => ({ ...current, author: remembered }));
+    if (!pack) return;
+    setSong((current) => (current ? restyle(current, pack) : createSong(pack)));
+  }, [pack]);
+
+  const onStyle = useCallback(
+    (style: Style) => {
+      stopTransport();
+      select(style);
+    },
+    [select, stopTransport],
+  );
+
+  const onBpm = useCallback((bpm: number) => {
+    setSong((current) => (current ? { ...current, bpm } : current));
   }, []);
 
-  const patchSong = useCallback((patch: Partial<Song>) => {
-    setSong((current) => {
-      const next = { ...current, ...patch };
-      if (patch.author !== undefined) rememberAuthor(patch.author);
-      return patch.steps !== undefined ? resizeSong(next, patch.steps) : next;
-    });
-  }, []);
-
-  const onPatchTrack = useCallback((kind: TrackKind, patch: Partial<Track>) => {
-    setSong((current) => patchTrack(current, kind, patch));
+  const onSound = useCallback((kind: TrackKind, soundId: string) => {
+    setSong((current) => (current ? patchTrack(current, kind, { soundId }) : current));
   }, []);
 
   const onToggleStep = useCallback(
     (kind: TrackKind, step: number) => {
       const current = songRef.current;
-      const hits = toggleHit(trackFor(current, kind).hits, step, current.steps);
+      const currentPack = packRef.current;
+      if (!current || !currentPack) return;
+
+      const before = trackFor(current, kind)?.hits ?? [];
+      const hits = toggleHit(before, step);
       const next = patchTrack(current, kind, { hits });
       setSong(next);
 
       // Hearing the step you just placed is the whole point of a grid editor.
-      if (hits.length > trackFor(current, kind).hits.length) {
+      if (hits.length > before.length) {
         void engine.getRig().then((rig) => {
-          auditionHit({
-            ctx: rig.ctx,
-            out: rig.buses.get(kind) ?? rig.master.input,
-            song: next,
-            track: trackFor(next, kind),
-            step,
-          });
+          const strip = rig.strips.get(kind);
+          if (strip) {
+            auditionHit({ ctx: rig.ctx, out: strip.input, song: next, pack: currentPack, kind, step });
+          }
         });
       }
     },
-    [engine, songRef],
+    [engine, packRef, songRef],
   );
-
-  const onAudition = useCallback(
-    (kind: TrackKind) => {
-      const current = songRef.current;
-      void engine.getRig().then((rig) => {
-        auditionTrack({
-          ctx: rig.ctx,
-          out: rig.buses.get(kind) ?? rig.master.input,
-          song: current,
-          track: trackFor(current, kind),
-        });
-      });
-    },
-    [engine, songRef],
-  );
-
-  const onClear = useCallback((kind: TrackKind) => {
-    setSong((current) => patchTrack(current, kind, { hits: [] }));
-  }, []);
-
-  const onNew = useCallback(() => {
-    stopTransport();
-    setSong({ ...createSong(), author: recallAuthor() });
-    setMessage(WELCOME);
-  }, [stopTransport]);
 
   const onDemo = useCallback(() => {
+    if (!pack) return;
     stopTransport();
-    setSong({ ...createDemoSong(), author: recallAuthor() });
-    setMessage("Loaded a demo groove. Hit Play, then record over any row to make it yours.");
-  }, [stopTransport]);
+    setSong(createDemoSong(pack));
+    setMessage("Demo groove loaded. Hit Play, then record over any row to make it yours.");
+  }, [pack, stopTransport]);
 
-  const take = loopSeconds(song.bpm, song.steps);
-  const beatSeconds = 60 / song.bpm;
-  const busy = recorder.state.phase !== "idle";
+  const onClear = useCallback(() => {
+    if (!pack) return;
+    stopTransport();
+    setSong(createSong(pack));
+    setMessage(WELCOME);
+  }, [pack, stopTransport]);
+
+  const rows = useMemo(
+    () =>
+      pack && song
+        ? TRACK_KINDS.map((kind) => {
+            const track = trackFor(song, kind);
+            return {
+              kind,
+              hits: track?.hits ?? [],
+              sound: soundFor(pack, kind, track?.soundId ?? ""),
+              options: soundsFor(pack, kind),
+            };
+          })
+        : [],
+    [pack, song],
+  );
 
   return (
-    <main className="min-h-screen bg-[#080a0d] text-slate-100">
-      <section className="relative overflow-hidden border-b border-white/10 bg-[radial-gradient(circle_at_18%_0%,rgba(34,197,94,0.24),transparent_36%),radial-gradient(circle_at_82%_8%,rgba(56,189,248,0.16),transparent_34%),linear-gradient(180deg,#10131a,#080a0d)]">
-        <div className="mx-auto flex w-full max-w-[1600px] flex-col gap-5 px-4 py-6 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-[#080a0d] text-slate-100 lg:h-[100dvh] lg:overflow-hidden">
+      <div className="h-full bg-[radial-gradient(circle_at_18%_0%,rgba(34,197,94,0.22),transparent_38%),radial-gradient(circle_at_82%_4%,rgba(56,189,248,0.15),transparent_36%),linear-gradient(180deg,#10131a,#080a0d)]">
+        <div className="mx-auto flex h-full w-full max-w-[1600px] flex-col gap-2.5 px-4 py-3 sm:px-6">
           <StudioHeader message={message} />
 
-          <TransportBar
-            song={song}
-            playing={transport.playing}
-            master={master}
-            sensitivity={sensitivity}
-            loopSeconds={take}
-            onToggle={transport.toggle}
-            onSong={patchSong}
-            onMaster={setMaster}
-            onSensitivity={setSensitivity}
-          />
-
-          <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_minmax(0,380px)]">
-            <div className="grid content-start gap-3">
-              {song.tracks.map((track) => (
-                <TrackRow
-                  key={track.kind}
-                  track={track}
-                  steps={song.steps}
-                  playStep={transport.step}
-                  envelope={recorder.envelopes[track.kind]}
-                  recording={recorder.state.kind === track.kind ? recorder.state : null}
-                  beatSeconds={beatSeconds}
-                  takeSeconds={take}
-                  hasTake={recorder.hasTake(track.kind)}
-                  busy={busy}
-                  onRecord={recorder.record}
-                  onCancel={recorder.cancel}
-                  onRedecode={recorder.redecode}
-                  onToggleStep={onToggleStep}
-                  onPatch={onPatchTrack}
-                  onAudition={onAudition}
-                  onClear={onClear}
-                />
-              ))}
-            </div>
-
-            <div className="grid content-start gap-5">
-              <SongLibraryPanel
-                library={library}
-                song={song}
-                onSong={patchSong}
-                onNew={onNew}
+          {pack && song ? (
+            <>
+              <TransportBar
+                pack={pack}
+                bpm={song.bpm}
+                playing={transport.playing}
+                loading={loading}
+                sensitivity={sensitivity}
+                onToggle={transport.toggle}
+                onStyle={onStyle}
+                onBpm={onBpm}
+                onSensitivity={setSensitivity}
                 onDemo={onDemo}
+                onClear={onClear}
               />
-              <StudioNotes />
-            </div>
-          </div>
+
+              <div className="grid min-h-0 flex-1 gap-2 lg:grid-rows-5">
+                {rows.map((row) => (
+                  <TrackRow
+                    key={row.kind}
+                    kind={row.kind}
+                    hits={row.hits}
+                    sound={row.sound}
+                    options={row.options}
+                    playStep={transport.step}
+                    envelope={recorder.envelopes[row.kind]}
+                    recording={recorder.state.kind === row.kind ? recorder.state : null}
+                    beatSeconds={60 / song.bpm}
+                    takeSeconds={loopSeconds(song.bpm)}
+                    busy={recorder.state.phase !== "idle"}
+                    onRecord={onRecord}
+                    onCancel={recorder.cancel}
+                    onToggleStep={onToggleStep}
+                    onSound={onSound}
+                  />
+                ))}
+              </div>
+            </>
+          ) : (
+            <p className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-white/10 bg-black/30 text-sm text-slate-400">
+              <Loader2 size={16} className="animate-spin" />
+              Loading sounds…
+            </p>
+          )}
         </div>
-      </section>
+      </div>
     </main>
   );
 }

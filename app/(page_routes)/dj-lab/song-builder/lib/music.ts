@@ -17,15 +17,8 @@ const SCALE_STEPS: Record<ScaleName, readonly number[]> = {
   pentatonic: [0, 3, 5, 7, 10],
 };
 
-const NOTE_NAMES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"] as const;
-
 export function midiToFreq(note: number) {
   return 440 * 2 ** ((note - 69) / 12);
-}
-
-/** `45` -> `A2`. */
-export function midiToName(note: number) {
-  return `${NOTE_NAMES[((note % 12) + 12) % 12]}${Math.floor(note / 12) - 1}`;
 }
 
 /**

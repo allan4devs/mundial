@@ -1,4 +1,4 @@
-/** Small pure helpers for numbers, labels and ids. */
+/** Small pure helpers for numbers and labels. */
 
 export function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
@@ -7,14 +7,4 @@ export function clamp(value: number, min: number, max: number) {
 /** `0.42` -> `42%`. */
 export function percent(value: number) {
   return `${Math.round(value * 100)}%`;
-}
-
-/** `1.85` -> `1.9s`. */
-export function seconds(value: number) {
-  return `${value.toFixed(1)}s`;
-}
-
-/** Collision-resistant enough for client-only ids, and readable in the DOM. */
-export function uid(prefix: string) {
-  return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
 }

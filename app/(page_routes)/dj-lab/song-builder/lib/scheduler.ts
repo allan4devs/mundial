@@ -7,22 +7,23 @@
  * `AudioContext` time and is therefore sample-accurate regardless of how late
  * the timer runs.
  *
- * The song is read through a getter on every tick, so editing a step, swapping an
- * instrument or moving a fader takes effect on the next step rather than needing
+ * The song and the pack are read through getters on every tick, so editing a
+ * step or switching a sound takes effect on the next step rather than needing
  * the transport to restart.
  */
 
-import { stepSeconds, type Song, type Track, type TrackKind } from "@/lib/song-builder/types";
+import { STEPS, stepSeconds, type Song, type StylePack, type TrackKind } from "@/lib/song-builder/types";
 import { SCHEDULER_TICK_MS, SCHEDULE_AHEAD_SECONDS } from "./constants";
-import { instrumentFor, playHit } from "./instruments";
-import { click } from "./voices";
+import { soundFor } from "./session";
+import { click, playHit } from "./voices";
 
 export type SchedulerDeps = {
   ctx: AudioContext;
-  /** The output node for one row - the studio keeps a gain per row. */
-  busFor: (kind: TrackKind) => AudioNode;
+  /** The channel strip for one row. */
+  stripFor: (kind: TrackKind) => AudioNode;
   /** Read fresh each tick so live edits are picked up mid-loop. */
   getSong: () => Song;
+  getPack: () => StylePack;
   /** Reports each scheduled step and the audio time it will sound at. */
   onStep: (step: number, time: number) => void;
 };
@@ -42,15 +43,16 @@ export function createScheduler(deps: SchedulerDeps): Scheduler {
 
   const tick = () => {
     const song = deps.getSong();
+    const pack = deps.getPack();
     const seconds = stepSeconds(song.bpm);
 
     while (nextStepTime < deps.ctx.currentTime + SCHEDULE_AHEAD_SECONDS) {
       for (const track of song.tracks) {
-        const hit = track.muted ? undefined : track.hits.find((candidate) => candidate.step === step);
+        const hit = track.hits.find((candidate) => candidate.step === step);
         if (hit) {
-          playHit(instrumentFor(track.kind, track.instrumentId), hit, song, {
+          playHit(soundFor(pack, track.kind, track.soundId), hit, pack, {
             ctx: deps.ctx,
-            out: deps.busFor(track.kind),
+            out: deps.stripFor(track.kind),
             time: nextStepTime,
             stepSeconds: seconds,
           });
@@ -58,7 +60,7 @@ export function createScheduler(deps: SchedulerDeps): Scheduler {
       }
       deps.onStep(step, nextStepTime);
       nextStepTime += seconds;
-      step = (step + 1) % song.steps;
+      step = (step + 1) % STEPS;
     }
   };
 
@@ -79,43 +81,20 @@ export function createScheduler(deps: SchedulerDeps): Scheduler {
   };
 }
 
-/**
- * Schedules one pass of a single row, for auditioning it on its own.
- * Returns when the pass ends, so a caller can flip a button back.
- */
-export function auditionTrack(args: {
-  ctx: AudioContext;
-  out: AudioNode;
-  song: Song;
-  track: Track;
-  at?: number;
-}) {
-  const seconds = stepSeconds(args.song.bpm);
-  const start = args.at ?? args.ctx.currentTime + LEAD_SECONDS;
-  const instrument = instrumentFor(args.track.kind, args.track.instrumentId);
-
-  for (const hit of args.track.hits) {
-    playHit(instrument, hit, args.song, {
-      ctx: args.ctx,
-      out: args.out,
-      time: start + hit.step * seconds,
-      stepSeconds: seconds,
-    });
-  }
-  return start + args.song.steps * seconds;
-}
-
-/** Fires a single hit right now - used when a step is clicked on the grid. */
+/** Fires a single hit right now - the feedback for clicking a step on the grid. */
 export function auditionHit(args: {
   ctx: AudioContext;
   out: AudioNode;
   song: Song;
-  track: Track;
+  pack: StylePack;
+  kind: TrackKind;
   step: number;
 }) {
-  const hit = args.track.hits.find((candidate) => candidate.step === args.step);
-  if (!hit) return;
-  playHit(instrumentFor(args.track.kind, args.track.instrumentId), hit, args.song, {
+  const track = args.song.tracks.find((candidate) => candidate.kind === args.kind);
+  const hit = track?.hits.find((candidate) => candidate.step === args.step);
+  if (!track || !hit) return;
+
+  playHit(soundFor(args.pack, track.kind, track.soundId), hit, args.pack, {
     ctx: args.ctx,
     out: args.out,
     time: args.ctx.currentTime + 0.01,
