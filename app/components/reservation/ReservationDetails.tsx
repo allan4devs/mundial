@@ -40,7 +40,7 @@ import type {
   ReservationDetailsProps,
   ReservationAddonDetails,
 } from "@/lib/reservation/types";
-import useReservationForm from "../../hooks/useReservationForm";
+import useReservationForm from "@/app/hooks/useReservationForm";
 import { PHONE_COUNTRIES as ALL_PHONE_COUNTRIES } from "@/app/components/reservation/phoneCountries";
 import { resolveSelectedTourSlug, getDefaultMainTourInfo } from "./reservationDetails.helpers";
 import ReservationDetailsStep1Guided, { type ChoiceStep } from "./ReservationDetailsStep1Guided";

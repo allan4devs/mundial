@@ -4,6 +4,7 @@ import type { NextRequest } from "next/server";
 import { resolveRuntimeSecret } from "./security/runtime-secret";
 
 export const ADMIN_COOKIE = "b2b_admin_token";
+export const ADMIN_COOKIE_NAME = ADMIN_COOKIE;
 
 export type AdminTokenPayload = {
   id: string;
@@ -20,6 +21,23 @@ function adminSecret() {
 
 export function signAdminToken(payload: AdminTokenPayload, expiresIn = "12h") {
   return jwt.sign(payload, adminSecret(), { expiresIn } as jwt.SignOptions);
+}
+
+export function verifyAdminToken(token: string): AdminTokenPayload | null {
+  try {
+    const decoded = jwt.verify(token, adminSecret());
+    if (typeof decoded === "string" || !decoded) return null;
+    const { id, username } = decoded as Partial<AdminTokenPayload>;
+    return id && username ? { id, username } : null;
+  } catch {
+    return null;
+  }
+}
+
+export async function getAdminFromCookies(): Promise<AdminTokenPayload | null> {
+  const { cookies } = await import("next/headers");
+  const token = (await cookies()).get(ADMIN_COOKIE)?.value;
+  return token ? verifyAdminToken(token) : null;
 }
 
 /**

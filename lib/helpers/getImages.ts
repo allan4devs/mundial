@@ -6,6 +6,7 @@ const IMAGE_EXTENSIONS = new Set(['.jpg', '.jpeg', '.png', '.webp']);
 
 export function getImages() {
   const imagesDir = path.join(process.cwd(), 'public/image');
+  if (!fs.existsSync(imagesDir)) return [];
   const files = fs.readdirSync(imagesDir);
   const imagePaths = files
     .filter(file => IMAGE_EXTENSIONS.has(path.extname(file).toLowerCase()))

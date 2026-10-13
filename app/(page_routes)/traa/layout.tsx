@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Anton, Oswald } from "next/font/google";
 import "./theme.css";
 
 /**
@@ -14,20 +13,6 @@ import "./theme.css";
  * ningún pago se procesa de verdad.
  */
 
-const oswald = Oswald({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-oswald",
-  display: "swap",
-});
-
-const anton = Anton({
-  subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-anton",
-  display: "swap",
-});
-
 export const metadata: Metadata = {
   title: "TRAA Repuestos · Catálogo en línea con carrito, pago y envíos (demo)",
   description:
@@ -36,5 +21,5 @@ export const metadata: Metadata = {
 };
 
 export default function TraaLayout({ children }: { children: React.ReactNode }) {
-  return <div className={`${oswald.variable} ${anton.variable}`}>{children}</div>;
+  return <div>{children}</div>;
 }

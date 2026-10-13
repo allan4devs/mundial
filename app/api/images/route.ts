@@ -9,7 +9,7 @@ export async function GET() {
   try {
     files = fs.readdirSync(imagesDir);
   } catch {
-    return NextResponse.json({ images: [], error: 'Directory not found' }, { status: 500 });
+    return NextResponse.json({ images: [] });
   }
 
   const imagePaths = files

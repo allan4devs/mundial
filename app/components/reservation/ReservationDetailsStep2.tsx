@@ -3,7 +3,7 @@ import { AlertCircle } from "lucide-react";
 import {
   TravelerInputField,
   TravelerPhoneInput,
-} from "@/components/reservation/ReservationFormFields";
+} from "@/app/components/reservation/ReservationFormFields";
 import type { ReservationFormState } from "@/lib/reservation/types";
 
 type ReservationTranslations = typeof import("@/lib/translations").translations["es"]["reservation"];
