@@ -1,0 +1,70 @@
+.page {
+  isolation: isolate;
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+
+@page {
+  size: A4 landscape;
+  margin: 8mm;
+}
+
+@media print {
+  :global(html),
+  :global(body) {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
+  }
+
+  .page {
+    min-height: auto;
+    background: #fff !important;
+  }
+
+  .page :global([data-rotulo-card]) {
+    content-visibility: visible;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .page :global([data-rotulo-card]:last-child) {
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  .page :global([data-sign-artwork]) {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    display: grid !important;
+    place-items: center;
+    width: 100%;
+    /* 194mm printable height − caption line below the artwork, so both
+       always land on the same page no matter the panel's aspect ratio. */
+    height: 172mm;
+  }
+
+  .page :global([data-sign-artboard]) {
+    /* Both dimensions free so the aspect-ratio "contain" algorithm (like
+       object-fit: contain) picks the largest box that fits width AND
+       height — a 2:1 "mediano" panel used to compute a width wider than
+       the page from a fixed 184mm height, which cut it off at the edges. */
+    width: auto !important;
+    height: auto !important;
+    max-width: 100%;
+    max-height: 100%;
+    margin-inline: auto;
+  }
+
+  .page :global([data-panel-size="grande"]) {
+    aspect-ratio: 3 / 2 !important;
+  }
+
+  .page :global([data-panel-size="mediano"]) {
+    aspect-ratio: 2 / 1 !important;
+  }
+
+  .page :global([data-panel-size="pequeno"]) {
+    aspect-ratio: 1 / 1 !important;
+  }
+}

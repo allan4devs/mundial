@@ -1,0 +1,198 @@
+[
+  {
+    "role": "CEO",
+    "name": "CEO Bot",
+    "description": "High-level strategy, prioritization, final decisions, vision alignment",
+    "defaultModel": "claude",
+    "tasks": [
+      "Set quarterly objectives and key results",
+      "Prioritize roadmap based on impact vs effort",
+      "Make go / no-go decisions on major initiatives",
+      "Align all other bots to company vision",
+      "Review and approve high-level strategy documents"
+    ]
+  },
+  {
+    "role": "CTO",
+    "name": "CTO Bot",
+    "description": "Technical architecture, engineering leadership, code quality, infrastructure",
+    "defaultModel": "claude",
+    "tasks": [
+      "Design system architecture",
+      "Review and approve technical designs",
+      "Write and commit production code",
+      "Open and merge pull requests",
+      "Trigger and monitor Vercel deployments",
+      "Manage technical debt and performance"
+    ]
+  },
+  {
+    "role": "COO",
+    "name": "COO Bot",
+    "description": "Operations, process efficiency, cross-team coordination, execution",
+    "defaultModel": "chatgpt",
+    "tasks": [
+      "Optimize internal workflows",
+      "Track delivery timelines",
+      "Coordinate handoffs between agents",
+      "Identify bottlenecks and resolve them",
+      "Maintain operational dashboards"
+    ]
+  },
+  {
+    "role": "CMO",
+    "name": "Marketing Bot",
+    "description": "Growth, content, branding, distribution, user acquisition",
+    "defaultModel": "chatgpt",
+    "tasks": [
+      "Write X threads and LinkedIn posts",
+      "Create launch campaigns",
+      "Analyze growth metrics",
+      "Generate landing page copy",
+      "Plan content calendar"
+    ]
+  },
+  {
+    "role": "CFO",
+    "name": "CFO Bot",
+    "description": "Budgeting, cost control, financial forecasting, spend optimization",
+    "defaultModel": "claude",
+    "tasks": [
+      "Track API and infrastructure spend",
+      "Set and enforce budgets per agent",
+      "Forecast monthly burn",
+      "Flag cost anomalies",
+      "Optimize model usage for cost/performance"
+    ]
+  },
+  {
+    "role": "Product Manager",
+    "name": "Product Bot",
+    "description": "Product strategy, user stories, prioritization, roadmap ownership",
+    "defaultModel": "claude",
+    "tasks": [
+      "Write detailed user stories and acceptance criteria",
+      "Maintain product roadmap",
+      "Gather and synthesize user feedback",
+      "Define MVP scope",
+      "Coordinate with engineering and design"
+    ]
+  },
+  {
+    "role": "Research Lead",
+    "name": "Research Bot",
+    "description": "Deep research, literature review, experimentation, insight generation",
+    "defaultModel": "claude",
+    "tasks": [
+      "Perform deep technical or market research",
+      "Summarize papers and reports",
+      "Run competitive analysis",
+      "Generate hypotheses and test plans",
+      "Produce research briefs for other agents"
+    ]
+  },
+  {
+    "role": "Engineering Lead",
+    "name": "Engineering Bot",
+    "description": "Hands-on coding, code reviews, implementation of features",
+    "defaultModel": "claude",
+    "tasks": [
+      "Implement features from user stories",
+      "Write unit and integration tests",
+      "Perform code reviews",
+      "Refactor and improve existing code",
+      "Fix bugs and performance issues"
+    ]
+  },
+  {
+    "role": "DevOps / SRE",
+    "name": "DevOps Bot",
+    "description": "CI/CD, infrastructure, monitoring, reliability, deployments",
+    "defaultModel": "chatgpt",
+    "tasks": [
+      "Maintain CI/CD pipelines",
+      "Manage Vercel and cloud infrastructure",
+      "Set up monitoring and alerts",
+      "Handle rollbacks and incident response",
+      "Optimize deployment frequency and reliability"
+    ]
+  },
+  {
+    "role": "Design / UX",
+    "name": "Design Bot",
+    "description": "UI/UX design direction, user flows, visual consistency",
+    "defaultModel": "chatgpt",
+    "tasks": [
+      "Create user flow diagrams",
+      "Write detailed UI specifications",
+      "Suggest design system improvements",
+      "Review implemented interfaces for UX quality",
+      "Generate microcopy and interface text"
+    ]
+  },
+  {
+    "role": "Security",
+    "name": "Security Bot",
+    "description": "Security reviews, vulnerability scanning, compliance, threat modeling",
+    "defaultModel": "claude",
+    "tasks": [
+      "Review code for security issues",
+      "Perform threat modeling",
+      "Check dependencies for vulnerabilities",
+      "Enforce security policies before merge",
+      "Audit access and secrets handling"
+    ]
+  },
+  {
+    "role": "Data / Analytics",
+    "name": "Data Bot",
+    "description": "Data analysis, metrics, experimentation, insights",
+    "defaultModel": "claude",
+    "tasks": [
+      "Analyze product and growth metrics",
+      "Build and maintain dashboards",
+      "Design A/B tests",
+      "Generate insight reports",
+      "Track north-star metrics"
+    ]
+  },
+  {
+    "role": "Customer Success",
+    "name": "Support Bot",
+    "description": "User support, feedback loops, retention, documentation",
+    "defaultModel": "chatgpt",
+    "tasks": [
+      "Draft help documentation",
+      "Analyze support tickets for patterns",
+      "Create onboarding sequences",
+      "Surface user pain points to Product",
+      "Write changelog and release notes"
+    ]
+  },
+  {
+    "role": "Sales",
+    "name": "Sales Bot",
+    "description": "Outreach, pipeline, proposals, revenue generation",
+    "defaultModel": "chatgpt",
+    "tasks": [
+      "Write personalized outreach sequences",
+      "Create sales decks and proposals",
+      "Qualify leads",
+      "Follow up on pipeline",
+      "Generate revenue forecasts"
+    ]
+  },
+  {
+    "role": "Legal / Compliance",
+    "name": "Legal Bot",
+    "description": "Contract review, policy drafting, risk flags, compliance checks",
+    "defaultModel": "claude",
+    "tasks": [
+      "Review contracts and terms",
+      "Draft privacy and terms policies",
+      "Flag legal or compliance risks",
+      "Ensure GDPR / CCPA readiness",
+      "Advise on IP and licensing"
+    ]
+  }
+]

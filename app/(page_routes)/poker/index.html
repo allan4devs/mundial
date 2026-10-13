@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Poker Table — Texas Hold'em</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="poker-app">
+    <!-- Header / Controls -->
+    <header class="top-bar">
+      <div class="brand">
+        <span class="logo">♠</span>
+        <span class="title">POKER TABLE</span>
+      </div>
+      <div class="stats">
+        <div class="stat"><span class="label">Hand</span><span id="hand-count">1</span></div>
+        <div class="stat"><span class="label">Blinds</span><span id="blinds-display">5K / 10K</span></div>
+        <div class="stat"><span class="label">Pot</span><span id="pot-display">0</span></div>
+        <div class="stat bankroll-stat"><span class="label">Bank</span><span id="bankroll-display">â€”</span></div>
+      </div>
+      <div class="controls">
+        <span class="connection-status" id="connection-status" data-status="connecting">Connecting&hellip;</span>
+        <button id="btn-sound" class="btn btn-icon" type="button" aria-label="Mute poker sounds" aria-pressed="false">&#128266;</button>
+        <button id="btn-new-game" class="btn btn-secondary">Sit Down</button>
+        <button id="btn-settings" class="btn btn-ghost" disabled>Stand Up</button>
+      </div>
+    </header>
+
+    <!-- Main Table Area -->
+    <main class="table-container">
+      <div class="felt" id="felt">
+        <!-- Community Cards -->
+        <div class="community" id="community">
+          <div class="card-slot" data-idx="0"></div>
+          <div class="card-slot" data-idx="1"></div>
+          <div class="card-slot" data-idx="2"></div>
+          <div class="card-slot" data-idx="3"></div>
+          <div class="card-slot" data-idx="4"></div>
+        </div>
+
+        <!-- Pot Display in center -->
+        <div class="center-pot">
+          <div class="pot-amount" id="center-pot">0</div>
+          <div class="street-label" id="street-label">PREFLOP</div>
+        </div>
+
+        <!-- Player Seats (positioned around the oval) -->
+        <div class="seats" id="seats">
+          <!-- Seats injected by JS -->
+        </div>
+      </div>
+    </main>
+
+    <!-- Action Bar (bottom) -->
+    <footer class="action-bar" id="action-bar">
+      <div class="player-info">
+        <div class="stack" id="hero-stack">Watching</div>
+        <div class="to-call" id="to-call">Choose your chips to play</div>
+      </div>
+      <div class="actions">
+        <button class="btn btn-fold" id="btn-fold" disabled>Fold</button>
+        <button class="btn btn-check" id="btn-check" disabled>Check</button>
+        <button class="btn btn-call" id="btn-call" disabled>Call</button>
+        <div class="raise-group">
+          <input type="range" id="bet-slider" min="0" max="1000" value="0" disabled />
+          <div class="raise-buttons">
+            <button class="btn btn-raise" id="btn-raise" disabled>Raise</button>
+            <button class="btn btn-allin" id="btn-allin" disabled>All-In</button>
+          </div>
+        </div>
+      </div>
+      <div class="bet-amount" id="bet-amount">0</div>
+    </footer>
+
+    <!-- Message / Winner Overlay -->
+    <div class="overlay hidden" id="overlay">
+      <div class="overlay-content">
+        <h2 id="overlay-title">Winner!</h2>
+        <p id="overlay-msg"></p>
+        <button class="btn btn-primary" id="btn-next-hand">Next Hand</button>
+      </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal hidden" id="settings-modal">
+      <div class="modal-content">
+        <h3>Sit at the table</h3>
+        <p class="cashier-copy">Choose how many chips to bring. Blinds are always 5,000 / 10,000.</p>
+        <label>Buy-in <input type="number" id="set-stack" value="100000" min="100000" step="10000" /></label>
+        <div class="modal-actions">
+          <button class="btn btn-primary" id="btn-apply-settings">Take a Seat</button>
+          <button class="btn btn-ghost" id="btn-close-settings">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="poker-engine.js"></script>
+  <script type="module" src="api.js"></script>
+  <script type="module" src="ui.js"></script>
+  <script type="module" src="sound.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

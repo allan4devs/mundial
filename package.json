@@ -17,7 +17,7 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint . --ext .ts,.tsx",
     "typecheck": "tsc --noEmit",
     "test:video-editor": "node scripts/test-video-editor.cjs",
     "ws": "node scripts/game-ws-server.mjs"
@@ -43,7 +43,19 @@
     "recharts": "^3.0.0",
     "resend": "^4.0.1",
     "three": "^0.172.0",
-    "ws": "^8.18.0"
+    "ws": "^8.18.0",
+    "next-auth": "^5.0.0-beta.31",
+    "openai": "^7.1.0",
+    "bcryptjs": "^3.0.3",
+    "jose": "^6.2.12",
+    "date-fns": "^4.1.0",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.5.0",
+    "twitter-api-v2": "^1.29.0",
+    "@auth0/nextjs-auth0": "^4.17.0",
+    "@vercel/analytics": "^1.6.1",
+    "@vercel/speed-insights": "^2.0.0",
+    "@vercel/functions": "^3.9.11"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",
