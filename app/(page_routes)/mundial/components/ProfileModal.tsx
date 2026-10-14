@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { Camera, Check, Crown, Loader2, Mail, Phone, Sparkles, Upload, X } from "lucide-react";
 import { cn, normalizeKey } from "../utils";
 
-/* eslint-disable react-hooks/set-state-in-effect */
 
 interface Props {
   playerName: string;
