@@ -34,3 +34,10 @@ export async function authenticatePokerAccount(usernameInput: unknown, passwordI
     throw error;
   }
 }
+
+export function createPokerGuest(usernameInput: unknown) {
+  const raw = typeof usernameInput === "string" ? usernameInput.trim() : "";
+  const name = raw.replace(/\s+/g, " ").slice(0, 24);
+  if (name.length < 2) return { ok: false as const, error: "name_invalid" };
+  return { ok: true as const, account: { _id: `guest_${randomUUID()}`, username: name.toLowerCase(), name } };
+}

@@ -4,9 +4,10 @@
 
 const SUIT_SYMBOLS = { c: '♣', d: '♦', h: '♥', s: '♠' };
 const RED_SUITS = new Set(['d', 'h']);
-const TURN_SECONDS = 20;
+const TURN_SECONDS = 8;
 let turnClock = { key: null, startedAt: 0 };
 let lastWarningSecond = null;
+let timeoutNotifiedKey = null;
 
 function syncTurnClock(state) {
   const active = state.actionSeat >= 0 && state.street !== 'showdown' && state.players[state.actionSeat] && !state.players[state.actionSeat].folded;
@@ -14,6 +15,7 @@ function syncTurnClock(state) {
   if (key !== turnClock.key) {
     turnClock = { key, startedAt: active ? performance.now() : 0 };
     lastWarningSecond = null;
+    timeoutNotifiedKey = null;
   }
 }
 
@@ -35,6 +37,10 @@ function renderTurnTimer() {
   if (remaining <= 8 && seconds !== lastWarningSecond) {
     lastWarningSecond = seconds;
     window.PokerSound?.play(seconds > 0 ? 'timer' : 'timer-end');
+  }
+  if (remaining <= 0 && timeoutNotifiedKey !== turnClock.key) {
+    timeoutNotifiedKey = turnClock.key;
+    window.dispatchEvent(new CustomEvent('poker:turn-timeout', { detail: { key: turnClock.key } }));
   }
 }
 
@@ -98,6 +104,7 @@ function renderSeats(state) {
         <div class="seat-name">${p.name}</div>
         <div class="seat-stack">${p.stack}</div>
         <div class="seat-status">${status}</div>
+        ${isActive && p.isBot ? `<div class="bot-thinking" role="status">${p.thinkingHint || 'Thinking… 🤖'}</div>` : ''}
       </div>
     `;
     seat.querySelector('.seat-inner').appendChild(cardsHtml);
@@ -147,7 +154,6 @@ function renderActionBar(state, legal) {
   const btnAllin = document.getElementById('btn-allin');
   const slider = document.getElementById('bet-slider');
   const betAmount = document.getElementById('bet-amount');
-
   const isHeroTurn = state.heroSeat >= 0 && state.actionSeat === state.heroSeat && state.street !== 'showdown';
 
   btnFold.disabled = !isHeroTurn || !legal.some(a => a.type === 'fold');
@@ -156,6 +162,7 @@ function renderActionBar(state, legal) {
   btnRaise.disabled = !isHeroTurn || !(legal.some(a => a.type === 'raise') || legal.some(a => a.type === 'bet'));
   btnAllin.disabled = !isHeroTurn || !legal.some(a => a.type === 'allin');
   slider.disabled = !isHeroTurn || btnRaise.disabled;
+  document.querySelectorAll('.quick-bet').forEach(button => { button.disabled = !isHeroTurn || btnRaise.disabled; });
 
   // Update button labels
   btnCall.textContent = toCall > 0 ? `Call ${toCall}` : 'Call';
@@ -171,6 +178,10 @@ function renderActionBar(state, legal) {
     slider.value = Math.min(Math.max(min, +slider.value || min), max);
     betAmount.textContent = slider.value;
     btnRaise.textContent = (toCall === 0 ? 'Bet ' : 'Raise to ') + slider.value;
+    document.querySelectorAll('.quick-bet').forEach(button => {
+      const size = button.dataset.betSize === 'pot' ? state.pot : Math.floor(state.pot / 2);
+      button.dataset.amount = String(Math.min(max, Math.max(min, size)));
+    });
   } else {
     betAmount.textContent = '0';
   }
@@ -182,6 +193,7 @@ function renderActionBar(state, legal) {
 }
 
 function renderState(state) {
+  document.getElementById('bot-thinking-global')?.remove();
   document.getElementById('hand-count').textContent = state.handNumber;
   document.getElementById('blinds-display').textContent = `${state.smallBlind} / ${state.bigBlind}`;
   document.getElementById('pot-display').textContent = state.pot;
@@ -190,6 +202,33 @@ function renderState(state) {
 
   renderSeats(state);
   renderCommunity(state.community || []);
+}
+
+function showBotThinking(state) {
+  const seatIndex = state?.actionSeat;
+  const player = seatIndex >= 0 ? state.players?.[seatIndex] : null;
+  if (!player || player.isHero || state.street === 'showdown') return;
+  const seat = document.querySelector(`.seat[data-seat="${seatIndex}"]`);
+  if (!seat) return;
+  seat.classList.add('active');
+  seat.querySelector('.bot-thinking')?.remove();
+  const bubble = document.createElement('div');
+  bubble.className = 'bot-thinking';
+  bubble.setAttribute('role', 'status');
+  bubble.textContent = player.thinkingHint || 'Thinking… 🤖';
+  seat.querySelector('.seat-inner')?.appendChild(bubble);
+
+  // Also render a viewport-level copy so the message cannot be clipped by a
+  // compact/mobile table layout.
+  document.getElementById('bot-thinking-global')?.remove();
+  const globalBubble = bubble.cloneNode(true);
+  globalBubble.id = 'bot-thinking-global';
+  document.body.appendChild(globalBubble);
+  const rect = seat.getBoundingClientRect();
+  globalBubble.style.position = 'fixed';
+  globalBubble.style.left = `${rect.left + rect.width / 2}px`;
+  globalBubble.style.top = `${Math.max(8, rect.top - 70)}px`;
+  globalBubble.style.zIndex = '9999';
 }
 
 function showOverlay(title, msg) {
@@ -202,11 +241,27 @@ function hideOverlay() {
   document.getElementById('overlay').classList.add('hidden');
 }
 
+function animatePotToWinner(winners) {
+  winners.forEach((winner, index) => {
+    const seat = document.querySelector(`.seat[data-seat="${winner.seat}"]`);
+    if (!seat) return;
+    window.setTimeout(() => {
+      seat.classList.add('winner-payout');
+      window.setTimeout(() => seat.classList.remove('winner-payout'), 1400);
+    }, index * 180);
+  });
+  const pot = document.getElementById('center-pot');
+  pot?.classList.add('pot-payout');
+  window.setTimeout(() => pot?.classList.remove('pot-payout'), 1400);
+}
+
 window.UI = {
   renderState,
+  showBotThinking,
   renderActionBar,
   showOverlay,
   hideOverlay,
+  animatePotToWinner,
   createCardEl
 };
 

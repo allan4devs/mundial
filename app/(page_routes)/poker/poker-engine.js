@@ -592,6 +592,19 @@ class PokerTable {
         if (!p) return { seat: i, empty: true };
         const viewerSeat = forSeat ?? this.heroSeat;
         const showCards = this.street === 'showdown' || viewerSeat === i;
+        const thinkingMessages = [
+          'I know exactly what I’m doing… probably. 🤖',
+          'One moment, I’m consulting my imaginary coach. 🧠',
+          'Should I bet, fold, or blame the internet? 😅',
+          'This pause is part of my strategy. Definitely. ⏳',
+          'I have a plan. It may be a terrible plan. 😎',
+          'Calculating the most dramatic move possible… 🎭',
+          'If I look confident, maybe they will fold. 👀',
+          'My chips and I are having a serious meeting. 💬'
+        ];
+        const thinkingHint = p.isBot
+          ? thinkingMessages[(this.handNumber + i) % thinkingMessages.length]
+          : '';
         return {
           seat: i,
           id: p.id,
@@ -603,6 +616,7 @@ class PokerTable {
           allIn: p.allIn,
           isBot: p.isBot,
           hole: showCards ? [...p.hole] : (p.hole.length ? ['??', '??'] : []),
+          thinkingHint,
           isHero: i === viewerSeat
         };
       })
@@ -614,57 +628,50 @@ class PokerTable {
 function botDecide(table, seatIdx) {
   const p = table.players[seatIdx];
   if (!p) return { type: 'fold' };
-
   const legal = table.getLegalActions();
-  const toCall = table.currentBet - p.bet;
-  const potOdds = toCall / (table.pot + toCall + 0.001);
+  if (!legal.length) return { type: 'fold' };
+  const ranks = p.hole.map(cardRank).sort((a, b) => b - a);
+  const suited = p.hole.length === 2 && cardSuit(p.hole[0]) === cardSuit(p.hole[1]);
+  const pair = ranks.length === 2 && ranks[0] === ranks[1];
+  const connected = ranks.length === 2 && ranks[0] - ranks[1] <= 2;
+  const position = (seatIdx - table.dealerIndex + table.numSeats) % table.numSeats;
+  const latePosition = position >= Math.ceil(table.numSeats / 2);
+  const toCall = Math.max(0, table.currentBet - p.bet);
+  const potOdds = toCall / Math.max(1, table.pot + toCall);
+  let strength = 0.18;
 
-  // Rough hand strength
-  let strength = 0.3;
-  if (p.hole.length === 2) {
-    const r1 = cardRank(p.hole[0]);
-    const r2 = cardRank(p.hole[1]);
-    const suited = cardSuit(p.hole[0]) === cardSuit(p.hole[1]);
-    const high = Math.max(r1, r2);
-    const low = Math.min(r1, r2);
-    if (r1 === r2) strength = 0.55 + (high / 14) * 0.3;
-    else {
-      strength = (high / 14) * 0.4 + (low / 14) * 0.15;
-      if (suited) strength += 0.08;
-      if (high - low <= 2) strength += 0.05;
-    }
-  }
+  if (pair) strength = ranks[0] >= 10 ? 0.78 : ranks[0] >= 7 ? 0.58 : 0.4;
+  else strength = (ranks[0] || 0) / 35 + (ranks[1] || 0) / 90 + (suited ? 0.08 : 0) + (connected ? 0.06 : 0);
+  if (latePosition) strength += 0.06;
 
-  // Adjust with community (very rough)
   if (table.community.length >= 3) {
-    const ev = evaluateHand([...p.hole, ...table.community]);
-    if (ev.score > 5e10) strength = 0.85;
-    else if (ev.score > 3e10) strength = 0.7;
-    else if (ev.score > 1e10) strength = 0.55;
-    else strength = Math.max(strength, 0.25);
+    const made = evaluateHand([...p.hole, ...table.community]);
+    const category = Math.floor(made.score / 1e10);
+    strength = Math.max(strength * 0.55, Math.min(0.98, 0.18 + category * 0.105));
+    const boardRanks = table.community.map(cardRank);
+    const flushDraw = new Set(table.community.map(cardSuit).concat(p.hole.map(cardSuit))).size < 4;
+    const openEnded = boardRanks.concat(ranks).sort((a, b) => a - b).some((r, i, all) => all[i + 4] && all[i + 4] - r <= 4);
+    if (flushDraw || openEnded) strength += 0.12;
   }
 
-  // Decision
-  if (toCall === 0) {
-    if (strength > 0.65 && Math.random() < 0.6) {
-      const betSize = Math.min(p.stack, Math.floor(table.pot * (0.5 + Math.random() * 0.5)));
-      if (betSize >= table.minRaise) return { type: 'bet', amount: betSize };
+  const pressure = potOdds > 0.28 ? 0.12 : 0;
+  const bluff = Math.random() < (latePosition ? 0.12 : 0.05);
+  const wantsAggression = strength > 0.62 || bluff;
+  const can = (type) => legal.find((action) => action.type === type);
+  if (wantsAggression) {
+    const aggressive = can('raise') || can('bet');
+    if (aggressive && Math.random() < 0.58) {
+      const min = aggressive.min ?? 0;
+      const max = aggressive.max ?? min;
+      const target = Math.min(max, Math.max(min, Math.floor(table.pot * (0.55 + Math.random() * 0.7))));
+      return { type: aggressive.type, amount: target };
     }
-    return { type: 'check' };
   }
-
-  // Facing a bet
-  if (strength < 0.35 && potOdds > 0.25) return { type: 'fold' };
-  if (strength > 0.75) {
-    // Raise or call
-    if (Math.random() < 0.5 && p.stack > toCall * 2) {
-      const raiseTo = Math.min(p.stack + p.bet, table.currentBet + Math.max(table.minRaise, Math.floor(table.pot * 0.7)));
-      return { type: 'raise', amount: raiseTo };
-    }
-    return { type: 'call', amount: toCall };
-  }
-  if (strength > 0.45 || potOdds < 0.2) return { type: 'call', amount: Math.min(toCall, p.stack) };
-  return { type: 'fold' };
+  if (can('call') && (strength > 0.3 - pressure || Math.random() < 0.18)) return { type: 'call', amount: can('call').amount };
+  if (can('check')) return { type: 'check' };
+  if (can('fold') && strength < 0.42 + pressure) return { type: 'fold' };
+  if (can('allin') && strength > 0.82) return { type: 'allin', amount: can('allin').amount };
+  return { type: legal[0].type, amount: legal[0].amount };
 }
 
 // Export for browser

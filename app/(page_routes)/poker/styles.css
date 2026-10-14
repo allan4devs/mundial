@@ -489,6 +489,44 @@
   min-height: 14px;
 }
 
+.bot-thinking {
+  position: absolute;
+  z-index: 5;
+  left: 50%;
+  bottom: calc(100% + 12px);
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 180px;
+  padding: 8px 11px;
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: 14px;
+  background: #fff;
+  color: #18202b;
+  box-shadow: 0 8px 20px rgba(0,0,0,.3);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.25;
+  animation: bot-bubble-in .25s ease-out, bot-bubble-float 2s ease-in-out infinite;
+  display: block !important;
+  pointer-events: none;
+}
+
+.bot-thinking::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  border-right: 1px solid rgba(255,255,255,.28);
+  border-bottom: 1px solid rgba(255,255,255,.28);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+@keyframes bot-bubble-in { from { opacity: 0; transform: translate(-50%, 8px) scale(.9); } to { opacity: 1; transform: translate(-50%, 0) scale(1); } }
+@keyframes bot-bubble-float { 50% { margin-bottom: 3px; } }
+
 /* Seat positions around the oval (6-max) */
 .seat[data-seat="0"] { left: 50%; top: 92%; }   /* Hero bottom */
 .seat[data-seat="1"] { left: 12%; top: 72%; }
@@ -1381,3 +1419,18 @@
     box-shadow: 0 18px 50px rgba(0,0,0,.55);
   }
 }
+@keyframes poker-pot-payout {
+  0% { transform: scale(1); filter: drop-shadow(0 0 0 transparent); }
+  45% { transform: scale(1.35); filter: drop-shadow(0 0 18px #facc15); }
+  100% { transform: scale(1); filter: drop-shadow(0 0 0 transparent); }
+}
+@keyframes poker-winner-payout {
+  0% { transform: scale(1); box-shadow: 0 0 0 transparent; }
+  50% { transform: scale(1.12); box-shadow: 0 0 28px #facc15; }
+  100% { transform: scale(1); box-shadow: 0 0 0 transparent; }
+}
+#center-pot.pot-payout { animation: poker-pot-payout 1.4s ease-in-out; }
+.seat.winner-payout .seat-inner { animation: poker-winner-payout 1.4s ease-in-out; }
+.quick-bets { display: flex; gap: 6px; margin-top: 5px; }
+.quick-bet { border: 1px solid rgba(255,255,255,.18); border-radius: 999px; background: rgba(255,255,255,.08); color: #e8edf5; padding: 4px 8px; font-size: 11px; cursor: pointer; }
+.quick-bet:disabled { opacity: .35; cursor: not-allowed; }

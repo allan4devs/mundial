@@ -2,6 +2,7 @@
 class PokerAPI {
   constructor() {
     this.tableId = 'MAIN';
+    this.gameId = null;
     this.profile = null;
     this.state = null;
     this.legalActions = [];
@@ -12,6 +13,7 @@ class PokerAPI {
     this.reconnectTimer = null;
     this.reconnectDelay = 1000;
     this.closedByClient = false;
+    this.botRunInFlight = null;
   }
 
   onUpdate(cb) {
@@ -54,11 +56,33 @@ class PokerAPI {
     return payload;
   }
 
+  async _authenticateSavedPlayer() {
+    const username = window.localStorage?.getItem('poker:username')?.trim();
+    if (!username) return false;
+    const response = await fetch('/api/poker/auth', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username })
+    });
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok || payload.ok === false) return false;
+    this.profile = payload.profile || this.profile;
+    return true;
+  }
+
   async createTable() {
     this.disconnect();
     this.closedByClient = false;
-    const payload = await this._request('/api/poker/lobby');
+    let payload;
+    try {
+      payload = await this._request('/api/poker/lobby');
+    } catch (error) {
+      if (error.status !== 401 || !(await this._authenticateSavedPlayer())) throw error;
+      payload = await this._request('/api/poker/lobby');
+    }
     this.profile = payload.profile;
+    this.gameId = payload.state?.gameId || this.gameId;
     this.state = null;
     this._applyState(payload.state);
     this.connect();
@@ -109,8 +133,15 @@ class PokerAPI {
 
   async getState() {
     if (this.state) return this.state;
-    const payload = await this._request('/api/poker/lobby');
+    let payload;
+    try {
+      payload = await this._request('/api/poker/lobby');
+    } catch (error) {
+      if (error.status !== 401 || !(await this._authenticateSavedPlayer())) throw error;
+      payload = await this._request('/api/poker/lobby');
+    }
     this.profile = payload.profile;
+    this.gameId = payload.state?.gameId || this.gameId;
     this._applyState(payload.state);
     return this.state;
   }
@@ -138,7 +169,35 @@ class PokerAPI {
   }
 
   async processUntilHeroOrEnd() {
-    // The shared table advances only when the current human player acts.
+    if (this.botRunInFlight) return this.botRunInFlight;
+    this.botRunInFlight = this._processUntilHeroOrEnd();
+    try {
+      return await this.botRunInFlight;
+    } finally {
+      this.botRunInFlight = null;
+    }
+  }
+
+  async _processUntilHeroOrEnd() {
+    // Let the showdown state render before the bot runner advances the table.
+    // This keeps the winner overlay and final board readable without stopping
+    // the automatic game loop.
+    if (this.state?.street === 'showdown') {
+      await new Promise((resolve) => window.setTimeout(resolve, 1800));
+    }
+    const botIsThinking = this.state?.actionSeat >= 0 && !this.state?.players?.[this.state.actionSeat]?.isHero;
+    if (botIsThinking) {
+      window.UI?.showBotThinking(this.state);
+    }
+    const payload = await this._request('/api/poker/bot', { method: 'POST', body: JSON.stringify({ mode: 'run', actionId: crypto.randomUUID() }) });
+    this._applyState(payload.state);
+    return payload;
+  }
+
+  async addBot() {
+    const payload = await this._request('/api/poker/bot', { method: 'POST', body: JSON.stringify({ actionId: crypto.randomUUID() }) });
+    this._applyState(payload.state);
+    return payload;
   }
 
   async sit(buyIn) {
@@ -150,6 +209,13 @@ class PokerAPI {
 
   async stand() {
     const payload = await this._request('/api/poker/stand', { method: 'POST', body: JSON.stringify({ actionId: crypto.randomUUID() }) });
+    this._applyState(payload.state);
+    await this.refreshProfile();
+    return payload;
+  }
+
+  async resetTable() {
+    const payload = await this._request('/api/poker/reset', { method: 'POST', body: JSON.stringify({ actionId: crypto.randomUUID() }) });
     this._applyState(payload.state);
     await this.refreshProfile();
     return payload;

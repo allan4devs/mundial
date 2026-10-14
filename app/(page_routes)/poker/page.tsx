@@ -47,6 +47,9 @@ export default function PokerPage() {
           <button id="btn-notifications" className="btn btn-icon" type="button" aria-label="Enable turn notifications" aria-pressed="false" title="Enable notifications">🔕</button>
           <button id="btn-sound" className="btn btn-icon" type="button" aria-label="Mute poker sounds" aria-pressed="false">🔊</button>
           <button id="btn-new-game" className="btn btn-secondary" type="button">Sit Down</button>
+          <button id="btn-reset-game" className="btn btn-ghost" type="button">Reset game</button>
+          <button id="btn-change-username" className="btn btn-ghost" type="button">Change name</button>
+          <button id="btn-add-bot" className="btn btn-secondary" type="button">Add Bot</button>
           <button id="btn-poker-logout" className="btn btn-ghost" type="button" hidden>Log out</button>
           <button id="btn-settings" className="btn btn-ghost" type="button" disabled>Stand Up</button>
         </div>
@@ -78,6 +81,10 @@ export default function PokerPage() {
           <button className="btn btn-call" id="btn-call" type="button" disabled>Call</button>
           <div className="raise-group">
             <input aria-label="Bet amount" type="range" id="bet-slider" min="0" max="1000" defaultValue="0" disabled />
+            <div className="quick-bets" aria-label="Quick bet sizes">
+              <button className="quick-bet" data-bet-size="half" type="button" disabled>½ pot</button>
+              <button className="quick-bet" data-bet-size="pot" type="button" disabled>Pot</button>
+            </div>
             <div className="raise-buttons">
               <button className="btn btn-raise" id="btn-raise" type="button" disabled>Raise</button>
               <button className="btn btn-allin" id="btn-allin" type="button" disabled>All-In</button>
@@ -91,11 +98,10 @@ export default function PokerPage() {
         <form className="poker-auth-card" id="poker-auth-form">
           <div className="poker-auth-mark" aria-hidden="true">♠</div>
           <h2 id="poker-auth-title">Choose your player</h2>
-          <p className="poker-auth-copy">Only a username and password. We’ll remember you on this browser and take you straight to the table.</p>
-          <label>Username<input id="poker-username" name="username" autoComplete="username" minLength={3} maxLength={24} required /></label>
-          <label>Password<input id="poker-password" name="password" type="password" autoComplete="new-password" minLength={8} required /></label>
+          <p className="poker-auth-copy">Escribe tu nombre y entra directo a la mesa. Sin cuentas ni contraseñas.</p>
+          <label>Tu nombre<input id="poker-username" name="username" autoComplete="nickname" minLength={2} maxLength={24} required /></label>
           <p className="poker-auth-error" id="poker-auth-error" role="alert" />
-          <button className="btn btn-primary" type="submit">Start playing</button>
+          <button className="btn btn-primary" type="submit">Entrar a jugar</button>
         </form>
       </div>
 
