@@ -1,5 +1,6 @@
 import { JAVA_REACT_CAMPAIGN_JOBS } from "./data/cv-campaign-java-react";
 import { JOB_SEARCH_RECORDS, type JobSearchRecord } from "./data/job-search-records";
+import { NEW_JOB_SEARCH_RECORDS } from "./data/job-search-new";
 import { DEFAULT_REMOTE_LOCATION } from "./java-react-jobs-constants";
 import type { ApplicationStatus } from "./applications";
 import type { JobLead } from "./java-react-jobs-types";
@@ -9,6 +10,7 @@ type CvMatch = Pick<JobLead, "cvPath" | "cvLabel" | "match" | "matchReason"> & {
 };
 
 const campaignJobs = Object.values(JAVA_REACT_CAMPAIGN_JOBS);
+const ALL_JOB_SEARCH_RECORDS: readonly JobSearchRecord[] = [...JOB_SEARCH_RECORDS, ...NEW_JOB_SEARCH_RECORDS];
 
 function normalized(value: string): string {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
@@ -93,7 +95,7 @@ function toNumber(value: number | string): number | undefined {
 }
 
 export function createDefaultJobs(): JobLead[] {
-  return JOB_SEARCH_RECORDS.map((job) => {
+  return ALL_JOB_SEARCH_RECORDS.map((job) => {
     const cv = campaignMatch(job) ?? generalCvMatch(job);
     return {
       id: job.id,
@@ -132,5 +134,5 @@ export function createDefaultJobs(): JobLead[] {
 }
 
 export const JOB_TRACKS = [
-  ...new Set(JOB_SEARCH_RECORDS.map((job) => job.track).filter(Boolean)),
+  ...new Set(ALL_JOB_SEARCH_RECORDS.map((job) => job.track).filter(Boolean)),
 ].sort((a, b) => a.localeCompare(b));
