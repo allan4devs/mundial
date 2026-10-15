@@ -91,8 +91,10 @@ export default async function CvSlugPage({
     return <CoverLetterWorkspace />;
   }
   if (route === "jobs") {
-    const { AppliedJobsClient } = await import("../components/AppliedJobsClient");
-    return <AppliedJobsClient />;
+    const { getAdminFromCookies } = await import("@/lib/admin-auth");
+    if (!await getAdminFromCookies()) redirect("/cv");
+    const { CvJobsClient } = await import("../components/CvJobsClient");
+    return <CvJobsClient />;
   }
   if (route === "java-react-jobs") {
     const { JavaReactJobsClient } = await import("../components/JavaReactJobsClient");

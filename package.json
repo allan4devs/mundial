@@ -20,7 +20,7 @@
     "lint": "eslint . --ext .ts,.tsx",
     "typecheck": "tsc --noEmit",
     "test:video-editor": "node scripts/test-video-editor.cjs",
-    "ws": "node scripts/game-ws-server.mjs"
+    "ws": "node --env-file=.env --env-file=.env.local scripts/game-ws-server.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.30.1",

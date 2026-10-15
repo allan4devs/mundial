@@ -7,7 +7,12 @@ type Player = { id: string; name: string; score: number; answered?: boolean };
 type Question = { id: string; text: string; options: Option[]; number: number; deadlineAt?: string };
 type MatchState = { players: Player[]; question?: Question | null; questionNumber: number; totalQuestions: number; deadlineAt?: string | null; finished?: boolean; winnerId?: string | null };
 
-const WS_URL = process.env.NEXT_PUBLIC_QQSM_WS_URL || process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:3001";
+function getWsUrl() {
+  if (process.env.NEXT_PUBLIC_QQSM_WS_URL) return process.env.NEXT_PUBLIC_QQSM_WS_URL;
+  if (process.env.NEXT_PUBLIC_WS_URL) return process.env.NEXT_PUBLIC_WS_URL;
+  if (typeof window === "undefined") return "ws://localhost:3001";
+  return `${window.location.protocol === "https:" ? "wss" : "ws"}://${window.location.hostname}:3001`;
+}
 const TOTAL_QUESTIONS = 10;
 const ROUND_SECONDS = 10;
 
@@ -22,24 +27,39 @@ export default function QQSMPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const ws = new WebSocket(WS_URL);
-    wsRef.current = ws;
-    ws.onopen = () => setConnected(true);
-    ws.onclose = () => setConnected(false);
-    ws.onerror = () => setError("No se pudo conectar al juego.");
-    ws.onmessage = (event) => {
-      try {
-        const message = JSON.parse(event.data);
-        if (message.type === "qqsm_state") {
-          const next = message.state as MatchState;
-          setState({ ...next, totalQuestions: next.totalQuestions || TOTAL_QUESTIONS });
-          setSelected(null);
-          setJoined(true);
+    let stopped = false;
+    let retry: number | undefined;
+    const connect = () => {
+      if (stopped) return;
+      const ws = new WebSocket(getWsUrl());
+      wsRef.current = ws;
+      ws.onopen = () => { setConnected(true); setError(""); };
+      ws.onclose = () => {
+        setConnected(false);
+        if (!stopped) {
+          setError("Servidor desconectado. Reintentando…");
+          retry = window.setTimeout(connect, 2000);
         }
-        if (message.type === "qqsm_error") setError(message.message || "No se pudo realizar la acción.");
-      } catch { setError("El servidor envió un mensaje inválido."); }
+      };
+      ws.onerror = () => setError("No se pudo conectar al juego. Verifica que `npm run ws` esté ejecutándose.");
+      ws.onmessage = (event) => {
+        try {
+          const message = JSON.parse(event.data);
+          if (message.type === "qqsm_state") {
+            const next = message.state as MatchState;
+            setState({ ...next, totalQuestions: next.totalQuestions || TOTAL_QUESTIONS });
+            setSelected(null);
+            setJoined(true);
+          }
+          if (message.type === "qqsm_error") setError(message.message || "No se pudo realizar la acción.");
+        } catch { setError("El servidor envió un mensaje inválido."); }
+      };
     };
-    return () => ws.close();
+    const syncTimer = window.setInterval(() => {
+      if (wsRef.current?.readyState === WebSocket.OPEN) wsRef.current.send(JSON.stringify({ type: "qqsm_sync" }));
+    }, 2000);
+    connect();
+    return () => { stopped = true; window.clearInterval(syncTimer); if (retry) window.clearTimeout(retry); wsRef.current?.close(); };
   }, []);
 
   const question = state.question;
@@ -54,10 +74,16 @@ export default function QQSMPage() {
   }, [deadline, state.finished]);
 
   function send(type: string, payload: Record<string, unknown> = {}) {
-    if (wsRef.current?.readyState === WebSocket.OPEN) wsRef.current.send(JSON.stringify({ type, ...payload }));
+    if (wsRef.current?.readyState === WebSocket.OPEN) {
+      wsRef.current.send(JSON.stringify({ type, ...payload }));
+      return true;
+    }
+    setError("Todavía no hay conexión con el servidor.");
+    return false;
   }
-  function join() { const cleanName = name.trim().slice(0, 20); if (!cleanName) return; send("qqsm_join", { name: cleanName }); setJoined(true); }
+  function join() { const cleanName = name.trim().slice(0, 20); if (!cleanName || !send("qqsm_join", { name: cleanName })) return; setJoined(true); }
   function answer(optionId: string) { if (!question || selected || me?.answered || seconds <= 0 || state.finished) return; setSelected(optionId); send("qqsm_answer", { questionId: question.id, optionId }); }
+  function adminReset() { const code = window.prompt("Código de administración"); if (code) send("qqsm_admin_reset", { code }); }
 
   if (!joined) return <main className="flex min-h-screen items-center justify-center bg-[#080b25] p-5 text-white"><section className="w-full max-w-md rounded-3xl border border-cyan-400/30 bg-[#111642] p-8 text-center shadow-2xl"><p className="mb-3 text-sm font-bold uppercase tracking-[.3em] text-cyan-300">QQSM · Vero</p><h1 className="text-4xl font-black">¿Quién quiere ser millonario?</h1><p className="mt-3 text-slate-300">Dos jugadores · 10 preguntas · 10 segundos por respuesta</p><input value={name} onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === "Enter" && join()} placeholder="Tu nombre" className="mt-8 w-full rounded-xl border border-white/15 bg-black/20 px-4 py-3 text-white outline-none focus:border-cyan-300" /><button onClick={join} disabled={!connected || !name.trim()} className="mt-4 w-full rounded-xl bg-cyan-400 px-4 py-3 font-black text-[#071126] disabled:cursor-not-allowed disabled:opacity-40">{connected ? "Entrar a la partida" : "Conectando…"}</button><p className="mt-4 text-xs text-slate-400">{connected ? "Servidor conectado" : "Esperando servidor"}</p>{error && <p className="mt-3 text-sm text-rose-300">{error}</p>}</section></main>;
 
