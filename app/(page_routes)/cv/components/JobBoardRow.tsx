@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronDown, ChevronRight, ExternalLink, FileText, Mail, Star } from "lucide-react";
+import { ChevronDown, ChevronRight, ExternalLink, FileText, Flame, Mail, Star } from "lucide-react";
 import {
   STATUS_CLASS,
   STATUS_LABEL,
@@ -18,22 +18,26 @@ export function JobRow({
   job,
   number,
   state,
+  hot,
   open,
   onToggle,
+  onToggleHot,
   onJobChange,
   onApplicationChange,
 }: {
   job: JobLead;
   number: number;
   state: ApplicationState;
+  hot: boolean;
   open: boolean;
   onToggle: () => void;
+  onToggleHot: () => void;
   onJobChange: (patch: JobLeadPatch) => void;
   onApplicationChange: (patch: Partial<ApplicationState>) => void;
 }) {
   const filled = isFilledJob(job);
   return (
-    <article className="[content-visibility:auto] rounded-xl border border-zinc-800 bg-zinc-900/70 transition-colors hover:border-zinc-700">
+    <article className={`[content-visibility:auto] rounded-xl border bg-zinc-900/70 transition-colors ${hot ? "border-orange-500/50 hover:border-orange-400" : "border-zinc-800 hover:border-zinc-700"}`}>
       <div className="grid items-center gap-3 p-3 md:grid-cols-[42px_minmax(230px,1.4fr)_minmax(180px,0.9fr)_150px_auto]">
         <span className="text-center font-mono text-xs font-bold tabular-nums text-zinc-600">
           {String(number).padStart(3, "0")}
@@ -44,6 +48,9 @@ export function JobRow({
             <p className={`truncate text-sm font-bold ${filled ? "text-white" : "text-zinc-500"}`}>
               {job.company || "Available job slot"}
             </p>
+            <span title={job.ratingReason} className={`shrink-0 rounded px-1.5 py-0.5 font-mono text-[10px] font-bold tabular-nums ${ratingClass(job.rating10)}`}>
+              {job.rating10.toFixed(1)}/10
+            </span>
             {filled ? (
               <span className={`shrink-0 rounded px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide ${MATCH_CLASS[job.match]}`}>
                 {MATCH_LABEL[job.match]}
@@ -51,7 +58,7 @@ export function JobRow({
             ) : null}
           </div>
           <p className="mt-0.5 truncate text-xs text-zinc-400">{job.title || "Add the next verified opportunity"}</p>
-          <p className="mt-1 truncate text-[10px] font-semibold uppercase tracking-wide text-zinc-600">{job.track}</p>
+          <p className="mt-1 truncate text-[10px] font-semibold uppercase tracking-wide text-zinc-600">{job.track}<span className="normal-case tracking-normal text-zinc-500"> · {job.ratingReason}</span></p>
         </button>
 
         <div className="min-w-0">
@@ -71,6 +78,9 @@ export function JobRow({
         </select>
 
         <div className="flex items-center justify-end gap-1">
+          <button type="button" onClick={onToggleHot} aria-pressed={hot} title={hot ? "Remove from HOT" : "Mark as HOT (pinned at the top, max 5)"} aria-label={hot ? `Remove job ${number} from HOT` : `Mark job ${number} as HOT`} className={`inline-flex h-8 w-8 items-center justify-center rounded-lg border ${hot ? "border-orange-500 bg-orange-500/15 text-orange-300" : "border-zinc-700 text-zinc-500 hover:border-orange-500 hover:text-orange-300"}`}>
+            <Flame size={14} />
+          </button>
           <label title={job.seen ? "Move back to active jobs" : "Mark as seen / old / completed"} className="inline-flex h-8 items-center gap-1 rounded-lg border border-zinc-700 px-2 text-[11px] font-semibold text-zinc-400 hover:border-teal-500 hover:text-teal-300">
             <input type="checkbox" checked={Boolean(job.seen)} onChange={(event) => onJobChange({ seen: event.target.checked })} aria-label={job.seen ? `Restore job ${number} to active jobs` : `Mark job ${number} as seen, old, or completed`} className="h-3.5 w-3.5 accent-teal-500" />
             <span className="hidden xl:inline">Seen</span>
@@ -101,6 +111,7 @@ export function JobRow({
             <SourceFact label="Location fit" value={job.locationFit || "Not classified"} />
             <SourceFact label="Contractor signal" value={job.contractorSignal || "Not classified"} />
             <SourceFact label="Review flag" value={job.preferenceExclusion || "None recorded"} />
+            <SourceFact label="Fit rating" value={`${job.rating10.toFixed(1)} / 10 · ${job.ratingReason}`} />
           </div>
 
           <div className="mt-3 rounded-lg border border-zinc-800 bg-zinc-950/70 p-3 text-xs leading-relaxed text-zinc-400">
@@ -137,6 +148,13 @@ export function JobRow({
       ) : null}
     </article>
   );
+}
+
+function ratingClass(rating: number): string {
+  if (rating >= 8) return "bg-emerald-500/15 text-emerald-300";
+  if (rating >= 6) return "bg-sky-500/15 text-sky-300";
+  if (rating >= 4) return "bg-amber-500/15 text-amber-300";
+  return "bg-zinc-800 text-zinc-400";
 }
 
 function SourceFact({ label, value }: { label: string; value: string }) {

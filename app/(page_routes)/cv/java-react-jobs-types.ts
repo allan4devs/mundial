@@ -36,16 +36,23 @@ export type JobLead = {
   initialPriority: number;
   seeded: boolean;
   seen?: boolean;
+  /** Deterministic 0-10 fit score from scripts/rate_jobs.py (data/job-ratings.ts). */
+  rating10: number;
+  ratingReason: string;
 };
 
 export type JobLeadPatch = Partial<Pick<JobLead, "company" | "title" | "location" | "url" | "seen">>;
 export type StatusFilter = ApplicationStatus | "all";
 export type TrackFilter = string | "all";
+export type SortMode = "board" | "rating";
+/** Minimum rating10 to show; 0 shows every job. */
+export type RatingFilter = number;
 
 export type JobRowModel = {
   job: JobLead;
   index: number;
   state: ApplicationState;
+  hot: boolean;
 };
 
 export type JobStats = {

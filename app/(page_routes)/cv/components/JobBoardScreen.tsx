@@ -1,7 +1,10 @@
 "use client";
 
-import { Archive, BriefcaseBusiness, Filter, RotateCcw, Search } from "lucide-react";
+import { useState } from "react";
+import { Archive, BriefcaseBusiness, Copy, Filter, Flame, RotateCcw, Search } from "lucide-react";
 import { STATUS_LABEL, STATUS_ORDER, type ApplicationStatus } from "../applications";
+import { HOT_LIMIT } from "../java-react-jobs-constants";
+import type { SortMode } from "../java-react-jobs-types";
 import { JobRow } from "./JobBoardRow";
 import { Stat } from "./JobBoardStat";
 import { useJobBoard } from "./JavaReactJobsContext";
@@ -10,6 +13,12 @@ export function JobBoardScreen() {
   const {
     ready,
     rows,
+    hotRows,
+    hotIds,
+    hotFromSeed,
+    toggleHot,
+    resetHot,
+    hotExport,
     stats,
     query,
     setQuery,
@@ -17,6 +26,10 @@ export function JobBoardScreen() {
     setStatusFilter,
     trackFilter,
     setTrackFilter,
+    minRating,
+    setMinRating,
+    sortMode,
+    setSortMode,
     view,
     setView,
     openId,
@@ -24,6 +37,7 @@ export function JobBoardScreen() {
     updateJob,
     updateApplication,
   } = useJobBoard();
+  const [hotNotice, setHotNotice] = useState("");
 
   const tracks = [...new Set(rows.map(({ job }) => job.track).filter(Boolean))].sort();
 
@@ -31,6 +45,24 @@ export function JobBoardScreen() {
     setQuery("");
     setStatusFilter("all");
     setTrackFilter("all");
+    setMinRating(0);
+  }
+
+  function handleToggleHot(id: string) {
+    setHotNotice(toggleHot(id) ? "" : `HOT is capped at ${HOT_LIMIT} jobs. Remove one before adding another.`);
+  }
+
+  async function copyHotIds() {
+    try {
+      await navigator.clipboard.writeText(hotExport);
+      setHotNotice("HOT ids copied. Paste them into app/(page_routes)/cv/data/hot-jobs.ts to commit the list.");
+    } catch {
+      setHotNotice("Clipboard unavailable. HOT ids: " + JSON.stringify(hotIds));
+    }
+  }
+
+  function renderRow({ job, state, index, hot }: (typeof rows)[number]) {
+    return <JobRow key={job.id} job={job} number={index + 1} state={state} hot={hot} open={openId === job.id} onToggle={() => toggleOpen(job.id)} onToggleHot={() => handleToggleHot(job.id)} onJobChange={(patch) => updateJob(job.id, patch)} onApplicationChange={(patch) => updateApplication(job.applicationSlug, patch)} />;
   }
 
   return (
@@ -61,7 +93,7 @@ export function JobBoardScreen() {
             <button type="button" role="tab" aria-selected={view === "active"} onClick={() => setView("active")} className={`rounded-lg px-3 py-2 text-xs font-bold ${view === "active" ? "bg-teal-500 text-zinc-950" : "border border-zinc-700 text-zinc-400 hover:bg-zinc-800"}`}>Active jobs</button>
             <button type="button" role="tab" aria-selected={view === "seen"} onClick={() => setView("seen")} className={`inline-flex items-center gap-1 rounded-lg px-3 py-2 text-xs font-bold ${view === "seen" ? "bg-zinc-200 text-zinc-950" : "border border-zinc-700 text-zinc-400 hover:bg-zinc-800"}`}><Archive size={13} /> Seen / old / completed</button>
           </div>
-          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-[minmax(260px,1fr)_210px_210px_auto]">
+          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-[minmax(260px,1fr)_190px_190px_150px_150px_auto]">
             <label className="relative">
               <span className="sr-only">Search jobs</span>
               <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" />
@@ -81,13 +113,41 @@ export function JobBoardScreen() {
                 {tracks.map((track) => <option key={track} value={track}>{track}</option>)}
               </select>
             </label>
+            <label>
+              <span className="sr-only">Filter by rating</span>
+              <select value={minRating} onChange={(event) => setMinRating(Number(event.target.value))} className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-200">
+                <option value={0}>Any rating</option>
+                {[9, 8, 7, 6, 5].map((rating) => <option key={rating} value={rating}>Rating {rating}+</option>)}
+              </select>
+            </label>
+            <label>
+              <span className="sr-only">Sort jobs</span>
+              <select value={sortMode} onChange={(event) => setSortMode(event.target.value as SortMode)} className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-200">
+                <option value="rating">Sort: rating</option>
+                <option value="board">Sort: board order</option>
+              </select>
+            </label>
             <button type="button" onClick={clearFilters} className="inline-flex items-center justify-center gap-2 rounded-lg border border-zinc-700 px-3 py-2 text-sm text-zinc-300 hover:bg-zinc-800"><RotateCcw size={14} /> Clear</button>
           </div>
           <div className="mt-3 flex items-center gap-2 text-xs text-zinc-500"><Filter size={13} />{ready ? `${rows.length} matching records` : "Loading saved jobs…"}<span className="text-zinc-700">•</span> Changes are saved in this browser.</div>
         </section>
 
+        <section className="mt-4 rounded-xl border border-orange-500/30 bg-orange-500/5 p-3" aria-label="HOT jobs">
+          <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-orange-300"><Flame size={14} /> HOT jobs · {hotIds.length}/{HOT_LIMIT}<span className="font-semibold normal-case tracking-normal text-zinc-500">{hotFromSeed ? "from data/hot-jobs.ts" : "saved in this browser"}</span></p>
+            <div className="flex gap-2">
+              <button type="button" onClick={copyHotIds} className="inline-flex items-center gap-1 rounded-lg border border-orange-500/40 px-2 py-1.5 text-[11px] font-semibold text-orange-200 hover:bg-orange-500/10"><Copy size={12} /> Copy HOT ids</button>
+              {hotFromSeed ? null : <button type="button" onClick={resetHot} className="inline-flex items-center gap-1 rounded-lg border border-zinc-700 px-2 py-1.5 text-[11px] font-semibold text-zinc-400 hover:bg-zinc-800"><RotateCcw size={12} /> Reset to seed</button>}
+            </div>
+          </div>
+          {hotNotice ? <p className="mb-2 text-[11px] text-orange-200" role="status">{hotNotice}</p> : null}
+          <div className="space-y-2">
+            {hotRows.length ? hotRows.map(renderRow) : <p className="rounded-lg border border-dashed border-zinc-700 p-4 text-center text-xs text-zinc-500">No HOT jobs yet. Use the flame button on any job to pin it here.</p>}
+          </div>
+        </section>
+
         <section className="mt-4 space-y-2" aria-label="Job records">
-          {rows.length ? rows.map(({ job, state, index }) => <JobRow key={job.id} job={job} number={index + 1} state={state} open={openId === job.id} onToggle={() => toggleOpen(job.id)} onJobChange={(patch) => updateJob(job.id, patch)} onApplicationChange={(patch) => updateApplication(job.applicationSlug, patch)} />) : <div className="rounded-xl border border-dashed border-zinc-700 p-10 text-center text-sm text-zinc-400">{view === "seen" ? "No jobs have been moved here yet." : "No jobs match these filters."}</div>}
+          {rows.length ? rows.map(renderRow) : <div className="rounded-xl border border-dashed border-zinc-700 p-10 text-center text-sm text-zinc-400">{view === "seen" ? "No jobs have been moved here yet." : "No jobs match these filters."}</div>}
         </section>
       </div>
     </main>

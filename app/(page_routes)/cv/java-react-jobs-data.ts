@@ -1,6 +1,8 @@
 import { JAVA_REACT_CAMPAIGN_JOBS } from "./data/cv-campaign-java-react";
 import { JOB_SEARCH_RECORDS, type JobSearchRecord } from "./data/job-search-records";
 import { NEW_JOB_SEARCH_RECORDS } from "./data/job-search-new";
+import { JOB_RATINGS } from "./data/job-ratings";
+import { RESEARCHED_JOBS, type ResearchedJob } from "./java-react-jobs-researched";
 import { DEFAULT_REMOTE_LOCATION } from "./java-react-jobs-constants";
 import type { ApplicationStatus } from "./applications";
 import type { JobLead } from "./java-react-jobs-types";
@@ -79,6 +81,9 @@ function mapStatus(status: string): ApplicationStatus {
   if (status === "Recruiter Contact") return "screening";
   if (status === "Applied") return "applied";
   if (status === "Offer") return "offer";
+  if (status === "Screening") return "screening";
+  if (status === "Assessment") return "assessment";
+  if (status === "Rejected") return "rejected";
   return "draft";
 }
 
@@ -94,8 +99,81 @@ function toNumber(value: number | string): number | undefined {
   return typeof value === "number" ? value : undefined;
 }
 
+function ratingFor(id: string): Pick<JobLead, "rating10" | "ratingReason"> {
+  return JOB_RATINGS[id] ?? { rating10: 0, ratingReason: "Not rated yet; run scripts/rate_jobs.py" };
+}
+
+/** Comparable posting address: LinkedIn job id, or the URL without scheme, query or trailing slash. */
+function postingKey(url: string): string {
+  const clean = url.trim().toLowerCase().split(/[?#]/)[0].replace(/\/$/, "");
+  const linkedIn = /linkedin\.com\/jobs\/view\/(?:[^/]*-)?(\d+)/.exec(clean);
+  return linkedIn ? `linkedin:${linkedIn[1]}` : clean.replace(/^https?:\/\/(www\.)?/, "");
+}
+
+function roleKey(company: string, title: string): string {
+  return `${normalized(company)}|${normalized(title)}`;
+}
+
+/** LinkedIn search results that are not already tracked by company+role or posting URL. */
+function uniqueResearchedJobs(): ResearchedJob[] {
+  const urls = new Set(ALL_JOB_SEARCH_RECORDS.map((job) => job.url).filter(Boolean).map(postingKey));
+  const roles = new Set(ALL_JOB_SEARCH_RECORDS.map((job) => roleKey(job.company, job.title)));
+  return RESEARCHED_JOBS.filter((job) => {
+    const url = postingKey(job.url);
+    const role = roleKey(job.company, job.title);
+    if (urls.has(url) || roles.has(role)) return false;
+    urls.add(url);
+    roles.add(role);
+    return true;
+  });
+}
+
+function researchedJobLead(job: ResearchedJob): JobLead {
+  const record = {
+    id: job.id,
+    company: job.company,
+    title: job.title,
+    track: "Java + React Full Stack",
+    stack: "",
+  } as JobSearchRecord;
+  const cv = campaignMatch({ ...record, url: job.url }) ?? generalCvMatch(record);
+  const status = job.status ?? "";
+  return {
+    id: job.id,
+    applicationSlug: cv.applicationSlug ?? `job-search/${job.id}`,
+    company: job.company,
+    title: job.title,
+    location: job.location || DEFAULT_REMOTE_LOCATION,
+    url: job.url,
+    postedOn: job.postedOn || undefined,
+    ...cv,
+    track: record.track,
+    seniority: "",
+    stack: "",
+    eligibility: job.location,
+    workMode: "",
+    engagement: "",
+    sourcePriority: "",
+    locationFit: "",
+    contractorSignal: "",
+    preferenceExclusion: "",
+    userSignal: "",
+    sourceStatus: status,
+    firstSeen: job.postedOn,
+    lastSeen: job.postedOn,
+    nextStep: "",
+    recordQuality: job.match === "exact" ? "LinkedIn exact Java + React search result" : "LinkedIn keyword search result",
+    sources: "LinkedIn Java + React search",
+    sourceNotes: "",
+    initialStatus: mapStatus(status),
+    initialPriority: 0,
+    seeded: true,
+    ...ratingFor(job.id),
+  } satisfies JobLead;
+}
+
 export function createDefaultJobs(): JobLead[] {
-  return ALL_JOB_SEARCH_RECORDS.map((job) => {
+  const tracked = ALL_JOB_SEARCH_RECORDS.map((job) => {
     const cv = campaignMatch(job) ?? generalCvMatch(job);
     return {
       id: job.id,
@@ -129,10 +207,12 @@ export function createDefaultJobs(): JobLead[] {
       initialStatus: mapStatus(job.sourceStatus),
       initialPriority: mapPriority(job.sourcePriority, job.userSignal),
       seeded: true,
+      ...ratingFor(job.id),
     } satisfies JobLead;
   });
+  return [...tracked, ...uniqueResearchedJobs().map(researchedJobLead)];
 }
 
 export const JOB_TRACKS = [
-  ...new Set(ALL_JOB_SEARCH_RECORDS.map((job) => job.track).filter(Boolean)),
+  ...new Set([...ALL_JOB_SEARCH_RECORDS.map((job) => job.track), "Java + React Full Stack"].filter(Boolean)),
 ].sort((a, b) => a.localeCompare(b));

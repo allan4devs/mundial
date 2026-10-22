@@ -1,5 +1,13 @@
 import type { ApplicationState } from "./applications";
-import type { JobLead, JobRowModel, JobStats, StatusFilter, TrackFilter } from "./java-react-jobs-types";
+import type {
+  JobLead,
+  JobRowModel,
+  JobStats,
+  RatingFilter,
+  SortMode,
+  StatusFilter,
+  TrackFilter,
+} from "./java-react-jobs-types";
 
 type GetApplication = (job: JobLead) => ApplicationState;
 
@@ -7,32 +15,53 @@ export function isFilledJob(job: JobLead): boolean {
   return Boolean(job.company.trim() || job.title.trim() || job.url.trim());
 }
 
+/** Rejected, archived or seen jobs keep their rating but rank below active ones. */
+export function isClosedRow({ job, state }: Pick<JobRowModel, "job" | "state">): boolean {
+  return Boolean(job.seen) || state.status === "applied" || state.status === "rejected" || state.status === "archived";
+}
+
+export function compareByRating(a: JobRowModel, b: JobRowModel): number {
+  return Number(isClosedRow(a)) - Number(isClosedRow(b)) || b.job.rating10 - a.job.rating10 || a.index - b.index;
+}
+
+export function toJobRows(jobs: JobLead[], getApplication: GetApplication, hotIds: ReadonlySet<string>): JobRowModel[] {
+  return jobs.map((job, index) => ({ job, index, state: getApplication(job), hot: hotIds.has(job.id) }));
+}
+
 export function selectJobRows({
-  jobs,
-  getApplication,
+  rows,
   query,
   statusFilter,
   trackFilter,
+  minRating,
+  sortMode,
   view,
 }: {
-  jobs: JobLead[];
-  getApplication: GetApplication;
+  rows: JobRowModel[];
   query: string;
   statusFilter: StatusFilter;
   trackFilter: TrackFilter;
+  minRating: RatingFilter;
+  sortMode: SortMode;
   view: "active" | "seen";
 }): JobRowModel[] {
   const normalizedQuery = query.trim().toLowerCase();
-  return jobs
-    .map((job, index) => ({ job, index, state: getApplication(job) }))
-    .filter(({ job, state }) => {
+  const selected = rows
+    .filter(({ job, state, hot }) => {
+      if (hot) return false;
       if (view === "seen" ? !job.seen : job.seen) return false;
+      if (job.rating10 < minRating) return false;
       if (statusFilter !== "all" && state.status !== statusFilter) return false;
       if (trackFilter !== "all" && job.track !== trackFilter) return false;
       if (!normalizedQuery) return true;
-      const haystack = `${job.company} ${job.title} ${job.location} ${job.track} ${job.stack} ${job.eligibility} ${job.engagement} ${job.userSignal} ${state.stage} ${state.notes}`.toLowerCase();
+      const haystack = `${job.company} ${job.title} ${job.location} ${job.track} ${job.stack} ${job.eligibility} ${job.engagement} ${job.userSignal} ${job.ratingReason} ${state.stage} ${state.notes}`.toLowerCase();
       return haystack.includes(normalizedQuery);
     });
+  return selected.sort((a, b) => {
+    const groupOrder = Number(isClosedRow(a)) - Number(isClosedRow(b));
+    if (groupOrder !== 0) return groupOrder;
+    return sortMode === "rating" ? compareByRating(a, b) : a.index - b.index;
+  });
 }
 
 export function calculateJobStats(jobs: JobLead[], getApplication: GetApplication): JobStats {

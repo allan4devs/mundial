@@ -17,7 +17,8 @@ const APPLIED_STATUSES = new Set<ApplicationStatus>([
 ]);
 
 export function AppliedJobsTable() {
-  const { ready, rows } = useJobBoard();
+  const { ready, rows: boardRows, hotRows } = useJobBoard();
+  const rows = useMemo(() => [...hotRows, ...boardRows], [boardRows, hotRows]);
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<ApplicationStatus | "all">("all");
   const [regionFilter, setRegionFilter] = useState("all");

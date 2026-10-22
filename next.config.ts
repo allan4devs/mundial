@@ -2,6 +2,11 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  experimental: {
+    // These packages expose large barrel entry points; only bundle the
+    // components imported by each route.
+    optimizePackageImports: ["@react-three/drei", "recharts"],
+  },
   serverExternalPackages: ["ffmpeg-static", "ffprobe-static"],
   images: {
     remotePatterns: [

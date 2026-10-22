@@ -6,6 +6,8 @@ export type ResearchedJob = {
   postedOn: string;
   url: string;
   match: "exact" | "search";
+  /** Application status, same values as JobSearchRecord.sourceStatus (e.g. "Applied"). */
+  status?: string;
 };
 
 // Ranked from recent LinkedIn remote search results for Java + React roles.
@@ -70,9 +72,9 @@ export const RESEARCHED_JOBS: readonly ResearchedJob[] = [
   {"id":"4466881793","title":"Senior Full-Stack Software Engineer","company":"Manulife","location":"Toronto, Ontario, Canada","postedOn":"2026-09-16","url":"https://ca.linkedin.com/jobs/view/senior-full-stack-software-engineer-at-manulife-4466881793","match":"search"},
   {"id":"4469809825","title":"Senior Python/Flask+React Fullstack Engineer - Remote, Latin America","company":"Bluelight","location":"Alajuela, Alajuela, Costa Rica","postedOn":"2026-08-26","url":"https://cr.linkedin.com/jobs/view/senior-python-flask%2Breact-fullstack-engineer-remote-latin-america-at-bluelight-4469809825","match":"search"},
   {"id":"4466788890","title":"Full Stack Engineer (Senior)","company":"Xe.com","location":"Santiago, Santiago Metropolitan Region, Chile","postedOn":"2026-09-14","url":"https://cl.linkedin.com/jobs/view/full-stack-engineer-senior-at-xe-com-4466788890","match":"search"},
-  {"id":"4454346102","title":"Sr. Full-Stack Developer, AI Design-to-Dev","company":"Appnovation","location":"Costa Rica","postedOn":"2026-08-25","url":"https://cr.linkedin.com/jobs/view/sr-full-stack-developer-ai-design-to-dev-at-appnovation-4454346102","match":"search"},
-  {"id":"4457109803","title":"Senior Full Stack Engineer, Revenue Engine","company":"CookUnity","location":"Latin America","postedOn":"2026-08-24","url":"https://www.linkedin.com/jobs/view/senior-full-stack-engineer-revenue-engine-at-cookunity-4457109803","match":"search"},
-  {"id":"4447381790","title":"Senior Full Stack Developer","company":"Konrad","location":"Costa Rica","postedOn":"2026-08-05","url":"https://cr.linkedin.com/jobs/view/senior-full-stack-developer-at-konrad-4447381790","match":"search"},
+  {"id":"4454346102","status":"Applied","title":"Sr. Full-Stack Developer, AI Design-to-Dev","company":"Appnovation","location":"Costa Rica","postedOn":"2026-08-25","url":"https://cr.linkedin.com/jobs/view/sr-full-stack-developer-ai-design-to-dev-at-appnovation-4454346102","match":"search"},
+  {"id":"4457109803","status":"Applied","title":"Senior Full Stack Engineer, Revenue Engine","company":"CookUnity","location":"Latin America","postedOn":"2026-08-24","url":"https://www.linkedin.com/jobs/view/senior-full-stack-engineer-revenue-engine-at-cookunity-4457109803","match":"search"},
+  {"id":"4447381790","status":"Applied","title":"Senior Full Stack Developer","company":"Konrad","location":"Costa Rica","postedOn":"2026-08-05","url":"https://cr.linkedin.com/jobs/view/senior-full-stack-developer-at-konrad-4447381790","match":"search"},
   {"id":"4433067654","title":"Senior Full Stack Engineer, Shopify","company":"Lazer Technologies","location":"Costa Rica","postedOn":"2026-06-25","url":"https://cr.linkedin.com/jobs/view/senior-full-stack-engineer-shopify-at-lazer-technologies-4433067654","match":"search"},
   {"id":"4382767942","title":"SaaS Solution Architect","company":"Concentrix","location":"Alajuela, Alajuela, Costa Rica","postedOn":"2026-09-20","url":"https://cr.linkedin.com/jobs/view/saas-solution-architect-at-concentrix-4382767942","match":"search"},
   {"id":"4465699483","title":"Senior Full Stack Cloud Engineer","company":"Ford México","location":"Naucalpan de Juárez, México, Mexico","postedOn":"2026-09-10","url":"https://mx.linkedin.com/jobs/view/senior-full-stack-cloud-engineer-at-ford-m%C3%A9xico-4465699483","match":"search"},

@@ -14,13 +14,30 @@ import {
 import type { ApplicationState } from "../applications";
 import { useApplications } from "../useApplications";
 import { createDefaultJobs } from "../java-react-jobs-data";
-import { calculateJobStats, selectJobRows } from "../java-react-jobs-helpers";
+import { HOT_LIMIT } from "../java-react-jobs-constants";
+import { calculateJobStats, compareByRating, selectJobRows, toJobRows } from "../java-react-jobs-helpers";
+import { formatHotIds, loadHotIds, saveHotIds, seedHotIds } from "../java-react-jobs-hot";
 import { readStoredJobs, writeStoredJobs } from "../java-react-jobs-memory";
-import type { JobLead, JobLeadPatch, JobRowModel, JobStats, StatusFilter, TrackFilter } from "../java-react-jobs-types";
+import type {
+  JobLead,
+  JobLeadPatch,
+  JobRowModel,
+  JobStats,
+  RatingFilter,
+  SortMode,
+  StatusFilter,
+  TrackFilter,
+} from "../java-react-jobs-types";
 
 type JobBoardContextValue = {
   ready: boolean;
   rows: JobRowModel[];
+  hotRows: JobRowModel[];
+  hotIds: string[];
+  hotFromSeed: boolean;
+  toggleHot: (id: string) => boolean;
+  resetHot: () => void;
+  hotExport: string;
   stats: JobStats;
   query: string;
   setQuery: Dispatch<SetStateAction<string>>;
@@ -28,6 +45,10 @@ type JobBoardContextValue = {
   setStatusFilter: Dispatch<SetStateAction<StatusFilter>>;
   trackFilter: TrackFilter;
   setTrackFilter: Dispatch<SetStateAction<TrackFilter>>;
+  minRating: RatingFilter;
+  setMinRating: Dispatch<SetStateAction<RatingFilter>>;
+  sortMode: SortMode;
+  setSortMode: Dispatch<SetStateAction<SortMode>>;
   view: "active" | "seen";
   setView: Dispatch<SetStateAction<"active" | "seen">>;
   openId: string | null;
@@ -47,10 +68,38 @@ export function JobBoardProvider({ children }: { children: ReactNode }) {
   const [trackFilter, setTrackFilter] = useState<TrackFilter>("all");
   const [openId, setOpenId] = useState<string | null>(null);
   const [view, setView] = useState<"active" | "seen">("active");
+  const [minRating, setMinRating] = useState<RatingFilter>(0);
+  const [sortMode, setSortMode] = useState<SortMode>("rating");
+  const [hotIds, setHotIds] = useState<string[]>(seedHotIds);
+  const [hotFromSeed, setHotFromSeed] = useState(true);
 
   useEffect(() => {
     setJobs(readStoredJobs(createDefaultJobs()));
+    const storedHot = loadHotIds();
+    if (storedHot) {
+      setHotIds(storedHot);
+      setHotFromSeed(false);
+    }
     setStorageReady(true);
+  }, []);
+
+  const toggleHot = useCallback(
+    (id: string) => {
+      const isHot = hotIds.includes(id);
+      if (!isHot && hotIds.length >= HOT_LIMIT) return false;
+      const next = isHot ? hotIds.filter((hotId) => hotId !== id) : [...hotIds, id];
+      setHotIds(next);
+      setHotFromSeed(false);
+      saveHotIds(next);
+      return true;
+    },
+    [hotIds],
+  );
+
+  const resetHot = useCallback(() => {
+    saveHotIds(null);
+    setHotIds(seedHotIds());
+    setHotFromSeed(true);
   }, []);
 
   useEffect(() => {
@@ -66,9 +115,21 @@ export function JobBoardProvider({ children }: { children: ReactNode }) {
     [getStoredApplication, storedApplications],
   );
 
+  const allRows = useMemo(
+    () => toJobRows(jobs, getApplication, new Set(hotIds)),
+    [getApplication, hotIds, jobs],
+  );
   const rows = useMemo(
-    () => selectJobRows({ jobs, getApplication, query, statusFilter, trackFilter, view }),
-    [getApplication, jobs, query, statusFilter, trackFilter, view],
+    () => selectJobRows({ rows: allRows, query, statusFilter, trackFilter, minRating, sortMode, view }),
+    [allRows, minRating, query, sortMode, statusFilter, trackFilter, view],
+  );
+  const hotRows = useMemo(
+    () => hotIds.flatMap((id) => allRows.filter((row) => row.job.id === id)).sort(compareByRating),
+    [allRows, hotIds],
+  );
+  const hotExport = useMemo(
+    () => formatHotIds(hotIds, new Map(jobs.map((job) => [job.id, `${job.company} - ${job.title} (${job.rating10})`]))),
+    [hotIds, jobs],
   );
   const stats = useMemo(() => calculateJobStats(jobs, getApplication), [getApplication, jobs]);
 
@@ -76,6 +137,12 @@ export function JobBoardProvider({ children }: { children: ReactNode }) {
     () => ({
       ready,
       rows,
+      hotRows,
+      hotIds,
+      hotFromSeed,
+      toggleHot,
+      resetHot,
+      hotExport,
       stats,
       query,
       setQuery,
@@ -83,6 +150,10 @@ export function JobBoardProvider({ children }: { children: ReactNode }) {
       setStatusFilter,
       trackFilter,
       setTrackFilter,
+      minRating,
+      setMinRating,
+      sortMode,
+      setSortMode,
       view,
       setView,
       openId,
@@ -91,7 +162,25 @@ export function JobBoardProvider({ children }: { children: ReactNode }) {
         setJobs((current) => current.map((job) => (job.id === id ? { ...job, ...patch } : job))),
       updateApplication,
     }),
-    [openId, query, ready, rows, stats, statusFilter, trackFilter, updateApplication],
+    [
+      hotExport,
+      hotFromSeed,
+      hotIds,
+      hotRows,
+      minRating,
+      openId,
+      query,
+      ready,
+      resetHot,
+      rows,
+      sortMode,
+      stats,
+      statusFilter,
+      toggleHot,
+      trackFilter,
+      updateApplication,
+      view,
+    ],
   );
 
   return <JobBoardContext.Provider value={value}>{children}</JobBoardContext.Provider>;

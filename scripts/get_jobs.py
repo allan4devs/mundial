@@ -6,6 +6,10 @@ The CV page doesn't keep jobs in MongoDB. They live in TypeScript data files:
   - java-react-jobs-researched.ts (LinkedIn Java + React search results)
 The script uses Node (v22.18+ runs .ts files directly) to load them, then prints them.
 
+Each job also gets rating10 / ratingReason (data/job-ratings.ts, built by
+scripts/rate_jobs.py) and hot (committed seed in data/hot-jobs.ts; the board's
+browser override is not visible here).
+
 Usage:  python scripts/get_jobs.py [--json] [--csv jobs.csv]
 """
 import csv, json, subprocess, sys
@@ -30,11 +34,25 @@ def load(file, name):
                          capture_output=True, text=True, encoding="utf-8", check=True)
     return json.loads(out.stdout)
 
+RATINGS = CV / "data" / "job-ratings.ts"
+HOT = CV / "data" / "hot-jobs.ts"
+
+
+def load_optional(file, name, default):
+    return load(file, name) if file.exists() else default
+
+
 def main():
+    ratings = load_optional(RATINGS, "JOB_RATINGS", {})
+    hot = set(load_optional(HOT, "HOT_JOB_IDS", []))
     jobs = []
     for source, file, name in SOURCES:
         for j in load(file, name):
             j["source"] = source
+            rating = ratings.get(j["id"], {})
+            j["rating10"] = rating.get("rating10")
+            j["ratingReason"] = rating.get("ratingReason", "")
+            j["hot"] = j["id"] in hot
             jobs.append(j)
     if "--json" in sys.argv:
         print(json.dumps(jobs, indent=2, ensure_ascii=False)); return
@@ -48,7 +66,9 @@ def main():
     print(f"{len(jobs)} jobs found {counts}\n")
     for j in jobs:
         score = j.get("matchScore", j.get("match", ""))
-        print(f"[{j['source']}] {j.get('company')} | {j.get('title')} | {score} | {j.get('url')}")
+        rating = "-" if j["rating10"] is None else f"{j['rating10']:g}/10"
+        flag = " HOT" if j["hot"] else ""
+        print(f"[{j['source']}]{flag} {j.get('company')} | {j.get('title')} | {score} | rating {rating} | {j.get('url')}")
 
 if __name__ == "__main__":
     main()
