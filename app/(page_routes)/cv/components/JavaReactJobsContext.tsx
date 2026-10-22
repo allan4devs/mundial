@@ -15,7 +15,7 @@ import type { ApplicationState } from "../applications";
 import { useApplications } from "../useApplications";
 import { createDefaultJobs } from "../java-react-jobs-data";
 import { HOT_LIMIT } from "../java-react-jobs-constants";
-import { calculateJobStats, compareByRating, selectJobRows, toJobRows } from "../java-react-jobs-helpers";
+import { calculateJobStats, compareByRating, jobPostingKey, matchesJobFilters, selectJobRows, toJobRows } from "../java-react-jobs-helpers";
 import { formatHotIds, loadHotIds, saveHotIds, seedHotIds } from "../java-react-jobs-hot";
 import { readStoredJobs, writeStoredJobs } from "../java-react-jobs-memory";
 import type {
@@ -85,7 +85,14 @@ export function JobBoardProvider({ children }: { children: ReactNode }) {
 
   const toggleHot = useCallback(
     (id: string) => {
+      const job = jobs.find((candidate) => candidate.id === id);
+      if (!hotIds.includes(id) && job?.listingStatus !== "open") return false;
       const isHot = hotIds.includes(id);
+      const targetPostingKey = job ? jobPostingKey(job.url) : null;
+      if (!isHot && targetPostingKey && hotIds.some((hotId) => {
+        const pinnedJob = jobs.find((candidate) => candidate.id === hotId);
+        return pinnedJob && jobPostingKey(pinnedJob.url) === targetPostingKey;
+      })) return false;
       if (!isHot && hotIds.length >= HOT_LIMIT) return false;
       const next = isHot ? hotIds.filter((hotId) => hotId !== id) : [...hotIds, id];
       setHotIds(next);
@@ -93,7 +100,7 @@ export function JobBoardProvider({ children }: { children: ReactNode }) {
       saveHotIds(next);
       return true;
     },
-    [hotIds],
+    [hotIds, jobs],
   );
 
   const resetHot = useCallback(() => {
@@ -124,8 +131,10 @@ export function JobBoardProvider({ children }: { children: ReactNode }) {
     [allRows, minRating, query, sortMode, statusFilter, trackFilter, view],
   );
   const hotRows = useMemo(
-    () => hotIds.flatMap((id) => allRows.filter((row) => row.job.id === id)).sort(compareByRating),
-    [allRows, hotIds],
+    () => hotIds
+      .flatMap((id) => allRows.filter((row) => row.job.id === id && row.job.listingStatus === "open" && matchesJobFilters(row, { query, statusFilter, trackFilter, minRating, view })))
+      .sort(compareByRating),
+    [allRows, hotIds, minRating, query, statusFilter, trackFilter, view],
   );
   const hotExport = useMemo(
     () => formatHotIds(hotIds, new Map(jobs.map((job) => [job.id, `${job.company} - ${job.title} (${job.rating10})`]))),

@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { Archive, BriefcaseBusiness, Copy, Filter, Flame, RotateCcw, Search } from "lucide-react";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { Archive, ArrowUp, BriefcaseBusiness, Copy, Filter, Flame, RotateCcw, Search } from "lucide-react";
 import { STATUS_LABEL, STATUS_ORDER, type ApplicationStatus } from "../applications";
 import { HOT_LIMIT } from "../java-react-jobs-constants";
 import type { SortMode } from "../java-react-jobs-types";
@@ -38,6 +39,14 @@ export function JobBoardScreen() {
     updateApplication,
   } = useJobBoard();
   const [hotNotice, setHotNotice] = useState("");
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  useEffect(() => {
+    const updateScrollButton = () => setShowBackToTop(window.scrollY > 360);
+    updateScrollButton();
+    window.addEventListener("scroll", updateScrollButton, { passive: true });
+    return () => window.removeEventListener("scroll", updateScrollButton);
+  }, []);
 
   const tracks = [...new Set(rows.map(({ job }) => job.track).filter(Boolean))].sort();
 
@@ -49,7 +58,7 @@ export function JobBoardScreen() {
   }
 
   function handleToggleHot(id: string) {
-    setHotNotice(toggleHot(id) ? "" : `HOT is capped at ${HOT_LIMIT} jobs. Remove one before adding another.`);
+    setHotNotice(toggleHot(id) ? "" : `HOT accepts up to ${HOT_LIMIT} unique, verified open listings. Remove one or choose another listing.`);
   }
 
   async function copyHotIds() {
@@ -67,6 +76,16 @@ export function JobBoardScreen() {
 
   return (
     <main className="min-h-screen bg-zinc-950 text-zinc-100">
+      <nav aria-label="CV workspace navigation" className="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950/95 shadow-lg shadow-black/20 backdrop-blur-xl">
+        <div className="mx-auto flex h-12 max-w-[1500px] items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
+          <Link href="/cv" className="shrink-0 text-xs font-black uppercase tracking-[0.14em] text-teal-300">CV workspace</Link>
+          <div className="flex min-w-0 items-center gap-1 overflow-x-auto">
+            <Link href="/cv/archive" aria-current="page" className="shrink-0 rounded-lg bg-teal-500/15 px-3 py-2 text-xs font-bold text-teal-200">Jobs</Link>
+            <Link href="/cv/cover-letter" className="shrink-0 rounded-lg px-3 py-2 text-xs font-semibold text-zinc-400 hover:bg-zinc-800 hover:text-white">Cover letter</Link>
+            <Link href="/cv/stats" className="shrink-0 rounded-lg px-3 py-2 text-xs font-semibold text-zinc-400 hover:bg-zinc-800 hover:text-white">CV stats</Link>
+          </div>
+        </div>
+      </nav>
       <div className="mx-auto max-w-[1500px] px-4 py-6 sm:px-6 lg:px-8">
         <header className="rounded-2xl border border-zinc-800 bg-zinc-900/80 p-5">
           <div className="flex flex-wrap items-start justify-between gap-4">
@@ -77,7 +96,7 @@ export function JobBoardScreen() {
                 <h1 className="text-2xl font-bold text-white">Java &amp; React job board</h1>
               </div>
             </div>
-            <p className="max-w-md text-right text-xs leading-relaxed text-zinc-500">Verified opportunities, editable application tracking, and browser-local autosave.</p>
+            <p className="max-w-md text-right text-xs leading-relaxed text-zinc-500">Listing status is verified where checked; other records are marked for review. Application tracking autosaves in this browser.</p>
           </div>
           <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-5">
             <Stat label="Visible records" value={stats.filled} tone="teal" />
@@ -88,7 +107,7 @@ export function JobBoardScreen() {
           </div>
         </header>
 
-        <section className="mt-5 rounded-xl border border-zinc-800 bg-zinc-900/60 p-3" aria-label="Filter jobs">
+        <section className="sticky top-12 z-40 mt-5 rounded-xl border border-zinc-800 bg-zinc-950/95 p-3 shadow-xl shadow-black/30 backdrop-blur-xl" aria-label="Filter jobs">
           <div className="mb-3 flex flex-wrap gap-2" role="tablist" aria-label="Job list views">
             <button type="button" role="tab" aria-selected={view === "active"} onClick={() => setView("active")} className={`rounded-lg px-3 py-2 text-xs font-bold ${view === "active" ? "bg-teal-500 text-zinc-950" : "border border-zinc-700 text-zinc-400 hover:bg-zinc-800"}`}>Active jobs</button>
             <button type="button" role="tab" aria-selected={view === "seen"} onClick={() => setView("seen")} className={`inline-flex items-center gap-1 rounded-lg px-3 py-2 text-xs font-bold ${view === "seen" ? "bg-zinc-200 text-zinc-950" : "border border-zinc-700 text-zinc-400 hover:bg-zinc-800"}`}><Archive size={13} /> Seen / old / completed</button>
@@ -134,7 +153,7 @@ export function JobBoardScreen() {
 
         <section className="mt-4 rounded-xl border border-orange-500/30 bg-orange-500/5 p-3" aria-label="HOT jobs">
           <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
-            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-orange-300"><Flame size={14} /> HOT jobs · {hotIds.length}/{HOT_LIMIT}<span className="font-semibold normal-case tracking-normal text-zinc-500">{hotFromSeed ? "from data/hot-jobs.ts" : "saved in this browser"}</span></p>
+            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-orange-300"><Flame size={14} /> HOT jobs · {hotRows.length}/{hotIds.length} match filters <span className="font-semibold normal-case tracking-normal text-zinc-500">({hotIds.length}/{HOT_LIMIT} pinned; {hotFromSeed ? "from data/hot-jobs.ts" : "saved in this browser"})</span></p>
             <div className="flex gap-2">
               <button type="button" onClick={copyHotIds} className="inline-flex items-center gap-1 rounded-lg border border-orange-500/40 px-2 py-1.5 text-[11px] font-semibold text-orange-200 hover:bg-orange-500/10"><Copy size={12} /> Copy HOT ids</button>
               {hotFromSeed ? null : <button type="button" onClick={resetHot} className="inline-flex items-center gap-1 rounded-lg border border-zinc-700 px-2 py-1.5 text-[11px] font-semibold text-zinc-400 hover:bg-zinc-800"><RotateCcw size={12} /> Reset to seed</button>}
@@ -142,7 +161,7 @@ export function JobBoardScreen() {
           </div>
           {hotNotice ? <p className="mb-2 text-[11px] text-orange-200" role="status">{hotNotice}</p> : null}
           <div className="space-y-2">
-            {hotRows.length ? hotRows.map(renderRow) : <p className="rounded-lg border border-dashed border-zinc-700 p-4 text-center text-xs text-zinc-500">No HOT jobs yet. Use the flame button on any job to pin it here.</p>}
+            {hotRows.length ? hotRows.map(renderRow) : <p className="rounded-lg border border-dashed border-zinc-700 p-4 text-center text-xs text-zinc-500">{hotIds.length ? "No pinned HOT jobs match the current filters." : "No HOT jobs yet. Use the flame button on an open, verified listing to pin it here."}</p>}
           </div>
         </section>
 
@@ -150,6 +169,17 @@ export function JobBoardScreen() {
           {rows.length ? rows.map(renderRow) : <div className="rounded-xl border border-dashed border-zinc-700 p-10 text-center text-sm text-zinc-400">{view === "seen" ? "No jobs have been moved here yet." : "No jobs match these filters."}</div>}
         </section>
       </div>
+      {showBackToTop ? (
+        <button
+          type="button"
+          onClick={() => window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" })}
+          aria-label="Back to top"
+          title="Back to top"
+          className="fixed bottom-5 right-5 z-50 inline-flex h-12 w-12 items-center justify-center rounded-full border border-teal-300/40 bg-teal-400 text-zinc-950 shadow-lg shadow-black/40 transition hover:-translate-y-0.5 hover:bg-teal-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-200 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+        >
+          <ArrowUp size={19} strokeWidth={2.5} />
+        </button>
+      ) : null}
     </main>
   );
 }

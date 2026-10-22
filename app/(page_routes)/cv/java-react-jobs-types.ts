@@ -25,6 +25,7 @@ export type JobLead = {
   preferenceExclusion: string;
   userSignal: string;
   sourceStatus: string;
+  listingStatus: "open" | "closed" | "unknown";
   firstSeen: string;
   lastSeen: string;
   seenCount?: number;

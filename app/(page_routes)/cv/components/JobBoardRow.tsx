@@ -48,6 +48,15 @@ export function JobRow({
             <p className={`truncate text-sm font-bold ${filled ? "text-white" : "text-zinc-500"}`}>
               {job.company || "Available job slot"}
             </p>
+            {job.listingStatus === "closed" ? (
+              <span className="shrink-0 rounded bg-zinc-700/70 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-zinc-300">
+                Closed
+              </span>
+            ) : job.listingStatus === "unknown" ? (
+              <span className="shrink-0 rounded bg-amber-950/70 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-amber-300">
+                Verify
+              </span>
+            ) : null}
             <span title={job.ratingReason} className={`shrink-0 rounded px-1.5 py-0.5 font-mono text-[10px] font-bold tabular-nums ${ratingClass(job.rating10)}`}>
               {job.rating10.toFixed(1)}/10
             </span>
@@ -78,7 +87,7 @@ export function JobRow({
         </select>
 
         <div className="flex items-center justify-end gap-1">
-          <button type="button" onClick={onToggleHot} aria-pressed={hot} title={hot ? "Remove from HOT" : "Mark as HOT (pinned at the top, max 5)"} aria-label={hot ? `Remove job ${number} from HOT` : `Mark job ${number} as HOT`} className={`inline-flex h-8 w-8 items-center justify-center rounded-lg border ${hot ? "border-orange-500 bg-orange-500/15 text-orange-300" : "border-zinc-700 text-zinc-500 hover:border-orange-500 hover:text-orange-300"}`}>
+          <button type="button" onClick={onToggleHot} disabled={job.listingStatus !== "open" && !hot} aria-pressed={hot} title={job.listingStatus !== "open" && !hot ? `${job.listingStatus === "closed" ? "Closed" : "Unverified"} listings cannot be added to HOT` : hot ? "Remove from HOT" : "Mark as HOT (pinned at the top, max 5)"} aria-label={hot ? `Remove job ${number} from HOT` : `Mark job ${number} as HOT`} className={`inline-flex h-8 w-8 items-center justify-center rounded-lg border disabled:cursor-not-allowed disabled:opacity-40 ${hot ? "border-orange-500 bg-orange-500/15 text-orange-300" : "border-zinc-700 text-zinc-500 hover:border-orange-500 hover:text-orange-300"}`}>
             <Flame size={14} />
           </button>
           <label title={job.seen ? "Move back to active jobs" : "Mark as seen / old / completed"} className="inline-flex h-8 items-center gap-1 rounded-lg border border-zinc-700 px-2 text-[11px] font-semibold text-zinc-400 hover:border-teal-500 hover:text-teal-300">

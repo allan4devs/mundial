@@ -2,6 +2,8 @@ import { JAVA_REACT_CAMPAIGN_JOBS } from "./data/cv-campaign-java-react";
 import { JOB_SEARCH_RECORDS, type JobSearchRecord } from "./data/job-search-records";
 import { NEW_JOB_SEARCH_RECORDS } from "./data/job-search-new";
 import { JOB_RATINGS } from "./data/job-ratings";
+import { CLOSED_JOB_ID_SET } from "./data/closed-jobs";
+import { isVerifiedOpenJobCurrent } from "./data/open-jobs";
 import { RESEARCHED_JOBS, type ResearchedJob } from "./java-react-jobs-researched";
 import { DEFAULT_REMOTE_LOCATION } from "./java-react-jobs-constants";
 import type { ApplicationStatus } from "./applications";
@@ -159,12 +161,15 @@ function researchedJobLead(job: ResearchedJob): JobLead {
     preferenceExclusion: "",
     userSignal: "",
     sourceStatus: status,
+    listingStatus: CLOSED_JOB_ID_SET.has(job.id) ? "closed" : isVerifiedOpenJobCurrent(job.id) ? "open" : "unknown",
     firstSeen: job.postedOn,
     lastSeen: job.postedOn,
     nextStep: "",
     recordQuality: job.match === "exact" ? "LinkedIn exact Java + React search result" : "LinkedIn keyword search result",
     sources: "LinkedIn Java + React search",
-    sourceNotes: "",
+    sourceNotes: isVerifiedOpenJobCurrent(job.id)
+      ? "Employer application page confirmed this listing is accepting applications (2026-10-22)."
+      : "",
     initialStatus: mapStatus(status),
     initialPriority: 0,
     seeded: true,
@@ -197,13 +202,22 @@ export function createDefaultJobs(): JobLead[] {
       preferenceExclusion: job.preferenceExclusion,
       userSignal: job.userSignal,
       sourceStatus: job.sourceStatus,
+      listingStatus: CLOSED_JOB_ID_SET.has(job.id) ? "closed" : isVerifiedOpenJobCurrent(job.id) ? "open" : "unknown",
       firstSeen: job.firstSeen,
       lastSeen: job.lastSeen,
       seenCount: toNumber(job.seenCount),
       nextStep: job.nextStep,
       recordQuality: job.recordQuality,
       sources: job.sources,
-      sourceNotes: job.notes,
+      sourceNotes: CLOSED_JOB_ID_SET.has(job.id)
+        ? [job.notes, "Employer application page confirmed this listing is closed (2026-10-22)."]
+            .filter(Boolean)
+            .join(" ")
+        : isVerifiedOpenJobCurrent(job.id)
+          ? [job.notes, "Employer application page confirmed this listing is accepting applications (2026-10-22)."]
+              .filter(Boolean)
+              .join(" ")
+          : job.notes,
       initialStatus: mapStatus(job.sourceStatus),
       initialPriority: mapPriority(job.sourcePriority, job.userSignal),
       seeded: true,

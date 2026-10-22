@@ -17,7 +17,7 @@ export function isFilledJob(job: JobLead): boolean {
 
 /** Rejected, archived or seen jobs keep their rating but rank below active ones. */
 export function isClosedRow({ job, state }: Pick<JobRowModel, "job" | "state">): boolean {
-  return Boolean(job.seen) || state.status === "applied" || state.status === "rejected" || state.status === "archived";
+  return job.listingStatus === "closed" || Boolean(job.seen) || state.status === "applied" || state.status === "rejected" || state.status === "archived";
 }
 
 export function compareByRating(a: JobRowModel, b: JobRowModel): number {
@@ -25,7 +25,52 @@ export function compareByRating(a: JobRowModel, b: JobRowModel): number {
 }
 
 export function toJobRows(jobs: JobLead[], getApplication: GetApplication, hotIds: ReadonlySet<string>): JobRowModel[] {
-  return jobs.map((job, index) => ({ job, index, state: getApplication(job), hot: hotIds.has(job.id) }));
+  const pinnedPostingKeys = new Set(
+    jobs.filter((job) => hotIds.has(job.id)).map((job) => jobPostingKey(job.url)).filter((key): key is string => Boolean(key)),
+  );
+  return jobs.map((job, index) => {
+    const postingKey = jobPostingKey(job.url);
+    return {
+      job,
+      index,
+      state: getApplication(job),
+      hot: hotIds.has(job.id) || Boolean(postingKey && pinnedPostingKeys.has(postingKey)),
+    };
+  });
+}
+
+export function jobPostingKey(url: string): string | null {
+  const clean = url.trim().toLowerCase().split(/[?#]/)[0].replace(/\/+$/, "");
+  if (!clean) return null;
+  const linkedIn = /linkedin\.com\/jobs\/view\/(?:[^/]*-)?(\d+)/.exec(clean);
+  if (linkedIn) return `linkedin:${linkedIn[1]}`;
+  return clean.replace(/^https?:\/\/(www\.)?/, "");
+}
+
+export function matchesJobFilters(
+  { job, state }: JobRowModel,
+  {
+    query,
+    statusFilter,
+    trackFilter,
+    minRating,
+    view,
+  }: {
+    query: string;
+    statusFilter: StatusFilter;
+    trackFilter: TrackFilter;
+    minRating: RatingFilter;
+    view: "active" | "seen";
+  },
+): boolean {
+  if (view === "seen" ? !job.seen : job.seen) return false;
+  if (job.rating10 < minRating) return false;
+  if (statusFilter !== "all" && state.status !== statusFilter) return false;
+  if (trackFilter !== "all" && job.track !== trackFilter) return false;
+  const normalizedQuery = query.trim().toLowerCase();
+  if (!normalizedQuery) return true;
+  const haystack = `${job.company} ${job.title} ${job.location} ${job.track} ${job.stack} ${job.eligibility} ${job.engagement} ${job.userSignal} ${job.ratingReason} ${state.stage} ${state.notes}`.toLowerCase();
+  return haystack.includes(normalizedQuery);
 }
 
 export function selectJobRows({
@@ -45,18 +90,8 @@ export function selectJobRows({
   sortMode: SortMode;
   view: "active" | "seen";
 }): JobRowModel[] {
-  const normalizedQuery = query.trim().toLowerCase();
   const selected = rows
-    .filter(({ job, state, hot }) => {
-      if (hot) return false;
-      if (view === "seen" ? !job.seen : job.seen) return false;
-      if (job.rating10 < minRating) return false;
-      if (statusFilter !== "all" && state.status !== statusFilter) return false;
-      if (trackFilter !== "all" && job.track !== trackFilter) return false;
-      if (!normalizedQuery) return true;
-      const haystack = `${job.company} ${job.title} ${job.location} ${job.track} ${job.stack} ${job.eligibility} ${job.engagement} ${job.userSignal} ${job.ratingReason} ${state.stage} ${state.notes}`.toLowerCase();
-      return haystack.includes(normalizedQuery);
-    });
+    .filter((row) => !row.hot && matchesJobFilters(row, { query, statusFilter, trackFilter, minRating, view }));
   return selected.sort((a, b) => {
     const groupOrder = Number(isClosedRow(a)) - Number(isClosedRow(b));
     if (groupOrder !== 0) return groupOrder;
