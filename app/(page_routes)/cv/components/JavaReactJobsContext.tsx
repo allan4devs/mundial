@@ -28,6 +28,8 @@ type JobBoardContextValue = {
   setStatusFilter: Dispatch<SetStateAction<StatusFilter>>;
   trackFilter: TrackFilter;
   setTrackFilter: Dispatch<SetStateAction<TrackFilter>>;
+  view: "active" | "seen";
+  setView: Dispatch<SetStateAction<"active" | "seen">>;
   openId: string | null;
   toggleOpen: (id: string) => void;
   updateJob: (id: string, patch: JobLeadPatch) => void;
@@ -44,6 +46,7 @@ export function JobBoardProvider({ children }: { children: ReactNode }) {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
   const [trackFilter, setTrackFilter] = useState<TrackFilter>("all");
   const [openId, setOpenId] = useState<string | null>(null);
+  const [view, setView] = useState<"active" | "seen">("active");
 
   useEffect(() => {
     setJobs(readStoredJobs(createDefaultJobs()));
@@ -64,8 +67,8 @@ export function JobBoardProvider({ children }: { children: ReactNode }) {
   );
 
   const rows = useMemo(
-    () => selectJobRows({ jobs, getApplication, query, statusFilter, trackFilter }),
-    [getApplication, jobs, query, statusFilter, trackFilter],
+    () => selectJobRows({ jobs, getApplication, query, statusFilter, trackFilter, view }),
+    [getApplication, jobs, query, statusFilter, trackFilter, view],
   );
   const stats = useMemo(() => calculateJobStats(jobs, getApplication), [getApplication, jobs]);
 
@@ -80,6 +83,8 @@ export function JobBoardProvider({ children }: { children: ReactNode }) {
       setStatusFilter,
       trackFilter,
       setTrackFilter,
+      view,
+      setView,
       openId,
       toggleOpen: (id) => setOpenId((current) => (current === id ? null : id)),
       updateJob: (id, patch) =>

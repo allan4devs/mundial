@@ -1,6 +1,6 @@
 "use client";
 
-import { BriefcaseBusiness, Filter, RotateCcw, Search } from "lucide-react";
+import { Archive, BriefcaseBusiness, Filter, RotateCcw, Search } from "lucide-react";
 import { STATUS_LABEL, STATUS_ORDER, type ApplicationStatus } from "../applications";
 import { JobRow } from "./JobBoardRow";
 import { Stat } from "./JobBoardStat";
@@ -17,6 +17,8 @@ export function JobBoardScreen() {
     setStatusFilter,
     trackFilter,
     setTrackFilter,
+    view,
+    setView,
     openId,
     toggleOpen,
     updateJob,
@@ -55,6 +57,10 @@ export function JobBoardScreen() {
         </header>
 
         <section className="mt-5 rounded-xl border border-zinc-800 bg-zinc-900/60 p-3" aria-label="Filter jobs">
+          <div className="mb-3 flex flex-wrap gap-2" role="tablist" aria-label="Job list views">
+            <button type="button" role="tab" aria-selected={view === "active"} onClick={() => setView("active")} className={`rounded-lg px-3 py-2 text-xs font-bold ${view === "active" ? "bg-teal-500 text-zinc-950" : "border border-zinc-700 text-zinc-400 hover:bg-zinc-800"}`}>Active jobs</button>
+            <button type="button" role="tab" aria-selected={view === "seen"} onClick={() => setView("seen")} className={`inline-flex items-center gap-1 rounded-lg px-3 py-2 text-xs font-bold ${view === "seen" ? "bg-zinc-200 text-zinc-950" : "border border-zinc-700 text-zinc-400 hover:bg-zinc-800"}`}><Archive size={13} /> Seen / old / completed</button>
+          </div>
           <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-[minmax(260px,1fr)_210px_210px_auto]">
             <label className="relative">
               <span className="sr-only">Search jobs</span>
@@ -81,7 +87,7 @@ export function JobBoardScreen() {
         </section>
 
         <section className="mt-4 space-y-2" aria-label="Job records">
-          {rows.length ? rows.map(({ job, state, index }) => <JobRow key={job.id} job={job} number={index + 1} state={state} open={openId === job.id} onToggle={() => toggleOpen(job.id)} onJobChange={(patch) => updateJob(job.id, patch)} onApplicationChange={(patch) => updateApplication(job.applicationSlug, patch)} />) : <div className="rounded-xl border border-dashed border-zinc-700 p-10 text-center text-sm text-zinc-400">No jobs match these filters.</div>}
+          {rows.length ? rows.map(({ job, state, index }) => <JobRow key={job.id} job={job} number={index + 1} state={state} open={openId === job.id} onToggle={() => toggleOpen(job.id)} onJobChange={(patch) => updateJob(job.id, patch)} onApplicationChange={(patch) => updateApplication(job.applicationSlug, patch)} />) : <div className="rounded-xl border border-dashed border-zinc-700 p-10 text-center text-sm text-zinc-400">{view === "seen" ? "No jobs have been moved here yet." : "No jobs match these filters."}</div>}
         </section>
       </div>
     </main>

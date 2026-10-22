@@ -30,6 +30,7 @@ export function readStoredJobs(defaults: JobLead[]): JobLead[] {
       for (const key of editableKeys) {
         if (typeof saved[key] === "string") restored[key] = saved[key];
       }
+      if (typeof saved.seen === "boolean") restored.seen = saved.seen;
       return restored;
     });
   } catch {
@@ -45,6 +46,7 @@ export function writeStoredJobs(jobs: JobLead[]): void {
       title: job.title,
       location: job.location,
       url: job.url,
+      seen: job.seen,
     }));
     window.localStorage.setItem(JOBS_STORAGE_KEY, JSON.stringify(editable));
   } catch {

@@ -35,9 +35,10 @@ export type JobLead = {
   initialStatus: ApplicationStatus;
   initialPriority: number;
   seeded: boolean;
+  seen?: boolean;
 };
 
-export type JobLeadPatch = Partial<Pick<JobLead, "company" | "title" | "location" | "url">>;
+export type JobLeadPatch = Partial<Pick<JobLead, "company" | "title" | "location" | "url" | "seen">>;
 export type StatusFilter = ApplicationStatus | "all";
 export type TrackFilter = string | "all";
 

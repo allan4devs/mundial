@@ -164,6 +164,17 @@ export const PROJECTS: Project[] = [
     status: "beta",
   },
   {
+    id: "allan-songs",
+    title: "Allan Songs",
+    tagline: "Bocetos rápidos para cantar",
+    description:
+      "Un cuaderno musical simple para combinar batería, bajo y sinte, tocar un loop y grabar una toma vocal encima.",
+    href: "/allan-songs",
+    stack: ["Web Audio API", "MediaRecorder", "React"],
+    category: "herramientas",
+    status: "beta",
+  },
+  {
     id: "maps-scrapper",
     title: "Maps Scrapper",
     tagline: "Leads sin sitio web",

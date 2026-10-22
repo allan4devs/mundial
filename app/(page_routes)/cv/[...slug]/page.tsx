@@ -68,6 +68,9 @@ export default async function CvSlugPage({
     const { JavaReactJobsClient } = await import("../components/JavaReactJobsClient");
     return <JavaReactJobsClient />;
   }
+  if (route === "jobs") {
+    redirect("/cv/archive");
+  }
   if (route === "cv-archive") {
     const { CvArchive } = await import("../cv/CvArchive");
     return <CvArchive />;

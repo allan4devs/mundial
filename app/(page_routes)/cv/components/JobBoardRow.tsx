@@ -71,6 +71,10 @@ export function JobRow({
         </select>
 
         <div className="flex items-center justify-end gap-1">
+          <label title={job.seen ? "Move back to active jobs" : "Mark as seen / old / completed"} className="inline-flex h-8 items-center gap-1 rounded-lg border border-zinc-700 px-2 text-[11px] font-semibold text-zinc-400 hover:border-teal-500 hover:text-teal-300">
+            <input type="checkbox" checked={Boolean(job.seen)} onChange={(event) => onJobChange({ seen: event.target.checked })} aria-label={job.seen ? `Restore job ${number} to active jobs` : `Mark job ${number} as seen, old, or completed`} className="h-3.5 w-3.5 accent-teal-500" />
+            <span className="hidden xl:inline">Seen</span>
+          </label>
           {job.cvPath ? <Link href={job.cvPath} title={`Open suggested CV: ${job.cvLabel ?? "CV"}`} className="inline-flex h-8 items-center gap-1 rounded-lg border border-zinc-700 px-2 text-[11px] font-semibold text-zinc-300 hover:border-teal-500 hover:text-teal-300"><FileText size={12} /> CV</Link> : null}
           {job.url ? <a href={job.url} target="_blank" rel="noreferrer" title="Open job posting" className="inline-flex h-8 items-center gap-1 rounded-lg border border-teal-700 bg-teal-500/10 px-2 text-[11px] font-semibold text-teal-300 hover:bg-teal-500/20"><ExternalLink size={12} /> Job</a> : null}
           <button type="button" onClick={onToggle} aria-label={open ? `Close job ${number} details` : `Edit job ${number}`} className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-zinc-700 text-zinc-400 hover:bg-zinc-800 hover:text-white">

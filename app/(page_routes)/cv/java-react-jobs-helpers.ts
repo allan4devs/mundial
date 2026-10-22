@@ -13,17 +13,20 @@ export function selectJobRows({
   query,
   statusFilter,
   trackFilter,
+  view,
 }: {
   jobs: JobLead[];
   getApplication: GetApplication;
   query: string;
   statusFilter: StatusFilter;
   trackFilter: TrackFilter;
+  view: "active" | "seen";
 }): JobRowModel[] {
   const normalizedQuery = query.trim().toLowerCase();
   return jobs
     .map((job, index) => ({ job, index, state: getApplication(job) }))
     .filter(({ job, state }) => {
+      if (view === "seen" ? !job.seen : job.seen) return false;
       if (statusFilter !== "all" && state.status !== statusFilter) return false;
       if (trackFilter !== "all" && job.track !== trackFilter) return false;
       if (!normalizedQuery) return true;
