@@ -46,8 +46,8 @@ export function AppliedJobsTable() {
     <main className="min-h-screen bg-zinc-950 text-zinc-100">
       <div className="mx-auto max-w-[1500px] px-4 py-6 sm:px-6 lg:px-8">
         <header className="rounded-2xl border border-zinc-800 bg-zinc-900/80 p-5">
-          <Link href="/cv/archive" className="inline-flex items-center gap-2 text-xs font-semibold text-zinc-400 hover:text-teal-300">
-            <ArrowLeft size={14} /> Back to job archive
+          <Link href="/cv/jobs" className="inline-flex items-center gap-2 text-xs font-semibold text-zinc-400 hover:text-teal-300">
+            <ArrowLeft size={14} /> Back to jobs
           </Link>
           <div className="mt-4 flex items-center gap-3">
             <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-teal-500/15 text-teal-300"><BriefcaseBusiness size={22} /></span>
@@ -109,7 +109,7 @@ export function AppliedJobsTable() {
           </div>
         ) : (
           <p className="mt-4 rounded-xl border border-dashed border-zinc-700 p-8 text-center text-sm text-zinc-400">
-            {ready ? "No applied jobs match these filters. Application statuses can be updated from the job archive." : "Loading your saved jobs…"}
+            {ready ? "No applied jobs match these filters. Application statuses can be updated from Jobs." : "Loading your saved jobs…"}
           </p>
         )}
       </div>

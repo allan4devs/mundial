@@ -46,4 +46,12 @@ The scanner reads downloaded HTML. It does not execute page JavaScript, open emb
 
 ## Verification
 
+### Manual availability checks
+
+Every job row offers **Check availability**. Clicking it sends the job URL and title to `POST /api/scrape` with `mode: "availability"`, using the existing scanner admin session and public-URL fetch protections. No background checks or AI calls run. The original GET/POST scanner responses remain unchanged when this mode is absent.
+
+The checker reads the downloaded HTML text, ignores scripts and hidden content, and reports matched English/Spanish closure phrases, expired matching JobPosting deadlines, enabled application controls, and HTTP errors. A matching title plus an enabled application control yields **Appears available**; absence of closure keywords alone does not. HTTP 404/410 means the address is unavailable; 401/403/429, login/CAPTCHA screens, timeouts, server errors, and pages without clear evidence remain blocked or unknown. Downloaded text is expandable for review. Checking never changes Seen, Archived, application status, or HOT membership; the user makes that decision.
+
+Run `node scripts/check-cv-job-availability.cjs` for classifier, fetch metadata, authenticated API, and scanner compatibility checks. Add `--live` to exercise two catalog links against employer websites without opening a browser.
+
 Run `node scripts/check-cv-generator.cjs`, `node scripts/check-cv-scraper-extract.cjs`, `node scripts/check-cv-scraper-fetch.cjs`, targeted ESLint, TypeScript checks, and the application build. The generator regression script isolates persistence and authentication in memory and asserts zero provider calls. It covers source integrity, ownership, retries, input cleanup, local extraction, and learning from profile edits. Scanner checks use HTML fixtures and mocked network responses to verify extraction, public-address rules, redirects, size/time limits, and authenticated API behavior. Live API/database verification is separate. Visual and printing confirmation remain manual; do not open Playwright.

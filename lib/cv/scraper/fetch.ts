@@ -15,6 +15,7 @@ export class ScrapeError extends Error {
     message: string,
     public readonly status: number,
     public readonly code: string,
+    public readonly upstreamStatus?: number,
   ) {
     super(message);
     this.name = "ScrapeError";
@@ -179,7 +180,7 @@ async function readHtml(response: IncomingMessage, signal: AbortSignal): Promise
   }
 }
 
-export async function fetchPublicHtml(value: string, clientSignal?: AbortSignal): Promise<{ html: string; url: string }> {
+export async function fetchPublicHtml(value: string, clientSignal?: AbortSignal): Promise<{ html: string; url: string; status: number }> {
   let url = validateTargetUrl(value);
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(new ScrapeError("The website took too long to respond. Try again or use a direct job URL.", 504, "SCAN_TIMEOUT")), SCAN_TIMEOUT_MS);
@@ -208,9 +209,9 @@ export async function fetchPublicHtml(value: string, clientSignal?: AbortSignal)
         const blocked = status === 401 || status === 403 || status === 429;
         throw new ScrapeError(blocked
           ? `The website blocked automated access (HTTP ${status}). Try a public job page or paste the job text.`
-          : `The website returned HTTP ${status}.`, status === 404 ? 404 : 502, blocked ? "WEBSITE_BLOCKED" : "UPSTREAM_ERROR");
+          : `The website returned HTTP ${status}.`, status === 404 ? 404 : 502, blocked ? "WEBSITE_BLOCKED" : "UPSTREAM_ERROR", status);
       }
-      return { html: await readHtml(response, controller.signal), url: url.href };
+      return { html: await readHtml(response, controller.signal), url: url.href, status };
     }
     throw new ScrapeError("The website redirected too many times.", 502, "TOO_MANY_REDIRECTS");
   } catch (error) {

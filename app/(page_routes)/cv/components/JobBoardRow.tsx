@@ -10,9 +10,11 @@ import {
   type ApplicationStatus,
 } from "../applications";
 import { isFilledJob } from "../java-react-jobs-helpers";
+import { isHotCandidate } from "../java-react-jobs-hot";
 import type { JobLead, JobLeadPatch } from "../java-react-jobs-types";
 import { FIELD_CLASS, MATCH_CLASS, MATCH_LABEL } from "../java-react-jobs-values";
 import { Field } from "./JobBoardField";
+import { JobAvailabilityCheck } from "./JobAvailabilityCheck";
 
 export function JobRow({
   job,
@@ -36,6 +38,7 @@ export function JobRow({
   onApplicationChange: (patch: Partial<ApplicationState>) => void;
 }) {
   const filled = isFilledJob(job);
+  const canPin = isHotCandidate({ job, state });
   return (
     <article className={`[content-visibility:auto] rounded-xl border bg-zinc-900/70 transition-colors ${hot ? "border-orange-500/50 hover:border-orange-400" : "border-zinc-800 hover:border-zinc-700"}`}>
       <div className="grid items-center gap-3 p-3 md:grid-cols-[42px_minmax(230px,1.4fr)_minmax(180px,0.9fr)_150px_auto]">
@@ -87,7 +90,7 @@ export function JobRow({
         </select>
 
         <div className="flex items-center justify-end gap-1">
-          <button type="button" onClick={onToggleHot} disabled={job.listingStatus !== "open" && !hot} aria-pressed={hot} title={job.listingStatus !== "open" && !hot ? `${job.listingStatus === "closed" ? "Closed" : "Unverified"} listings cannot be added to HOT` : hot ? "Remove from HOT" : "Mark as HOT (pinned at the top, max 5)"} aria-label={hot ? `Remove job ${number} from HOT` : `Mark job ${number} as HOT`} className={`inline-flex h-8 w-8 items-center justify-center rounded-lg border disabled:cursor-not-allowed disabled:opacity-40 ${hot ? "border-orange-500 bg-orange-500/15 text-orange-300" : "border-zinc-700 text-zinc-500 hover:border-orange-500 hover:text-orange-300"}`}>
+          <button type="button" onClick={onToggleHot} disabled={!canPin && !hot} aria-pressed={hot} title={!canPin && !hot ? "Closed, seen, rejected, or archived jobs cannot be added to HOT" : hot ? "Skip for now and show the next job; returns only if needed to keep five" : "Prioritize this job in HOT"} aria-label={hot ? `Skip job ${number} in HOT for now` : `Mark job ${number} as HOT`} className={`inline-flex h-8 w-8 items-center justify-center rounded-lg border disabled:cursor-not-allowed disabled:opacity-40 ${hot ? "border-orange-500 bg-orange-500/15 text-orange-300" : "border-zinc-700 text-zinc-500 hover:border-orange-500 hover:text-orange-300"}`}>
             <Flame size={14} />
           </button>
           <label title={job.seen ? "Move back to active jobs" : "Mark as seen / old / completed"} className="inline-flex h-8 items-center gap-1 rounded-lg border border-zinc-700 px-2 text-[11px] font-semibold text-zinc-400 hover:border-teal-500 hover:text-teal-300">
@@ -101,6 +104,8 @@ export function JobRow({
           </button>
         </div>
       </div>
+
+      {job.url ? <JobAvailabilityCheck key={`${job.url}|${job.title}`} url={job.url} title={job.title} /> : null}
 
       {open ? (
         <div className="border-t border-zinc-800 p-4">

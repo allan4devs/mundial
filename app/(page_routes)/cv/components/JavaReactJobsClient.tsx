@@ -2,10 +2,11 @@
 
 import { JobBoardScreen } from "./JobBoardScreen";
 import { JobBoardProvider } from "./JavaReactJobsContext";
+import type { JobBoardView } from "../java-react-jobs-types";
 
-export function JavaReactJobsClient() {
+export function JavaReactJobsClient({ view = "active" }: { view?: JobBoardView }) {
   return (
-    <JobBoardProvider>
+    <JobBoardProvider key={view} view={view}>
       <JobBoardScreen />
     </JobBoardProvider>
   );

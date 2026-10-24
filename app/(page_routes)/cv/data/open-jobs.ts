@@ -11,7 +11,7 @@ export const VERIFIED_OPEN_JOB_CHECKED_AT: Readonly<Record<string, string>> = {
 
 const OPEN_STATUS_MAX_AGE_DAYS = 14;
 
-/** A stale open check becomes unknown, which automatically removes it from HOT. */
+/** A stale open check becomes unknown and must be checked again before applying. */
 export function isVerifiedOpenJobCurrent(id: string, now = new Date()): boolean {
   const checkedAt = VERIFIED_OPEN_JOB_CHECKED_AT[id];
   if (!checkedAt || CLOSED_JOB_ID_SET.has(id)) return false;

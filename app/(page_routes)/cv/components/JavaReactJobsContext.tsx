@@ -14,11 +14,12 @@ import {
 import type { ApplicationState } from "../applications";
 import { useApplications } from "../useApplications";
 import { createDefaultJobs } from "../java-react-jobs-data";
+import { calculateJobStats, isArchivedRow, jobPostingKey, selectJobRows, toJobRows } from "../java-react-jobs-helpers";
+import { formatHotIds, isHotCandidate, loadDismissedHotIds, loadHotIds, saveDismissedHotIds, saveHotIds, seedHotIds, selectHotIds } from "../java-react-jobs-hot";
 import { HOT_LIMIT } from "../java-react-jobs-constants";
-import { calculateJobStats, compareByRating, jobPostingKey, matchesJobFilters, selectJobRows, toJobRows } from "../java-react-jobs-helpers";
-import { formatHotIds, loadHotIds, saveHotIds, seedHotIds } from "../java-react-jobs-hot";
 import { readStoredJobs, writeStoredJobs } from "../java-react-jobs-memory";
 import type {
+  JobBoardView,
   JobLead,
   JobLeadPatch,
   JobRowModel,
@@ -49,8 +50,7 @@ type JobBoardContextValue = {
   setMinRating: Dispatch<SetStateAction<RatingFilter>>;
   sortMode: SortMode;
   setSortMode: Dispatch<SetStateAction<SortMode>>;
-  view: "active" | "seen";
-  setView: Dispatch<SetStateAction<"active" | "seen">>;
+  view: JobBoardView;
   openId: string | null;
   toggleOpen: (id: string) => void;
   updateJob: (id: string, patch: JobLeadPatch) => void;
@@ -59,7 +59,7 @@ type JobBoardContextValue = {
 
 const JobBoardContext = createContext<JobBoardContextValue | null>(null);
 
-export function JobBoardProvider({ children }: { children: ReactNode }) {
+export function JobBoardProvider({ children, view }: { children: ReactNode; view: JobBoardView }) {
   const { get: getStoredApplication, raw: storedApplications, update: updateApplication, ready } = useApplications();
   const [jobs, setJobs] = useState<JobLead[]>(createDefaultJobs);
   const [storageReady, setStorageReady] = useState(false);
@@ -67,45 +67,30 @@ export function JobBoardProvider({ children }: { children: ReactNode }) {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
   const [trackFilter, setTrackFilter] = useState<TrackFilter>("all");
   const [openId, setOpenId] = useState<string | null>(null);
-  const [view, setView] = useState<"active" | "seen">("active");
   const [minRating, setMinRating] = useState<RatingFilter>(0);
   const [sortMode, setSortMode] = useState<SortMode>("rating");
-  const [hotIds, setHotIds] = useState<string[]>(seedHotIds);
+  const [preferredHotIds, setPreferredHotIds] = useState<string[]>(seedHotIds);
+  const [dismissedHotIds, setDismissedHotIds] = useState<string[]>([]);
   const [hotFromSeed, setHotFromSeed] = useState(true);
 
   useEffect(() => {
     setJobs(readStoredJobs(createDefaultJobs()));
     const storedHot = loadHotIds();
     if (storedHot) {
-      setHotIds(storedHot);
+      setPreferredHotIds(storedHot);
       setHotFromSeed(false);
     }
+    const dismissed = loadDismissedHotIds();
+    setDismissedHotIds(dismissed);
+    if (dismissed.length) setHotFromSeed(false);
     setStorageReady(true);
   }, []);
 
-  const toggleHot = useCallback(
-    (id: string) => {
-      const job = jobs.find((candidate) => candidate.id === id);
-      if (!hotIds.includes(id) && job?.listingStatus !== "open") return false;
-      const isHot = hotIds.includes(id);
-      const targetPostingKey = job ? jobPostingKey(job.url) : null;
-      if (!isHot && targetPostingKey && hotIds.some((hotId) => {
-        const pinnedJob = jobs.find((candidate) => candidate.id === hotId);
-        return pinnedJob && jobPostingKey(pinnedJob.url) === targetPostingKey;
-      })) return false;
-      if (!isHot && hotIds.length >= HOT_LIMIT) return false;
-      const next = isHot ? hotIds.filter((hotId) => hotId !== id) : [...hotIds, id];
-      setHotIds(next);
-      setHotFromSeed(false);
-      saveHotIds(next);
-      return true;
-    },
-    [hotIds, jobs],
-  );
-
   const resetHot = useCallback(() => {
     saveHotIds(null);
-    setHotIds(seedHotIds());
+    saveDismissedHotIds([]);
+    setPreferredHotIds(seedHotIds());
+    setDismissedHotIds([]);
     setHotFromSeed(true);
   }, []);
 
@@ -122,6 +107,36 @@ export function JobBoardProvider({ children }: { children: ReactNode }) {
     [getStoredApplication, storedApplications],
   );
 
+  const candidateRows = useMemo(() => toJobRows(jobs, getApplication, new Set()), [getApplication, jobs]);
+  const hotIds = useMemo(
+    () => selectHotIds(candidateRows, preferredHotIds, dismissedHotIds),
+    [candidateRows, dismissedHotIds, preferredHotIds],
+  );
+
+  const toggleHot = useCallback((id: string) => {
+    const row = candidateRows.find((candidate) => candidate.job.id === id);
+    if (!row) return false;
+    const postingKey = jobPostingKey(row.job.url);
+    const samePostingIds = new Set(candidateRows
+      .filter((candidate) => candidate.job.id === id || (postingKey && jobPostingKey(candidate.job.url) === postingKey))
+      .map((candidate) => candidate.job.id));
+    const isHot = hotIds.some((hotId) => samePostingIds.has(hotId));
+    if (!isHot && !isHotCandidate(row)) return false;
+    const nextPreferred = isHot
+      ? preferredHotIds.filter((hotId) => !samePostingIds.has(hotId))
+      : [id, ...preferredHotIds.filter((hotId) => !samePostingIds.has(hotId))].slice(0, HOT_LIMIT);
+    const nextDismissed = isHot
+      ? [...dismissedHotIds.filter((hotId) => !samePostingIds.has(hotId)), ...samePostingIds]
+      : dismissedHotIds.filter((hotId) => !samePostingIds.has(hotId));
+    if (!isHot && !selectHotIds(candidateRows, nextPreferred, nextDismissed).includes(id)) return false;
+    setPreferredHotIds(nextPreferred);
+    setDismissedHotIds(nextDismissed);
+    setHotFromSeed(false);
+    saveHotIds(nextPreferred);
+    saveDismissedHotIds(nextDismissed);
+    return true;
+  }, [candidateRows, dismissedHotIds, hotIds, preferredHotIds]);
+
   const allRows = useMemo(
     () => toJobRows(jobs, getApplication, new Set(hotIds)),
     [getApplication, hotIds, jobs],
@@ -131,20 +146,25 @@ export function JobBoardProvider({ children }: { children: ReactNode }) {
     [allRows, minRating, query, sortMode, statusFilter, trackFilter, view],
   );
   const hotRows = useMemo(
-    () => hotIds
-      .flatMap((id) => allRows.filter((row) => row.job.id === id && row.job.listingStatus === "open" && matchesJobFilters(row, { query, statusFilter, trackFilter, minRating, view })))
-      .sort(compareByRating),
-    [allRows, hotIds, minRating, query, statusFilter, trackFilter, view],
+    () => {
+      if (view !== "active") return [];
+      const byId = new Map(allRows.map((row) => [row.job.id, row]));
+      return hotIds.flatMap((id) => byId.has(id) ? [byId.get(id)!] : []);
+    },
+    [allRows, hotIds, view],
   );
   const hotExport = useMemo(
     () => formatHotIds(hotIds, new Map(jobs.map((job) => [job.id, `${job.company} - ${job.title} (${job.rating10})`]))),
     [hotIds, jobs],
   );
-  const stats = useMemo(() => calculateJobStats(jobs, getApplication), [getApplication, jobs]);
+  const stats = useMemo(
+    () => calculateJobStats(allRows.filter((row) => (view === "archive") === isArchivedRow(row)).map((row) => row.job), getApplication),
+    [allRows, getApplication, view],
+  );
 
   const value = useMemo<JobBoardContextValue>(
     () => ({
-      ready,
+      ready: ready && storageReady,
       rows,
       hotRows,
       hotIds,
@@ -164,7 +184,6 @@ export function JobBoardProvider({ children }: { children: ReactNode }) {
       sortMode,
       setSortMode,
       view,
-      setView,
       openId,
       toggleOpen: (id) => setOpenId((current) => (current === id ? null : id)),
       updateJob: (id, patch) =>
@@ -184,6 +203,7 @@ export function JobBoardProvider({ children }: { children: ReactNode }) {
       rows,
       sortMode,
       stats,
+      storageReady,
       statusFilter,
       toggleHot,
       trackFilter,

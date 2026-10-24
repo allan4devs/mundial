@@ -3,6 +3,7 @@ import { getAdminFromRequest } from "@/lib/admin-auth";
 import { extractScrapeResult } from "@/lib/cv/scraper/extract";
 import { fetchPublicHtml, ScrapeError } from "@/lib/cv/scraper/fetch";
 import type { ScrapeErrorResponse } from "@/lib/cv/scraper/types";
+import { checkJobAvailability } from "@/lib/cv/job-availability/check";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -27,11 +28,14 @@ function accessError(request: NextRequest): Response | null {
   return null;
 }
 
-async function scan(value: unknown, request: NextRequest): Promise<Response> {
+async function scan(value: unknown, request: NextRequest, availabilityTitle?: string): Promise<Response> {
   if (typeof value !== "string" || !value.trim()) {
     return errorResponse("Enter a website URL to scan.", "URL_REQUIRED", 400);
   }
   try {
+    if (availabilityTitle !== undefined) {
+      return Response.json(await checkJobAvailability(value, availabilityTitle, request.signal), { headers: RESPONSE_HEADERS });
+    }
     const { html, url } = await fetchPublicHtml(value, request.signal);
     return Response.json(extractScrapeResult(html, url), { headers: RESPONSE_HEADERS });
   } catch (error) {
@@ -82,7 +86,9 @@ export async function POST(request: NextRequest): Promise<Response> {
   if (denied) return denied;
   try {
     const body = await readBody(request);
-    return scan(body && typeof body === "object" && "url" in body ? body.url : undefined, request);
+    const input = body && typeof body === "object" ? body as Record<string, unknown> : {};
+    const title = input.mode === "availability" ? typeof input.title === "string" ? input.title.trim().slice(0, 500) : "" : undefined;
+    return scan(input.url, request, title);
   } catch (error) {
     if (error instanceof ScrapeError) return errorResponse(error.message, error.code, error.status);
     if (request.signal.aborted) return errorResponse("The scan was cancelled.", "SCAN_CANCELLED", 408);

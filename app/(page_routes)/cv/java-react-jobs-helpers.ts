@@ -1,5 +1,6 @@
 import type { ApplicationState } from "./applications";
 import type {
+  JobBoardView,
   JobLead,
   JobRowModel,
   JobStats,
@@ -10,6 +11,10 @@ import type {
 } from "./java-react-jobs-types";
 
 type GetApplication = (job: JobLead) => ApplicationState;
+
+export function isArchivedRow({ job, state }: Pick<JobRowModel, "job" | "state">): boolean {
+  return Boolean(job.seen) || state.status === "archived";
+}
 
 export function isFilledJob(job: JobLead): boolean {
   return Boolean(job.company.trim() || job.title.trim() || job.url.trim());
@@ -60,10 +65,10 @@ export function matchesJobFilters(
     statusFilter: StatusFilter;
     trackFilter: TrackFilter;
     minRating: RatingFilter;
-    view: "active" | "seen";
+    view: JobBoardView;
   },
 ): boolean {
-  if (view === "seen" ? !job.seen : job.seen) return false;
+  if ((view === "archive") !== isArchivedRow({ job, state })) return false;
   if (job.rating10 < minRating) return false;
   if (statusFilter !== "all" && state.status !== statusFilter) return false;
   if (trackFilter !== "all" && job.track !== trackFilter) return false;
@@ -88,10 +93,10 @@ export function selectJobRows({
   trackFilter: TrackFilter;
   minRating: RatingFilter;
   sortMode: SortMode;
-  view: "active" | "seen";
+  view: JobBoardView;
 }): JobRowModel[] {
   const selected = rows
-    .filter((row) => !row.hot && matchesJobFilters(row, { query, statusFilter, trackFilter, minRating, view }));
+    .filter((row) => (view === "archive" || !row.hot) && matchesJobFilters(row, { query, statusFilter, trackFilter, minRating, view }));
   return selected.sort((a, b) => {
     const groupOrder = Number(isClosedRow(a)) - Number(isClosedRow(b));
     if (groupOrder !== 0) return groupOrder;

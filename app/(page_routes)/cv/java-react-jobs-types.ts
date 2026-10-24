@@ -43,6 +43,7 @@ export type JobLead = {
 };
 
 export type JobLeadPatch = Partial<Pick<JobLead, "company" | "title" | "location" | "url" | "seen">>;
+export type JobBoardView = "active" | "archive";
 export type StatusFilter = ApplicationStatus | "all";
 export type TrackFilter = string | "all";
 export type SortMode = "board" | "rating";

@@ -5,7 +5,7 @@ import { AppliedJobsTable } from "./AppliedJobsTable";
 
 export function AppliedJobsClient() {
   return (
-    <JobBoardProvider>
+    <JobBoardProvider view="active">
       <AppliedJobsTable />
     </JobBoardProvider>
   );
