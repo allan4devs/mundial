@@ -103,13 +103,15 @@ export function JobBoardProvider({ children, view }: { children: ReactNode; view
   const getApplication = useCallback(
     (job: JobLead): ApplicationState => {
       const state = getStoredApplication(job.applicationSlug);
+      const saved = storedApplications[job.applicationSlug];
+      const hasSaved = (key: keyof ApplicationState): boolean =>
+        Boolean(saved && Object.prototype.hasOwnProperty.call(saved, key));
       return {
         ...state,
-        status: job.initialStatus,
-        stage: job.nextStep,
-        priority: job.initialPriority,
-        notes: job.sourceNotes,
-        ...storedApplications[job.applicationSlug],
+        status: hasSaved("status") ? saved!.status : job.initialStatus,
+        stage: hasSaved("stage") ? saved!.stage : job.nextStep,
+        priority: hasSaved("priority") ? saved!.priority : job.initialPriority,
+        notes: hasSaved("notes") ? saved!.notes : job.sourceNotes,
       };
     },
     [getStoredApplication, storedApplications],
