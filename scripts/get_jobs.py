@@ -3,6 +3,7 @@
 The CV page doesn't keep jobs in MongoDB. They live in TypeScript data files:
   - data/job-search-records.ts   (imported from the Master Jobs worksheet)
   - data/job-search-new.ts       (new direct-company leads)
+  - data/job-search-october-2026.ts (source-dated October shortlist leads)
   - java-react-jobs-researched.ts (LinkedIn Java + React search results)
 The script uses Node (v22.18+ runs .ts files directly) to load them, then prints them.
 
@@ -20,6 +21,7 @@ CV = ROOT / "app" / "(page_routes)" / "cv"
 SOURCES = [
     ("worksheet", CV / "data" / "job-search-records.ts", "JOB_SEARCH_RECORDS"),
     ("new", CV / "data" / "job-search-new.ts", "NEW_JOB_SEARCH_RECORDS"),
+    ("october2026", CV / "data" / "job-search-october-2026.ts", "OCTOBER_2026_JOB_SEARCH_RECORDS"),
     ("linkedin", CV / "java-react-jobs-researched.ts", "RESEARCHED_JOBS"),
 ]
 

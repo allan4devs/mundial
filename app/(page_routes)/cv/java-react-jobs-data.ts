@@ -1,6 +1,7 @@
 import { JAVA_REACT_CAMPAIGN_JOBS } from "./data/cv-campaign-java-react";
 import { JOB_SEARCH_RECORDS, type JobSearchRecord } from "./data/job-search-records";
 import { NEW_JOB_SEARCH_RECORDS } from "./data/job-search-new";
+import { OCTOBER_2026_JOB_SEARCH_RECORDS } from "./data/job-search-october-2026";
 import { JOB_RATINGS } from "./data/job-ratings";
 import { CLOSED_JOB_ID_SET } from "./data/closed-jobs";
 import { isVerifiedOpenJobCurrent } from "./data/open-jobs";
@@ -14,7 +15,7 @@ type CvMatch = Pick<JobLead, "cvPath" | "cvLabel" | "match" | "matchReason"> & {
 };
 
 const campaignJobs = Object.values(JAVA_REACT_CAMPAIGN_JOBS);
-const ALL_JOB_SEARCH_RECORDS: readonly JobSearchRecord[] = [...JOB_SEARCH_RECORDS, ...NEW_JOB_SEARCH_RECORDS];
+const ALL_JOB_SEARCH_RECORDS: readonly JobSearchRecord[] = [...JOB_SEARCH_RECORDS, ...NEW_JOB_SEARCH_RECORDS, ...OCTOBER_2026_JOB_SEARCH_RECORDS];
 
 function normalized(value: string): string {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
@@ -187,7 +188,8 @@ export function createDefaultJobs(): JobLead[] {
       title: job.title,
       location: job.eligibility || job.locationFit || DEFAULT_REMOTE_LOCATION,
       url: job.url,
-      postedOn: job.lastSeen || undefined,
+      postedOn: job.postedOn || undefined,
+      postedOnSource: job.postedOnSource,
       ...cv,
       track: job.track,
       seniority: job.seniority,

@@ -2,59 +2,45 @@ import { HOT_JOB_IDS } from "./data/hot-jobs";
 import { HOT_DISMISSED_STORAGE_KEY, HOT_LIMIT, HOT_STORAGE_KEY } from "./java-react-jobs-constants";
 import { isArchivedRow, jobPostingKey } from "./java-react-jobs-helpers";
 import type { JobRowModel } from "./java-react-jobs-types";
+import { compareAuditCandidates, hasApplicationHistory, isOctober2026Posting, jobCompanyKey, MIN_JOB_FIT } from "./java-react-jobs-audit";
 
-export function isHotCandidate(row: Pick<JobRowModel, "job" | "state">): boolean {
-  return !isArchivedRow(row) && row.state.status !== "rejected" && row.job.listingStatus !== "closed" && Boolean(jobPostingKey(row.job.url));
+export function isHotCandidate(row: Pick<JobRowModel, "job" | "state" | "archiveReason">): boolean {
+  return !isArchivedRow(row) && !hasApplicationHistory(row) && row.job.rating10 >= MIN_JOB_FIT
+    && isOctober2026Posting(row.job) && row.job.listingStatus !== "closed"
+    && Boolean(jobCompanyKey(row.job.company)) && Boolean(jobPostingKey(row.job.url));
 }
 
-function lastSeenTime(row: JobRowModel): number {
-  return Date.parse(row.job.lastSeen || row.job.firstSeen || "") || 0;
-}
-
-/** Prefer new applications, then fit; use verified status, priority, and freshness to break ties. */
+/** Use the same fit/publication ranking as the audited shortlist. */
 export function compareHotCandidates(a: JobRowModel, b: JobRowModel): number {
-  return Number(a.state.status !== "draft") - Number(b.state.status !== "draft")
-    || b.job.rating10 - a.job.rating10
-    || Number(b.job.listingStatus === "open") - Number(a.job.listingStatus === "open")
-    || b.state.priority - a.state.priority
-    || lastSeenTime(b) - lastSeenTime(a)
-    || a.index - b.index
-    || a.job.id.localeCompare(b.job.id);
+  return compareAuditCandidates(a, b);
 }
 
-/** Manual picks first; fill five unique active postings, recycling skipped jobs only as a fallback. */
+/** Up to ten genuinely new October postings, one per company. Never recycle skipped jobs. */
 export function selectHotIds(rows: JobRowModel[], preferredIds: string[], dismissedIds: string[]): string[] {
-  const dismissedOrder = new Map(dismissedIds.map((id, index) => [id, index]));
+  const dismissed = new Set(dismissedIds);
   const blockedPostings = new Set(rows
-    .filter((row) => !isHotCandidate(row))
+    .filter((row) => hasApplicationHistory(row) || dismissed.has(row.job.id))
     .map((row) => jobPostingKey(row.job.url)));
-  const skippedPostings = new Map<string, number>();
-  for (const { job } of rows) {
-    const key = jobPostingKey(job.url);
-    const skippedAt = dismissedOrder.get(job.id);
-    if (key && skippedAt !== undefined) skippedPostings.set(key, Math.max(skippedPostings.get(key) ?? -1, skippedAt));
-  }
+  const blockedCompanies = new Set(rows
+    .filter((row) => hasApplicationHistory(row) || dismissed.has(row.job.id))
+    .map((row) => jobCompanyKey(row.job.company)));
   const byId = new Map(rows.map((row) => [row.job.id, row]));
-  const eligible = rows.filter((row) => isHotCandidate(row) && !blockedPostings.has(jobPostingKey(row.job.url)));
-  const fresh = eligible.filter((row) => !skippedPostings.has(jobPostingKey(row.job.url)!));
-  const skipped = eligible.filter((row) => skippedPostings.has(jobPostingKey(row.job.url)!));
-  skipped.sort((a, b) => skippedPostings.get(jobPostingKey(a.job.url)!)! - skippedPostings.get(jobPostingKey(b.job.url)!)!
-    || compareHotCandidates(a, b));
+  const eligible = rows.filter((row) => isHotCandidate(row));
   const candidates = [
-    ...preferredIds.flatMap((id) => {
-      const row = byId.get(id);
-      return row && !skippedPostings.has(jobPostingKey(row.job.url)!) ? [row] : [];
-    }),
-    ...fresh.sort(compareHotCandidates),
-    ...skipped,
+    ...preferredIds.flatMap((id) => byId.has(id) ? [byId.get(id)!] : []),
+    ...eligible.sort(compareHotCandidates),
   ];
   const selected: string[] = [];
   const selectedPostings = new Set<string>();
+  const selectedCompanies = new Set<string>();
   for (const row of candidates) {
     const key = jobPostingKey(row.job.url);
-    if (!key || !isHotCandidate(row) || blockedPostings.has(key) || selectedPostings.has(key)) continue;
+    const company = jobCompanyKey(row.job.company);
+    if (!key || !isHotCandidate(row) || blockedPostings.has(key) || selectedPostings.has(key)
+      || blockedCompanies.has(company) || selectedCompanies.has(company)) continue;
     selected.push(row.job.id);
     selectedPostings.add(key);
+    selectedCompanies.add(company);
     if (selected.length === HOT_LIMIT) break;
   }
   return selected;

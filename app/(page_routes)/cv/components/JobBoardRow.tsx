@@ -21,6 +21,8 @@ export function JobRow({
   number,
   state,
   hot,
+  archiveReason,
+  auditRank,
   open,
   onToggle,
   onToggleHot,
@@ -31,6 +33,8 @@ export function JobRow({
   number: number;
   state: ApplicationState;
   hot: boolean;
+  archiveReason?: string;
+  auditRank?: number;
   open: boolean;
   onToggle: () => void;
   onToggleHot: () => void;
@@ -38,12 +42,12 @@ export function JobRow({
   onApplicationChange: (patch: Partial<ApplicationState>) => void;
 }) {
   const filled = isFilledJob(job);
-  const canPin = isHotCandidate({ job, state });
+  const canPin = isHotCandidate({ job, state, archiveReason });
   return (
     <article className={`[content-visibility:auto] rounded-xl border bg-zinc-900/70 transition-colors ${hot ? "border-orange-500/50 hover:border-orange-400" : "border-zinc-800 hover:border-zinc-700"}`}>
       <div className="grid items-center gap-3 p-3 md:grid-cols-[42px_minmax(230px,1.4fr)_minmax(180px,0.9fr)_150px_auto]">
         <span className="text-center font-mono text-xs font-bold tabular-nums text-zinc-600">
-          {String(number).padStart(3, "0")}
+          {auditRank ? `#${auditRank}` : String(number).padStart(3, "0")}
         </span>
 
         <button type="button" onClick={onToggle} className="min-w-0 text-left">
@@ -60,8 +64,8 @@ export function JobRow({
                 Verify
               </span>
             ) : null}
-            <span title={job.ratingReason} className={`shrink-0 rounded px-1.5 py-0.5 font-mono text-[10px] font-bold tabular-nums ${ratingClass(job.rating10)}`}>
-              {job.rating10.toFixed(1)}/10
+            <span title={`Deterministic fit: ${job.ratingReason}`} className={`shrink-0 rounded px-1.5 py-0.5 font-mono text-[10px] font-bold tabular-nums ${ratingClass(job.rating10)}`}>
+              {Math.round(job.rating10 * 10)}% fit
             </span>
             {filled ? (
               <span className={`shrink-0 rounded px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide ${MATCH_CLASS[job.match]}`}>
@@ -71,12 +75,15 @@ export function JobRow({
           </div>
           <p className="mt-0.5 truncate text-xs text-zinc-400">{job.title || "Add the next verified opportunity"}</p>
           <p className="mt-1 truncate text-[10px] font-semibold uppercase tracking-wide text-zinc-600">{job.track}<span className="normal-case tracking-normal text-zinc-500"> · {job.ratingReason}</span></p>
+          {archiveReason ? <p className="mt-1 text-[11px] leading-snug text-amber-300">Archived: {archiveReason}</p> : null}
         </button>
 
         <div className="min-w-0">
           <p className="truncate text-xs text-zinc-400">
-            {job.location}{job.postedOn ? ` · Last seen ${job.postedOn}` : ""}
+            {job.location}
           </p>
+          <p className="mt-0.5 text-[10px] text-zinc-500">Posted: {job.postedOn || "Date not provided"}</p>
+          {job.lastSeen ? <p className="mt-0.5 text-[10px] text-zinc-500">Last checked: {job.lastSeen}</p> : null}
           {state.stage ? <p className="mt-0.5 truncate text-[11px] text-zinc-500">Next: {state.stage}</p> : null}
         </div>
 
@@ -90,11 +97,11 @@ export function JobRow({
         </select>
 
         <div className="flex items-center justify-end gap-1">
-          <button type="button" onClick={onToggleHot} disabled={!canPin && !hot} aria-pressed={hot} title={!canPin && !hot ? "Closed, seen, rejected, or archived jobs cannot be added to HOT" : hot ? "Skip for now and show the next job; returns only if needed to keep five" : "Prioritize this job in HOT"} aria-label={hot ? `Skip job ${number} in HOT for now` : `Mark job ${number} as HOT`} className={`inline-flex h-8 w-8 items-center justify-center rounded-lg border disabled:cursor-not-allowed disabled:opacity-40 ${hot ? "border-orange-500 bg-orange-500/15 text-orange-300" : "border-zinc-700 text-zinc-500 hover:border-orange-500 hover:text-orange-300"}`}>
+          <button type="button" onClick={onToggleHot} disabled={!canPin && !hot} aria-pressed={hot} title={!canPin && !hot ? archiveReason || "This job does not meet the October shortlist rules" : hot ? "Dismiss from HOT and move to Archive" : "Prioritize this eligible October job in HOT"} aria-label={hot ? `Dismiss job ${number} from HOT` : `Mark job ${number} as HOT`} className={`inline-flex h-8 w-8 items-center justify-center rounded-lg border disabled:cursor-not-allowed disabled:opacity-40 ${hot ? "border-orange-500 bg-orange-500/15 text-orange-300" : "border-zinc-700 text-zinc-500 hover:border-orange-500 hover:text-orange-300"}`}>
             <Flame size={14} />
           </button>
-          <label title={job.seen ? "Move back to active jobs" : "Mark as seen / old / completed"} className="inline-flex h-8 items-center gap-1 rounded-lg border border-zinc-700 px-2 text-[11px] font-semibold text-zinc-400 hover:border-teal-500 hover:text-teal-300">
-            <input type="checkbox" checked={Boolean(job.seen)} onChange={(event) => onJobChange({ seen: event.target.checked })} aria-label={job.seen ? `Restore job ${number} to active jobs` : `Mark job ${number} as seen, old, or completed`} className="h-3.5 w-3.5 accent-teal-500" />
+          <label title={job.seen ? "Clear seen mark; shortlist rules still apply" : "Mark as seen / old / completed"} className="inline-flex h-8 items-center gap-1 rounded-lg border border-zinc-700 px-2 text-[11px] font-semibold text-zinc-400 hover:border-teal-500 hover:text-teal-300">
+            <input type="checkbox" checked={Boolean(job.seen)} onChange={(event) => onJobChange({ seen: event.target.checked })} aria-label={job.seen ? `Clear seen mark for job ${number}` : `Mark job ${number} as seen, old, or completed`} className="h-3.5 w-3.5 accent-teal-500" />
             <span className="hidden xl:inline">Seen</span>
           </label>
           {job.cvPath ? <Link href={job.cvPath} title={`Open suggested CV: ${job.cvLabel ?? "CV"}`} className="inline-flex h-8 items-center gap-1 rounded-lg border border-zinc-700 px-2 text-[11px] font-semibold text-zinc-300 hover:border-teal-500 hover:text-teal-300"><FileText size={12} /> CV</Link> : null}
@@ -121,11 +128,17 @@ export function JobRow({
             <SourceFact label="Stack" value={job.stack || "Not provided"} />
             <SourceFact label="Work / engagement" value={[job.workMode, job.engagement].filter(Boolean).join(" · ") || "Not provided"} />
             <SourceFact label="CV suggestion" value={`${job.cvLabel ?? "No CV"} · ${job.matchReason}`} />
-            <SourceFact label="Source priority" value={[job.sourcePriority, job.matchScore !== undefined ? `Score ${job.matchScore}` : ""].filter(Boolean).join(" · ") || "Not ranked"} />
+            <SourceFact label="Source priority" value={job.sourcePriority || "Not ranked"} />
+            {job.matchScore !== undefined ? <SourceFact label="Legacy source score" value={String(job.matchScore)} /> : null}
             <SourceFact label="Location fit" value={job.locationFit || "Not classified"} />
             <SourceFact label="Contractor signal" value={job.contractorSignal || "Not classified"} />
             <SourceFact label="Review flag" value={job.preferenceExclusion || "None recorded"} />
-            <SourceFact label="Fit rating" value={`${job.rating10.toFixed(1)} / 10 · ${job.ratingReason}`} />
+            <SourceFact label="Deterministic fit" value={`${Math.round(job.rating10 * 10)}% · ${job.ratingReason}`} />
+            <SourceFact label="Posted date" value={job.postedOn || "Date not provided by source"} />
+            <SourceFact label="First found" value={job.firstSeen || "Not recorded"} />
+            <SourceFact label="Last checked" value={job.lastSeen || "Not recorded"} />
+            {auditRank ? <SourceFact label="Audit rank" value={`#${auditRank}`} /> : null}
+            {archiveReason ? <SourceFact label="Archive reason" value={archiveReason} /> : null}
           </div>
 
           <div className="mt-3 rounded-lg border border-zinc-800 bg-zinc-950/70 p-3 text-xs leading-relaxed text-zinc-400">

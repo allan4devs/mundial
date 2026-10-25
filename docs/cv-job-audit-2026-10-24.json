@@ -1,0 +1,5033 @@
+{
+  "scope": "Static catalog and initial application statuses; excludes browser-local history",
+  "total": 500,
+  "selected": 10,
+  "archived": 490,
+  "below50Fit": 129,
+  "reasonCounts": {
+    "Application history: applied": 46,
+    "Application history: rejected": 8,
+    "Application history: screening": 6,
+    "Missing company or posting link": 2,
+    "Company or posting already viewed / contacted": 28,
+    "Publication date unverified": 294,
+    "Below 50% deterministic fit": 94,
+    "Application history: assessment": 1,
+    "Listing closed": 2,
+    "Outside October 1–24, 2026": 9
+  },
+  "selectedRows": [
+    {
+      "rank": 1,
+      "id": "O26002",
+      "company": "CodeRoad",
+      "title": "Fullstack Developer (Python/ React)",
+      "fit": 90,
+      "postedOn": "2026-10-19",
+      "url": "https://job-boards.greenhouse.io/coderoad/jobs/4458046009",
+      "publicationEvidence": "https://job-boards.greenhouse.io/coderoad/jobs/4458046009",
+      "caveats": ""
+    },
+    {
+      "rank": 2,
+      "id": "O26001",
+      "company": "Truelogic",
+      "title": "Senior Full-Stack Engineer (Modern Backend + React) - Global Insights & Strategy",
+      "fit": 90,
+      "postedOn": "2026-10-13",
+      "url": "https://jobs.truelogic.io/jobs/9af508a7-c9ab-4634-954e-4ffa8126f7a8",
+      "publicationEvidence": "https://jobs.truelogic.io/jobs/9af508a7-c9ab-4634-954e-4ffa8126f7a8",
+      "caveats": ""
+    },
+    {
+      "rank": 3,
+      "id": "O26007",
+      "company": "Encora/Coforge",
+      "title": "Senior Full Stack AI Engineer (Solution Architecture)",
+      "fit": 85,
+      "postedOn": "2026-10-12",
+      "url": "https://job-boards.greenhouse.io/encora10/jobs/5263262007",
+      "publicationEvidence": "https://boards-api.greenhouse.io/v1/boards/encora10/jobs/5263262007",
+      "caveats": "Solution architecture, production agentic AI and STEM degree required"
+    },
+    {
+      "rank": 4,
+      "id": "O26003",
+      "company": "Improving",
+      "title": "Senior Full-Stack Engineer",
+      "fit": 80,
+      "postedOn": "2026-10-07",
+      "url": "https://www.getonbrd.com/jobs/programming/senior-full-stack-engineer-improving-remote",
+      "publicationEvidence": "https://www.getonbrd.com/jobs/programming/senior-full-stack-engineer-improving-remote",
+      "caveats": ""
+    },
+    {
+      "rank": 5,
+      "id": "O26010",
+      "company": "Total Performance Consulting",
+      "title": "Full Stack Web Developer",
+      "fit": 80,
+      "postedOn": "2026-10-06",
+      "url": "https://job-boards.greenhouse.io/perform-careers/jobs/4435248009",
+      "publicationEvidence": "https://boards-api.greenhouse.io/v1/boards/perform-careers/jobs/4435248009",
+      "caveats": "Employer lists LATAM but does not explicitly state remote mode; confirm before applying"
+    },
+    {
+      "rank": 6,
+      "id": "O26009",
+      "company": "Nortal",
+      "title": "(EG0072) Senior AI Engineer (Full Stack)",
+      "fit": 70,
+      "postedOn": "2026-10-21",
+      "url": "https://job-boards.greenhouse.io/nortal/jobs/5271111007",
+      "publicationEvidence": "https://boards-api.greenhouse.io/v1/boards/nortal/jobs/5271111007",
+      "caveats": "5-7+ years software engineering; 2+ years production LLM and 3+ years data engineering required"
+    },
+    {
+      "rank": 7,
+      "id": "O26004",
+      "company": "BNamericas",
+      "title": "Senior Full-Stack Engineer AI Native",
+      "fit": 70,
+      "postedOn": "2026-10-06",
+      "url": "https://www.getonbrd.com/jobs/programacion/senior-full-stack-engineer-ai-native-bnamericas-remote",
+      "publicationEvidence": "https://www.getonbrd.com/jobs/programacion/senior-full-stack-engineer-ai-native-bnamericas-remote",
+      "caveats": "8+ years and production LLM/agent systems required; frontend uses Python templates rather than React"
+    },
+    {
+      "rank": 8,
+      "id": "O26005",
+      "company": "Vetclaims.ai",
+      "title": "Senior Software Engineer",
+      "fit": 65,
+      "postedOn": "2026-10-24",
+      "url": "https://www.getonbrd.com/jobs/programacion/senior-software-engineer-vetclaims-ai-remote",
+      "publicationEvidence": "https://www.getonbrd.com/jobs/programacion/senior-software-engineer-vetclaims-ai-remote",
+      "caveats": ""
+    },
+    {
+      "rank": 9,
+      "id": "O26008",
+      "company": "Backblaze",
+      "title": "Software Engineer, Open Source AI",
+      "fit": 60,
+      "postedOn": "2026-10-12",
+      "url": "https://job-boards.greenhouse.io/backblaze/jobs/5442462008",
+      "publicationEvidence": "https://boards-api.greenhouse.io/v1/boards/backblaze/jobs/5442462008",
+      "caveats": "Open-source contribution and public repository ownership required; cloud-storage/AI integrations rather than full-stack product role"
+    },
+    {
+      "rank": 10,
+      "id": "O26006",
+      "company": "Zaelot",
+      "title": "Back-end Software Engineer",
+      "fit": 55,
+      "postedOn": "2026-10-07",
+      "url": "https://www.getonbrd.com/jobs/programming/backend-software-engineer-zaelot-remote-fbc2",
+      "publicationEvidence": "https://www.getonbrd.com/jobs/programming/backend-software-engineer-zaelot-remote-fbc2",
+      "caveats": "4+ years Python/Django; C1 English; on-call production ownership"
+    }
+  ],
+  "archivedRows": [
+    {
+      "id": "J0001",
+      "company": "Katapult Labs",
+      "title": "Senior Full-Stack Builder",
+      "fit": 65,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/katapult-labs/563c86bc-6af3-441e-9a31-07f270785144/application"
+    },
+    {
+      "id": "J0002",
+      "company": "Athena Works",
+      "title": "Mid-Senior Full-Stack Engineer — Java/Python + React, TypeScript, AWS",
+      "fit": 100,
+      "applicationStatus": "rejected",
+      "reason": "Application history: rejected",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "J0003",
+      "company": "Recruiter Outreach — Company Not Provided",
+      "title": "Backend Software Developer — .NET / AWS / Healthcare",
+      "fit": 50,
+      "applicationStatus": "screening",
+      "reason": "Application history: screening",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "J0004",
+      "company": "Bitso",
+      "title": "Matching software engineering role — exact title not recovered",
+      "fit": 60,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "J0005",
+      "company": "SearchAPI",
+      "title": "Matching software engineering role — exact title not recovered",
+      "fit": 60,
+      "applicationStatus": "draft",
+      "reason": "Missing company or posting link",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "J0006",
+      "company": "Stord",
+      "title": "Matching software engineering role — exact title not recovered",
+      "fit": 60,
+      "applicationStatus": "draft",
+      "reason": "Missing company or posting link",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "J0007",
+      "company": "Sezzle",
+      "title": "Senior Software Engineer (Chile)",
+      "fit": 50,
+      "applicationStatus": "draft",
+      "reason": "Company or posting already viewed / contacted",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/sezzle/jobs/6110211003"
+    },
+    {
+      "id": "J0008",
+      "company": "Sezzle",
+      "title": "Senior Software Engineer with Accounting Experience (LATAM)",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Company or posting already viewed / contacted",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/sezzle/jobs/7527765003"
+    },
+    {
+      "id": "J0009",
+      "company": "Gorilla Logic",
+      "title": "Senior AI Fullstack Engineer - SD",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://gorillalogic.bamboohr.com/careers/197"
+    },
+    {
+      "id": "J0010",
+      "company": "Gorilla Logic",
+      "title": "Senior Fullstack React/Kotlin Engineer - GP",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://gorillalogic.bamboohr.com/careers/195"
+    },
+    {
+      "id": "J0011",
+      "company": "Gorilla Logic",
+      "title": "Senior Fullstack Software Engineer (Python) - AA",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://gorillalogic.bamboohr.com/careers/194"
+    },
+    {
+      "id": "J0012",
+      "company": "ImagineX Consulting",
+      "title": "Senior Fullstack Engineer (React/Next.js + Java)",
+      "fit": 95,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://imaginexdigital.applytojob.com/apply/shMSJLuCY0/Senior-Fullstack-Engineer-ReactNextjs-Java"
+    },
+    {
+      "id": "J0013",
+      "company": "JBS Dev",
+      "title": "Senior Full Stack Software Developer (Costa Rica)",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/jbs-dev/b519194b-60b2-4240-b3c7-ce9b299390ef"
+    },
+    {
+      "id": "J0014",
+      "company": "Lumenalta",
+      "title": "Javascript Fullstack Engineer - Senior",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://lumenalta.com/jobs/senior-fullstack-javascript"
+    },
+    {
+      "id": "J0015",
+      "company": "Lumenalta",
+      "title": "Mid-Level Fullstack Python/React Engineer",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://lumenalta.com/jobs/python-engineer-mid-level-fullstack-python-react-engineer-557?applying=true"
+    },
+    {
+      "id": "J0016",
+      "company": "MOURI Tech",
+      "title": "Java Full Stack Developer - Costa Rica",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.mouritech.com/careers/latam-job-opening/"
+    },
+    {
+      "id": "J0017",
+      "company": "Newfire Global Partners",
+      "title": "Senior Full-Stack (Java/React)",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.newfireglobal.com/careers/senior-full-stack-java-react/"
+    },
+    {
+      "id": "J0018",
+      "company": "SimSpace",
+      "title": "Senior Fullstack Engineer",
+      "fit": 70,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/simspace-corporation/50ac6d17-fb1e-4803-b1b4-c27dda31fdb7"
+    },
+    {
+      "id": "J0019",
+      "company": "SimSpace",
+      "title": "Senior Software Engineer - Frontend (Attack & User Emulation)",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Company or posting already viewed / contacted",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/simspace-corporation/5ae1738f-95fc-4638-9751-518ca9366ee6"
+    },
+    {
+      "id": "J0020",
+      "company": "SimSpace",
+      "title": "Software Engineer - Fullstack",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Company or posting already viewed / contacted",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/simspace-corporation/52f15ecf-83d5-4421-9c34-0938cdb40212"
+    },
+    {
+      "id": "J0021",
+      "company": "SimSpace",
+      "title": "Software Engineer, Fullstack",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Company or posting already viewed / contacted",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/simspace-corporation/f174dcb1-6766-4620-a182-c81c848e4fdd"
+    },
+    {
+      "id": "J0022",
+      "company": "TransUnion",
+      "title": "Senior Full Stack Developer",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://transunion.wd5.myworkdayjobs.com/en-US/TransUnion/job/Senior-Full-Stack-Developer_19040270"
+    },
+    {
+      "id": "J0023",
+      "company": "We Are TIMS",
+      "title": "Senior Software Engineer (Full-Stack Java/React)",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.careers-page.com/we-are-tims/job/3WR5V65V"
+    },
+    {
+      "id": "J0024",
+      "company": "Bluelight Consulting",
+      "title": "Fullstack Senior Engineer with Python (Django) and React",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.lever.co/bluelightconsulting/3170bb69-da45-4614-8e5e-d95133d2b904/apply"
+    },
+    {
+      "id": "J0025",
+      "company": "Bluelight Consulting",
+      "title": "Senior Python/Flask+React Fullstack Engineer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.lever.co/bluelightconsulting/2b211c20-4fdc-415d-a7ff-90edf88d3587/apply"
+    },
+    {
+      "id": "J0026",
+      "company": "Coderio",
+      "title": "Sr Fullstack Engineer",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.lever.co/coderio/bedf8021-77a5-4835-8cf3-234f209cd61b/apply"
+    },
+    {
+      "id": "J0027",
+      "company": "Coderio",
+      "title": "Sr. Software Engineer - Java/AWS",
+      "fit": 50,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.lever.co/coderio/eaf16ac4-342f-4f9c-a92a-777fe6c24df0/apply"
+    },
+    {
+      "id": "J0028",
+      "company": "CodeRoad",
+      "title": "Lead Backend Java Developer",
+      "fit": 60,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/coderoad/jobs/4328679009"
+    },
+    {
+      "id": "J0029",
+      "company": "CodeRoad",
+      "title": "Senior FullStack Developer (Backend oriented)",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/coderoad/jobs/4405573009"
+    },
+    {
+      "id": "J0030",
+      "company": "CodeRoad",
+      "title": "Senior Java Developer",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/coderoad/jobs/4164227009"
+    },
+    {
+      "id": "J0031",
+      "company": "CodeRoad",
+      "title": "Senior React Engineer",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/coderoad/jobs/4328775009"
+    },
+    {
+      "id": "J0032",
+      "company": "CodeRoad",
+      "title": "Senior Software Engineer (Backend/Fullstack) — Reliability Focused",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/coderoad/jobs/4343239009"
+    },
+    {
+      "id": "J0033",
+      "company": "CSC Generation",
+      "title": "Senior Front End Engineer",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.lever.co/cscgeneration-2/922436c6-071f-42a0-bebc-0374fd4d8a86/apply"
+    },
+    {
+      "id": "J0034",
+      "company": "CSC Generation",
+      "title": "Senior Software Engineer, Ecommerce Web Applications",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.lever.co/cscgeneration-2/ba8590cf-9482-41da-8ccd-f18b6be5e50c/apply"
+    },
+    {
+      "id": "J0035",
+      "company": "Gorilla Logic",
+      "title": "Senior React Native Engineer - GP",
+      "fit": 45,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": null,
+      "url": "https://gorillalogic.bamboohr.com/careers/198"
+    },
+    {
+      "id": "J0036",
+      "company": "Lumenalta",
+      "title": "Senior React Developer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://lumenalta.com/jobs/react-engineer-senior-react-developer-114"
+    },
+    {
+      "id": "J0037",
+      "company": "Nortal",
+      "title": "Lead Frontend (JavaScript/TypeScript & React) Engineer",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/nortal/jobs/5129023007"
+    },
+    {
+      "id": "J0038",
+      "company": "Nortal",
+      "title": "Senior Fullstack (Python & React)",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/nortal/jobs/5221893007"
+    },
+    {
+      "id": "J0039",
+      "company": "Nortal",
+      "title": "Senior Fullstack Engineer (React, Node.js & C#)",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/nortal/jobs/5190323007"
+    },
+    {
+      "id": "J0040",
+      "company": "Nortal",
+      "title": "Senior Fullstack Engineer (Ruby on Rails & React)",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/nortal/jobs/5229212007"
+    },
+    {
+      "id": "J0041",
+      "company": "Nortal",
+      "title": "Senior Fullstack Software Engineer (React, Node.js & Python)",
+      "fit": 95,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/nortal/jobs/5210174007"
+    },
+    {
+      "id": "J0042",
+      "company": "Oowlish",
+      "title": "Senior Frontend Engineer (React)",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.lever.co/oowlish?commitment=Remote"
+    },
+    {
+      "id": "J0043",
+      "company": "Oowlish",
+      "title": "Senior Software Engineer (Full Stack | Node.js & React | AI Focus)",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.lever.co/oowlish/d56664b8-6091-4614-91d6-0f59b276c24d/apply"
+    },
+    {
+      "id": "J0044",
+      "company": "SimSpace",
+      "title": "Backend Senior Software Engineer (Attack & User Emulation)",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Company or posting already viewed / contacted",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/simspace-corporation/8b4e8d0b-b181-45fb-9813-652e0cdc953d/"
+    },
+    {
+      "id": "J0045",
+      "company": "SimSpace",
+      "title": "Senior Software Engineer, Backend",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Company or posting already viewed / contacted",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/simspace-corporation/b618a458-8976-4579-848d-22d66fc71d5d"
+    },
+    {
+      "id": "J0046",
+      "company": "Terrific",
+      "title": "Principal Engineer (LATAM)",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.lever.co/terrific-innovation/a43334c9-1513-4a1c-b1d5-6f55ff950c1c"
+    },
+    {
+      "id": "J0047",
+      "company": "Ubiminds",
+      "title": "Senior Full Stack Engineer .NET / React (577)",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Company or posting already viewed / contacted",
+      "postedOn": null,
+      "url": "https://jobs.lever.co/Ubiminds/fdd47065-9893-46c1-b224-8fda1a7e49a5"
+    },
+    {
+      "id": "J0048",
+      "company": "Ubiminds",
+      "title": "Senior Software Engineer - React + .NET (522)",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Company or posting already viewed / contacted",
+      "postedOn": null,
+      "url": "https://jobs.lever.co/Ubiminds/13b7a9a2-583c-40fa-969c-75ae827d0ec6/apply"
+    },
+    {
+      "id": "J0049",
+      "company": "Ubiminds",
+      "title": "Tech Lead - Sr. Software Engineer - Python + React (521)",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Company or posting already viewed / contacted",
+      "postedOn": null,
+      "url": "https://jobs.lever.co/Ubiminds/4c71433b-875b-406a-a0a4-b7ca19fb43f8"
+    },
+    {
+      "id": "J0050",
+      "company": "Gorilla Logic",
+      "title": "Senior Fullstack Software Engineer — Python",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://gorillalogic.bamboohr.com/careers/194"
+    },
+    {
+      "id": "J0051",
+      "company": "ImagineX Consulting",
+      "title": "Senior Fullstack Engineer — React/Next.js + Java",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://imaginexdigital.applytojob.com/apply/shMSJLuCY0/Senior-Fullstack-Engineer-ReactNextjs-Java"
+    },
+    {
+      "id": "J0052",
+      "company": "JBS Dev",
+      "title": "Senior Software Developer — Java",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/jbs-dev/b9bc55c3-3ad6-4422-a407-132bda0dfc89"
+    },
+    {
+      "id": "J0053",
+      "company": "Kambda",
+      "title": "Senior Software Engineer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.kambda.com/jobs/senior-software-engineer/"
+    },
+    {
+      "id": "J0054",
+      "company": "Newfire Global Partners",
+      "title": "Senior Full-Stack — Java/React",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.newfireglobal.com/careers/senior-full-stack-java-react/"
+    },
+    {
+      "id": "J0055",
+      "company": "Nortal",
+      "title": "Senior Fullstack Engineer — React/Node/Python",
+      "fit": 95,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/nortal/jobs/5210174007"
+    },
+    {
+      "id": "J0056",
+      "company": "We Are TIMS",
+      "title": "Senior Software Engineer — Java/React",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.careers-page.com/we-are-tims/job/3WR5V65V"
+    },
+    {
+      "id": "J0057",
+      "company": "Bluelight Consulting",
+      "title": "Senior Python/Flask + React Engineer",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.lever.co/bluelightconsulting/2b211c20-4fdc-415d-a7ff-90edf88d3587/apply"
+    },
+    {
+      "id": "J0058",
+      "company": "BYDREC",
+      "title": "Senior Full Stack Engineer",
+      "fit": 75,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": "https://bydrec.applytojob.com/apply/vGNqjRAVba/Full-Stack-Engineer-Senior-RemoteLATAM"
+    },
+    {
+      "id": "J0059",
+      "company": "CSC Generation",
+      "title": "Senior Software Engineer — Ecommerce Web Applications",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.lever.co/cscgeneration-2/ba8590cf-9482-41da-8ccd-f18b6be5e50c/apply"
+    },
+    {
+      "id": "J0060",
+      "company": "Drivn Technologies",
+      "title": "Senior Front-End Engineer",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.smartrecruiters.com/DrivnTechnologies/743999820576932-senior-front-end-engineer"
+    },
+    {
+      "id": "J0061",
+      "company": "First Factory",
+      "title": "Senior Full Stack Engineer — Java & React",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.firstfactory.com/jobs"
+    },
+    {
+      "id": "J0062",
+      "company": "FusionHit",
+      "title": "Senior Fullstack Software Engineer — Java",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://apply.workable.com/fusionhitjobs/"
+    },
+    {
+      "id": "J0063",
+      "company": "IT Accelerate",
+      "title": "Senior .NET/C# Engineer",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Company or posting already viewed / contacted",
+      "postedOn": null,
+      "url": "https://jobs.smartrecruiters.com/ITAccelerate/743999675905910-senior-net-c-engineer"
+    },
+    {
+      "id": "J0064",
+      "company": "OfficeSpace Software",
+      "title": "Lead Full Stack Software Engineer",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/officespacesoftware/jobs/5175972008"
+    },
+    {
+      "id": "J0065",
+      "company": "Oowlish",
+      "title": "Senior Full Stack Engineer — Node/React/AI",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.lever.co/oowlish/d56664b8-6091-4614-91d6-0f59b276c24d/apply"
+    },
+    {
+      "id": "J0066",
+      "company": "Praxent",
+      "title": "LATAM Software Engineer — React/Node",
+      "fit": 80,
+      "applicationStatus": "rejected",
+      "reason": "Application history: rejected",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/praxent/jobs/7732220003"
+    },
+    {
+      "id": "J0067",
+      "company": "ServiceNow",
+      "title": "Senior Applications Development Engineer",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.smartrecruiters.com/ServiceNow/744000145357064-senior-applications-development-engineer"
+    },
+    {
+      "id": "J0068",
+      "company": "SimSpace",
+      "title": "Senior Software Engineer — Frontend",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Company or posting already viewed / contacted",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/simspace-corporation/5ae1738f-95fc-4638-9751-518ca9366ee6"
+    },
+    {
+      "id": "J0069",
+      "company": "Snap Finance",
+      "title": "Software Developer III",
+      "fit": 60,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://snapfinance.wd1.myworkdayjobs.com/Snap_External_Careers/job/Alajuela/Software-Developer-III_R-2779"
+    },
+    {
+      "id": "J0070",
+      "company": "Software Mind",
+      "title": "Senior Backend Engineer",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Company or posting already viewed / contacted",
+      "postedOn": null,
+      "url": "https://jobs.smartrecruiters.com/SoftwareMind/744000150784772--8nw-senior-full-stack-engineer-python-aws-backend-focus-"
+    },
+    {
+      "id": "J0071",
+      "company": "Tebra",
+      "title": "Senior Software Engineer",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/tebra/jobs/4672607005"
+    },
+    {
+      "id": "J0072",
+      "company": "UA Talents",
+      "title": "Senior Backend Engineer",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.smartrecruiters.com/UATalents/743999842578591-senior-backend-engineer-for-kadmos"
+    },
+    {
+      "id": "J0073",
+      "company": "Viventium",
+      "title": "Senior Software Engineer — Full Stack Python",
+      "fit": 85,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": "https://portfoliojobs.llrpartners.com/companies/viventium/jobs/87872045-senior-software-engineer-full-stack-python"
+    },
+    {
+      "id": "J0074",
+      "company": "Wizdaa",
+      "title": "Senior React Native & React Engineer",
+      "fit": 40,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": null,
+      "url": "https://wizdaa.recruitee.com/o/senior-react-native-react-engineer-latam-1"
+    },
+    {
+      "id": "J0075",
+      "company": "3M",
+      "title": "Senior Software Developer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://3m.wd1.myworkdayjobs.com/Search"
+    },
+    {
+      "id": "J0076",
+      "company": "3Pillar Global",
+      "title": "Senior Python Software Engineer",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.3pillar.ai/careers/"
+    },
+    {
+      "id": "J0077",
+      "company": "Accenture",
+      "title": "Senior Full Stack Developer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.accenture.com/cr-en/careers/jobsearch"
+    },
+    {
+      "id": "J0078",
+      "company": "AgileEngine",
+      "title": "Senior Full Stack Engineer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://careers.agileengine.com/"
+    },
+    {
+      "id": "J0079",
+      "company": "Akamai",
+      "title": "Senior Software Engineer",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://akamaicareers.inflightcloud.com/"
+    },
+    {
+      "id": "J0080",
+      "company": "Align Technology",
+      "title": "Mid/Senior Java Developer",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.aligntech.com/"
+    },
+    {
+      "id": "J0081",
+      "company": "Amazon",
+      "title": "Software Development Engineer II",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.amazon.jobs/en/search"
+    },
+    {
+      "id": "J0082",
+      "company": "Applaudo Studios",
+      "title": "Senior Software Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://applaudostudios.com/careers/"
+    },
+    {
+      "id": "J0083",
+      "company": "Arkkosoft",
+      "title": "Senior Software Developer",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://arkkosoft.com/careers/"
+    },
+    {
+      "id": "J0084",
+      "company": "Automattic",
+      "title": "Senior Software Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://automattic.com/work-with-us/"
+    },
+    {
+      "id": "J0085",
+      "company": "Auxis",
+      "title": "Senior Application Developer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.auxis.com/careers/"
+    },
+    {
+      "id": "J0086",
+      "company": "Avenga",
+      "title": "Senior Full Stack Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.avenga.com/career/"
+    },
+    {
+      "id": "J0087",
+      "company": "BairesDev",
+      "title": "Senior React/Java Developer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.bairesdev.com/"
+    },
+    {
+      "id": "J0088",
+      "company": "Blankfactor",
+      "title": "Senior Full Stack Engineer",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://blankfactor.com/careers/"
+    },
+    {
+      "id": "J0089",
+      "company": "Bosch",
+      "title": "Senior Software Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.bosch.com/"
+    },
+    {
+      "id": "J0090",
+      "company": "Broadcom",
+      "title": "Senior Software Engineer",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://careers.broadcom.com/"
+    },
+    {
+      "id": "J0091",
+      "company": "Cafeto Software",
+      "title": "Senior Full Stack Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://cafeto.co/careers/"
+    },
+    {
+      "id": "J0092",
+      "company": "Canonical",
+      "title": "Senior Software Engineer",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://canonical.com/careers/all"
+    },
+    {
+      "id": "J0093",
+      "company": "Capgemini",
+      "title": "Senior Java Full Stack Developer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.capgemini.com/careers/join-capgemini/job-search/"
+    },
+    {
+      "id": "J0094",
+      "company": "CI&T",
+      "title": "Senior Software Developer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://ciandt.com/us/en-us/careers"
+    },
+    {
+      "id": "J0095",
+      "company": "Ciklum",
+      "title": "Senior Software Engineer",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.ciklum.com/careers"
+    },
+    {
+      "id": "J0096",
+      "company": "Cisco",
+      "title": "Senior Software Engineer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.cisco.com/jobs/SearchJobs/"
+    },
+    {
+      "id": "J0097",
+      "company": "Cloudbeds",
+      "title": "Senior Software Engineer — Workflow",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.cloudbeds.com/careers/"
+    },
+    {
+      "id": "J0098",
+      "company": "Cloudera",
+      "title": "Senior Software Engineer",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.cloudera.com/careers.html"
+    },
+    {
+      "id": "J0099",
+      "company": "Cloudflare",
+      "title": "Senior Software Engineer",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.cloudflare.com/careers/jobs/"
+    },
+    {
+      "id": "J0100",
+      "company": "Coforge",
+      "title": "Senior Software Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://careers.coforge.com/"
+    },
+    {
+      "id": "J0101",
+      "company": "Cognizant",
+      "title": "Senior Java Full Stack Developer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://careers.cognizant.com/global-en/jobs/"
+    },
+    {
+      "id": "J0102",
+      "company": "CommandLink",
+      "title": "Senior Software Engineer — Alerting Platform",
+      "fit": 85,
+      "applicationStatus": "rejected",
+      "reason": "Application history: rejected",
+      "postedOn": null,
+      "url": "https://www.commandlink.com/company/careers"
+    },
+    {
+      "id": "J0103",
+      "company": "CRG Solutions",
+      "title": "Senior AI Automation Engineer / Developer",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.crgsolutions.co/careers"
+    },
+    {
+      "id": "J0104",
+      "company": "Critical Mass",
+      "title": "Senior Full Stack Developer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.criticalmass.com/careers"
+    },
+    {
+      "id": "J0105",
+      "company": "Crossover",
+      "title": "Senior Software Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.crossover.com/jobs"
+    },
+    {
+      "id": "J0106",
+      "company": "DataArt",
+      "title": "Senior Java Developer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.dataart.team/vacancies"
+    },
+    {
+      "id": "J0107",
+      "company": "Databricks",
+      "title": "Senior Software Engineer",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.databricks.com/company/careers/open-positions"
+    },
+    {
+      "id": "J0108",
+      "company": "Deel",
+      "title": "Senior Full Stack Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.deel.com/careers/"
+    },
+    {
+      "id": "J0109",
+      "company": "Dev.Pro",
+      "title": "Senior Software Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://career.dev.pro/"
+    },
+    {
+      "id": "J0110",
+      "company": "Distillery",
+      "title": "Senior Full Stack Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://distillery.com/careers/"
+    },
+    {
+      "id": "J0111",
+      "company": "Docker",
+      "title": "Senior Software Engineer",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.docker.com/career-openings/"
+    },
+    {
+      "id": "J0112",
+      "company": "DXC Technology",
+      "title": "Senior Software Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://careers.dxc.com/global/en/search-results"
+    },
+    {
+      "id": "J0113",
+      "company": "Edify Software Consulting",
+      "title": "Senior Software Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://edify.cr/careers/"
+    },
+    {
+      "id": "J0114",
+      "company": "Elastic",
+      "title": "Senior Software Engineer",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.elastic.co/"
+    },
+    {
+      "id": "J0115",
+      "company": "Emerson",
+      "title": "Senior Software Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.emerson.com/en-us/careers"
+    },
+    {
+      "id": "J0116",
+      "company": "Encora",
+      "title": "Senior Java Full Stack Engineer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://careers.encora.com/"
+    },
+    {
+      "id": "J0117",
+      "company": "Endava",
+      "title": "Senior Java Developer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.endava.com/careers/jobs"
+    },
+    {
+      "id": "J0118",
+      "company": "EPAM",
+      "title": "Senior Java Developer",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.epam.com/careers/job-listings"
+    },
+    {
+      "id": "J0119",
+      "company": "Equifax",
+      "title": "Senior Software Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://careers.equifax.com/"
+    },
+    {
+      "id": "J0120",
+      "company": "Experian",
+      "title": "Senior Software Engineer — Java",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.smartrecruiters.com/Experian"
+    },
+    {
+      "id": "J0121",
+      "company": "Fiserv",
+      "title": "Senior Software Development Engineer",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.careers.fiserv.com/"
+    },
+    {
+      "id": "J0122",
+      "company": "FullStack Labs",
+      "title": "Senior Full Stack Engineer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.fullstack.com/careers"
+    },
+    {
+      "id": "J0123",
+      "company": "GFT Technologies",
+      "title": "Senior Java Developer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.gft.com/int/en/career"
+    },
+    {
+      "id": "J0124",
+      "company": "GitLab",
+      "title": "Senior Fullstack Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://about.gitlab.com/jobs/all-jobs/"
+    },
+    {
+      "id": "J0125",
+      "company": "Globant",
+      "title": "Senior Java Developer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://career.globant.com/"
+    },
+    {
+      "id": "J0126",
+      "company": "Grafana Labs",
+      "title": "Senior Software Engineer",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://grafana.com/about/careers/open-positions/"
+    },
+    {
+      "id": "J0127",
+      "company": "Growth Acceleration Partners",
+      "title": "Senior Full Stack Engineer",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://careers.growthaccelerationpartners.com/"
+    },
+    {
+      "id": "J0128",
+      "company": "GSB Solutions",
+      "title": "Senior Java Full Stack Developer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://gsbsolutions.com/careers/"
+    },
+    {
+      "id": "J0129",
+      "company": "HCLTech",
+      "title": "Senior Technical Lead — Java Full Stack",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.hcltech.com/careers"
+    },
+    {
+      "id": "J0130",
+      "company": "Hewlett Packard Enterprise",
+      "title": "Senior Software Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://careers.hpe.com/"
+    },
+    {
+      "id": "J0131",
+      "company": "Hitachi Solutions",
+      "title": "Senior Full Stack Developer",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://global.hitachi-solutions.com/careers/"
+    },
+    {
+      "id": "J0132",
+      "company": "HP Inc.",
+      "title": "Senior Software Developer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.hp.com/"
+    },
+    {
+      "id": "J0133",
+      "company": "Huenei",
+      "title": "Senior Java Full Stack Developer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.huenei.com/en/careers/"
+    },
+    {
+      "id": "J0134",
+      "company": "IBM",
+      "title": "Application Developer — Full Stack",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.ibm.com/careers/search"
+    },
+    {
+      "id": "J0135",
+      "company": "Improving",
+      "title": "Senior Software Engineer",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.improving.com/careers/"
+    },
+    {
+      "id": "J0136",
+      "company": "Infotree Global Solutions",
+      "title": "Senior Software Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.infotreeglobal.com/careers/"
+    },
+    {
+      "id": "J0137",
+      "company": "Intel",
+      "title": "Senior Software Application Engineer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.intel.com/en/search-jobs"
+    },
+    {
+      "id": "J0138",
+      "company": "Intertec International",
+      "title": "Senior Full Stack Developer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.intertecintl.com/careers/"
+    },
+    {
+      "id": "J0139",
+      "company": "Johnson Controls",
+      "title": "Senior Full Stack Software Engineer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.johnsoncontrols.com/"
+    },
+    {
+      "id": "J0140",
+      "company": "Konrad Group",
+      "title": "Senior Java Developer",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.konrad.com/careers"
+    },
+    {
+      "id": "J0141",
+      "company": "Koombea",
+      "title": "Senior Full Stack Developer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.koombea.com/careers/"
+    },
+    {
+      "id": "J0142",
+      "company": "Microsoft",
+      "title": "Senior Software Engineer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.careers.microsoft.com/global/en/search"
+    },
+    {
+      "id": "J0143",
+      "company": "Modus Create",
+      "title": "Senior Full Stack Engineer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://moduscreate.com/careers/"
+    },
+    {
+      "id": "J0144",
+      "company": "MongoDB",
+      "title": "Senior Software Engineer",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.mongodb.com/careers/jobs"
+    },
+    {
+      "id": "J0145",
+      "company": "Moody's",
+      "title": "Senior Software Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://careers.moodys.com/"
+    },
+    {
+      "id": "J0146",
+      "company": "N-iX",
+      "title": "Senior Java Engineer",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://careers.n-ix.com/"
+    },
+    {
+      "id": "J0147",
+      "company": "NaNLABS",
+      "title": "Senior Full Stack Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.nan-labs.com/careers"
+    },
+    {
+      "id": "J0148",
+      "company": "Nearsure",
+      "title": "Senior Full Stack Developer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://nearsure.com/en/careers/"
+    },
+    {
+      "id": "J0149",
+      "company": "Netskope",
+      "title": "Senior Software Engineer",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.netskope.com/company/careers/open-positions"
+    },
+    {
+      "id": "J0150",
+      "company": "Novacomp",
+      "title": "Senior Java Developer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.novacomp.net/careers/"
+    },
+    {
+      "id": "J0151",
+      "company": "NTT DATA",
+      "title": "Senior Java Developer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://careers.nttdata.com/"
+    },
+    {
+      "id": "J0152",
+      "company": "OpenText",
+      "title": "Senior Software Developer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://careers.opentext.com/"
+    },
+    {
+      "id": "J0153",
+      "company": "Palo Alto Networks",
+      "title": "Senior Software Engineer",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.paloaltonetworks.com/"
+    },
+    {
+      "id": "J0154",
+      "company": "Perficient",
+      "title": "Senior Java/React Developer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://careers.perficient.com/"
+    },
+    {
+      "id": "J0155",
+      "company": "Postman",
+      "title": "Senior Software Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.postman.com/company/careers/"
+    },
+    {
+      "id": "J0156",
+      "company": "Prodigious Latin America",
+      "title": "Senior Full Stack Developer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.prodigious.com/careers/"
+    },
+    {
+      "id": "J0157",
+      "company": "Publicis Sapient",
+      "title": "Senior Associate — Full Stack",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://careers.publicissapient.com/"
+    },
+    {
+      "id": "J0158",
+      "company": "Remote",
+      "title": "Senior Backend/Fullstack Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://remote.com/openings"
+    },
+    {
+      "id": "J0159",
+      "company": "Rootstack",
+      "title": "Senior Full Stack Developer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://rootstack.com/en/jobs"
+    },
+    {
+      "id": "J0160",
+      "company": "Smartsheet",
+      "title": "Senior Software Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.smartsheet.com/careers/jobs"
+    },
+    {
+      "id": "J0161",
+      "company": "SoftServe",
+      "title": "Senior Java Software Engineer",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://career.softserveinc.com/en-us/vacancies"
+    },
+    {
+      "id": "J0162",
+      "company": "Software Mind",
+      "title": "Senior Full Stack Engineer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Company or posting already viewed / contacted",
+      "postedOn": null,
+      "url": "https://softwaremind.com/career/"
+    },
+    {
+      "id": "J0163",
+      "company": "Solvd",
+      "title": "Senior Full Stack Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.solvd.com/careers"
+    },
+    {
+      "id": "J0164",
+      "company": "Sophilabs",
+      "title": "Senior Full Stack Engineer",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://sophilabs.com/careers"
+    },
+    {
+      "id": "J0165",
+      "company": "Sparq",
+      "title": "Senior Software Engineer",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.teamsparq.com/careers/"
+    },
+    {
+      "id": "J0166",
+      "company": "Splunk",
+      "title": "Senior Software Engineer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.splunk.com/en_us/careers/search-jobs.html"
+    },
+    {
+      "id": "J0167",
+      "company": "Stryker",
+      "title": "Senior Software Engineer — Full Stack",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://careers.stryker.com/"
+    },
+    {
+      "id": "J0168",
+      "company": "Superside",
+      "title": "Senior Full Stack Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://careers.superside.com/jobs"
+    },
+    {
+      "id": "J0169",
+      "company": "Svitla Systems",
+      "title": "Senior Full Stack Engineer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://svitla.com/career"
+    },
+    {
+      "id": "J0170",
+      "company": "Tek Experts",
+      "title": "Senior Software Engineer",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.tek-experts.com/careers/"
+    },
+    {
+      "id": "J0171",
+      "company": "Terminal",
+      "title": "Senior Software Engineer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.terminal.io/engineers"
+    },
+    {
+      "id": "J0172",
+      "company": "Thoughtworks",
+      "title": "Senior Software Developer",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.thoughtworks.com/careers/jobs"
+    },
+    {
+      "id": "J0173",
+      "company": "TradeStation",
+      "title": "Senior Software Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://careers.tradestation.com/positions"
+    },
+    {
+      "id": "J0174",
+      "company": "Unisys",
+      "title": "Senior Software Application Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.unisys.com/"
+    },
+    {
+      "id": "J0175",
+      "company": "UST",
+      "title": "Senior Java Full Stack Developer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.ust.com/en/careers"
+    },
+    {
+      "id": "J0176",
+      "company": "Valtech",
+      "title": "Senior Full Stack Developer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.valtech.com/careers/jobs/"
+    },
+    {
+      "id": "J0177",
+      "company": "Vention",
+      "title": "Senior Full Stack Engineer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://ventionteams.com/careers"
+    },
+    {
+      "id": "J0178",
+      "company": "Walmart Global Tech",
+      "title": "Java Technical Leader / Senior Developer",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://careers.walmart.com/technology/software-development-and-engineering"
+    },
+    {
+      "id": "J0179",
+      "company": "West Monroe",
+      "title": "Senior Software Engineer — AI Assets",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.westmonroe.com/careers/"
+    },
+    {
+      "id": "J0180",
+      "company": "Wind River",
+      "title": "Senior Software Engineer",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://careers.windriver.com/"
+    },
+    {
+      "id": "J0181",
+      "company": "Wizeline",
+      "title": "Senior Software Engineer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.wizeline.com/careers/"
+    },
+    {
+      "id": "J0182",
+      "company": "World Kinect",
+      "title": "Senior Software Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://careers.world-kinect.com/"
+    },
+    {
+      "id": "J0183",
+      "company": "Zscaler",
+      "title": "Senior Software Engineer",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.zscaler.com/careers/search"
+    },
+    {
+      "id": "J0184",
+      "company": "A.Team",
+      "title": "Senior Product Engineer",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.a.team/join"
+    },
+    {
+      "id": "J0185",
+      "company": "Andela",
+      "title": "Senior Software Engineer",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.andela.com/talent"
+    },
+    {
+      "id": "J0186",
+      "company": "Arc",
+      "title": "Senior Full Stack Developer",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://arc.dev/developer"
+    },
+    {
+      "id": "J0187",
+      "company": "Braintrust",
+      "title": "Senior Software Engineer",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://app.usebraintrust.com/talent"
+    },
+    {
+      "id": "J0188",
+      "company": "CloudDevs",
+      "title": "Senior Full Stack Developer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://clouddevs.com/apply/"
+    },
+    {
+      "id": "J0189",
+      "company": "Howdy",
+      "title": "Senior Full Stack Engineer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.howdy.com/developers"
+    },
+    {
+      "id": "J0190",
+      "company": "Lemon.io",
+      "title": "Senior Full Stack Developer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://lemon.io/developers/"
+    },
+    {
+      "id": "J0191",
+      "company": "Proxify",
+      "title": "Senior Full Stack Developer",
+      "fit": 90,
+      "applicationStatus": "assessment",
+      "reason": "Application history: assessment",
+      "postedOn": null,
+      "url": "https://career.proxify.io/"
+    },
+    {
+      "id": "J0192",
+      "company": "Revelo",
+      "title": "Senior Software Engineer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.revelo.com/developers"
+    },
+    {
+      "id": "J0193",
+      "company": "Tecla",
+      "title": "Senior Full Stack Engineer",
+      "fit": 85,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": "https://www.tecla.io/developers"
+    },
+    {
+      "id": "J0194",
+      "company": "Toptal",
+      "title": "Senior Software Engineer",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.toptal.com/talent/apply"
+    },
+    {
+      "id": "J0195",
+      "company": "Turing",
+      "title": "Senior Full Stack Developer",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.turing.com/jobs"
+    },
+    {
+      "id": "J0196",
+      "company": "X-Team",
+      "title": "Senior Developer",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://x-team.com/join/"
+    },
+    {
+      "id": "J0197",
+      "company": "BairesDev",
+      "title": "React Native Developer",
+      "fit": 35,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": null,
+      "url": "https://applicants.bairesdev.com/job/198/170248/apply?lang=en"
+    },
+    {
+      "id": "J0198",
+      "company": "BairesDev",
+      "title": "React/Next.js Developer",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://applicants.bairesdev.com/job/697/290619/apply?lang=en"
+    },
+    {
+      "id": "J0199",
+      "company": "Bluelight Consulting",
+      "title": "Full Stack and Backend NodeJS TypeScript/JavaScript Engineer (Senior)",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.lever.co/bluelightconsulting?location=Alajuela%2C%20Costa%20Rica"
+    },
+    {
+      "id": "J0200",
+      "company": "Bluelight Consulting",
+      "title": "React Engineer",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.lever.co/bluelightconsulting/525e5db8-f4d2-4c98-95a3-afc329e71b51/apply"
+    },
+    {
+      "id": "J0201",
+      "company": "Bluelight Consulting",
+      "title": "Senior Software Engineer (Python/Flask+React)",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.lever.co/bluelightconsulting?location=Alajuela%2C%20Costa%20Rica"
+    },
+    {
+      "id": "J0202",
+      "company": "Clara",
+      "title": "Senior Java Backend Engineer",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/clara"
+    },
+    {
+      "id": "J0203",
+      "company": "CodeRoad",
+      "title": "Senior Software Developer",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/coderoad/jobs/4254431009"
+    },
+    {
+      "id": "J0204",
+      "company": "Correlation One",
+      "title": "Senior Software Engineer (Frontend)",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/correlationone"
+    },
+    {
+      "id": "J0205",
+      "company": "CSC Generation",
+      "title": "Senior Backend Engineer - ERP Systems",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.lever.co/cscgeneration-2/0ef9eb9f-f2cc-42f4-b8f9-4a34a771b4e0"
+    },
+    {
+      "id": "J0206",
+      "company": "CSC Generation",
+      "title": "Senior Backend Engineer - Fulfillment Systems",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.lever.co/cscgeneration-2/9b766051-6816-40fa-8d01-4353520d89c2"
+    },
+    {
+      "id": "J0207",
+      "company": "CSC Generation",
+      "title": "Senior Full Stack Engineer",
+      "fit": 55,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.lever.co/cscgeneration-2?workplaceType=remote"
+    },
+    {
+      "id": "J0208",
+      "company": "Factored",
+      "title": "Senior Full-Stack Engineer (Python & React)",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/factored"
+    },
+    {
+      "id": "J0209",
+      "company": "Lumimeds",
+      "title": "Senior Frontend Engineer (Next.js & React, AI-Native)",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/lumimeds"
+    },
+    {
+      "id": "J0210",
+      "company": "Lumimeds",
+      "title": "Senior Full-Stack Engineer (Node.js & Next.js, AI-Native)",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/lumimeds"
+    },
+    {
+      "id": "J0211",
+      "company": "Private Identity",
+      "title": "Senior Full-Stack Engineer",
+      "fit": 30,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/privateidentity"
+    },
+    {
+      "id": "J0212",
+      "company": "redbee",
+      "title": "Fullstack Developer Senior | React.js",
+      "fit": 60,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.lever.co/redbee/bdd50769-d607-4e09-b3f5-bea8dcdebe7e"
+    },
+    {
+      "id": "J0213",
+      "company": "redbee",
+      "title": "Senior Fullstack Developer | Java",
+      "fit": 55,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.lever.co/redbee?workplaceType=remote"
+    },
+    {
+      "id": "N0001",
+      "company": "Lazer",
+      "title": "Senior Full Stack Engineer, Shopify",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/lazer/fe05e0fd-9b33-4d54-baa3-78c448de20c2"
+    },
+    {
+      "id": "N0002",
+      "company": "Trust Wallet",
+      "title": "Senior Full Stack Engineer (Web3 Product Innovation)",
+      "fit": 50,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/trust-wallet/bb177863-fd26-407f-9f4a-bf24586b7d02/"
+    },
+    {
+      "id": "N0003",
+      "company": "TheyDo",
+      "title": "Senior Full Stack Engineer",
+      "fit": 10,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/TheyDo/cb0b5017-2c14-401f-8e16-a066e461870d/"
+    },
+    {
+      "id": "N0004",
+      "company": "Deel",
+      "title": "Senior Full Stack Engineer - EMEA",
+      "fit": 10,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/deel/eef5c286-e727-4a37-ad15-629022a02950"
+    },
+    {
+      "id": "N0005",
+      "company": "Maze",
+      "title": "Senior Full Stack Product Engineer (TypeScript)",
+      "fit": 60,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/mazedesign/691d243c-5da9-4afe-b6dc-52794e4e0de1"
+    },
+    {
+      "id": "N0006",
+      "company": "Circle",
+      "title": "Senior Full-Stack Software Engineer, Discover",
+      "fit": 50,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/circle/92085ccf-568e-42ed-b707-3f08cce890a7"
+    },
+    {
+      "id": "N0007",
+      "company": "LumiMeds",
+      "title": "Senior Full-Stack Engineer (Node.js & Next.js, AI-Native)",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/lumimeds/jobs/4205631009"
+    },
+    {
+      "id": "N0008",
+      "company": "Atomix",
+      "title": "Senior Full Stack Engineer",
+      "fit": 45,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": null,
+      "url": "https://atomix.ai/careers/senior-full-stack-engineer1"
+    },
+    {
+      "id": "N0009",
+      "company": "Fueled",
+      "title": "Senior Full Stack Engineer",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/fueledcareers/jobs/5229441008"
+    },
+    {
+      "id": "N0010",
+      "company": "Arionkoder",
+      "title": "Senior Full Stack Engineer",
+      "fit": 10,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/arionkoder/jobs/5434509008"
+    },
+    {
+      "id": "N0012",
+      "company": "Homera Health",
+      "title": "Senior Full-Stack Engineer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/homera-health/6dd79eb5-24e7-44d3-9b1c-3daaa9dc7931"
+    },
+    {
+      "id": "N0014",
+      "company": "Encora",
+      "title": "Senior Full Stack Engineer (JavaScript/TypeScript)",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/encora10/jobs/5244573007"
+    },
+    {
+      "id": "N0015",
+      "company": "Encora",
+      "title": "Senior Full Stack AI Engineer (Solution Architecture)",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/encora10/jobs/5244244007"
+    },
+    {
+      "id": "N0016",
+      "company": "Trust Wallet",
+      "title": "Senior Full Stack Engineer - AI",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/trust-wallet/0118b24b-52e1-4849-b681-3c46ad6e1860"
+    },
+    {
+      "id": "N0017",
+      "company": "Wand",
+      "title": "Senior Full Stack Engineer, Frontend Focused",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/wand-ai/0c136a1a-2882-4943-940c-5ee37cf8c64b/"
+    },
+    {
+      "id": "N0018",
+      "company": "Zarenor",
+      "title": "Senior Full Stack Engineer",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.zarenor.com/careers"
+    },
+    {
+      "id": "N0019",
+      "company": "GeniusXLab",
+      "title": "Senior Full-Stack Engineer",
+      "fit": 55,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.geniusxlab.com/careers/senior-fullstack-engineer"
+    },
+    {
+      "id": "N0020",
+      "company": "Infisical",
+      "title": "Full Stack Engineer (Global)",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/infisical/f137cca7-0698-46f8-a944-f200ec8b61dd/"
+    },
+    {
+      "id": "N0021",
+      "company": "Railway",
+      "title": "Senior Full-Stack Engineer - Product",
+      "fit": 55,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/Railway/6ddcfe47-6cce-469b-ba6d-4f0e83440c9d"
+    },
+    {
+      "id": "N0022",
+      "company": "Infinity / Labrynth",
+      "title": "Fullstack Engineer - Labrynth",
+      "fit": 50,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/infinity-constellation/68ed612e-8e65-4a47-873e-92abb53f1d73"
+    },
+    {
+      "id": "N0023",
+      "company": "Hire Hangar",
+      "title": "Full Stack Engineer - Logistics SaaS",
+      "fit": 35,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/hirehangar/16926f1c-e39f-47a1-a703-5e6ebc96562b"
+    },
+    {
+      "id": "N0024",
+      "company": "Somnia",
+      "title": "Full-Stack Engineer",
+      "fit": 15,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/somnia/6809fbd3-836a-4a83-9faf-1a075394f0f5/"
+    },
+    {
+      "id": "N0026",
+      "company": "Truelogic",
+      "title": "Senior Full-stack Engineer (React/Node/TypeScript)",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/truelogic/a761f4be-d650-4ff1-ae70-f7bc2ff5728c"
+    },
+    {
+      "id": "N0027",
+      "company": "TOGGL",
+      "title": "Senior Full Stack Engineer",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/toggl/a4f3e1f5-753b-4af9-b068-86a09a164cd2"
+    },
+    {
+      "id": "N0028",
+      "company": "Careerswift",
+      "title": "Senior Full-Stack Engineer (Python / React / Next.js)",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/careerswift.ai/be85f8fd-f886-4220-a1a9-d105c3c4d10e"
+    },
+    {
+      "id": "N0029",
+      "company": "Anagram / Breeze",
+      "title": "Senior Full Stack Engineer",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/Anagram/8476884a-938d-4397-b131-d7a57b9dd48e"
+    },
+    {
+      "id": "N0030",
+      "company": "Circle",
+      "title": "Senior Full-Stack Software Engineer, AI Core",
+      "fit": 55,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/circle/77d16455-292a-4926-a182-58a9e2950c9c"
+    },
+    {
+      "id": "N0032",
+      "company": "CSC Generation",
+      "title": "Senior Full Stack Engineer, AI-Enabled Development",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.lever.co/cscgeneration-2/922436c6-071f-42a0-bebc-0374fd4d8a86"
+    },
+    {
+      "id": "N0035",
+      "company": "Brale",
+      "title": "Senior Full Stack Software Engineer",
+      "fit": 55,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/brale/fe21a877-f6a2-4617-94b1-00e9d423adc4"
+    },
+    {
+      "id": "N0038",
+      "company": "Bluelight Consulting",
+      "title": "Senior Python/Flask + React Fullstack Engineer",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://echojobs.io/job/bluelight-consulting-senior-python-flask-react-fullstack-engineer-remote-latin-america-pq605"
+    },
+    {
+      "id": "N0039",
+      "company": "Biodock",
+      "title": "Mid/Senior Fullstack Engineer",
+      "fit": 25,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": null,
+      "url": "https://www.ycombinator.com/companies/biodock/jobs/8DqWTLa-mid-senior-fullstack-engineer"
+    },
+    {
+      "id": "N0040",
+      "company": "LI.FI",
+      "title": "Senior Full Stack Engineer (Checkout)",
+      "fit": 25,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/li.fi/f2424ea0-1b71-4a0a-93d9-55b64a7aae70"
+    },
+    {
+      "id": "N0041",
+      "company": "Hyperlink",
+      "title": "Full-Stack Engineer (Mid-Senior, TypeScript)",
+      "fit": 45,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": null,
+      "url": "https://www.thehyperlink.io/jobs/full-stack-engineer-mid-senior-typescript"
+    },
+    {
+      "id": "N0042",
+      "company": "Frenely",
+      "title": "Node.js Full-Stack Engineer, Platform",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://frenely.com/careers"
+    },
+    {
+      "id": "N0043",
+      "company": "CodeAgento",
+      "title": "Senior Full-Stack Engineer",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://codeagento.com/careers"
+    },
+    {
+      "id": "N0044",
+      "company": "Umbrel",
+      "title": "Senior Full-Stack Engineer",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://umbrel.com/careers"
+    },
+    {
+      "id": "N0045",
+      "company": "Universal Technologies",
+      "title": "Senior Full-Stack Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://universal-technologies.com/careers/sr-fullstack/"
+    },
+    {
+      "id": "N0047",
+      "company": "Darwoft",
+      "title": "Senior Full Stack Developer (React & Python)",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://darwoft.careers-page.com/jobs/1bd6bbfa-39ea-4983-bd15-4a50983f98b1"
+    },
+    {
+      "id": "N0050",
+      "company": "OnHires (client undisclosed)",
+      "title": "Senior Fullstack (Node.js + React.js)",
+      "fit": 35,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/OnHires/2a91f0f7-a7d1-4d50-8caf-bcb7a72f42ef/"
+    },
+    {
+      "id": "N0051",
+      "company": "JetKVM (BuildJet)",
+      "title": "Senior Fullstack Engineer",
+      "fit": 20,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/jetkvm/735858ae-5362-426d-a01a-72299cabdc08"
+    },
+    {
+      "id": "N0052",
+      "company": "Playbook",
+      "title": "Senior Fullstack Engineer (ReactJS / Node.js)",
+      "fit": 35,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/Playbook/b02e76ac-9d70-41ca-9769-0e073c44976e"
+    },
+    {
+      "id": "N0053",
+      "company": "SunnyData",
+      "title": "Senior Fullstack Developer (Node + React)",
+      "fit": 50,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/SunnyData/82ed7978-9a0b-4da5-b0ff-0f8da20d8a21/"
+    },
+    {
+      "id": "N0054",
+      "company": "Peec AI",
+      "title": "Senior Fullstack Engineer (Remote)",
+      "fit": 60,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/peec/b7e2e30a-7500-4bab-96df-1b251b3a1785/"
+    },
+    {
+      "id": "N0056",
+      "company": "WorkHero",
+      "title": "Senior Software Engineer, AI Full Stack",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/workhero/89aac721-3aa3-4aeb-b20d-8891b1a84a61"
+    },
+    {
+      "id": "N0057",
+      "company": "Coperniq",
+      "title": "Senior Full-Stack Engineer",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/coperniq/2791caa3-e47a-44a6-a01a-c8d069c28c64"
+    },
+    {
+      "id": "N0058",
+      "company": "ThirstySprout (client confidential)",
+      "title": "Senior Fullstack Engineer (Vue, TypeScript)",
+      "fit": 55,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/thirstysprout/b6f9c767-0940-461f-bb79-a07ab3221cac"
+    },
+    {
+      "id": "N0059",
+      "company": "Moovx",
+      "title": "Senior Full-Stack Engineer",
+      "fit": 60,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/moovx/ddbf5604-3d50-431f-a1e6-bb7602a8087b"
+    },
+    {
+      "id": "N0060",
+      "company": "Nectir",
+      "title": "Senior Full Stack Engineer",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/nectir/b13e9b7a-82ce-4789-bb15-45009a142538"
+    },
+    {
+      "id": "N0061",
+      "company": "Agility IO",
+      "title": "Senior Full Stack Developer (NestJS, Next.js, PostgreSQL)",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Company or posting already viewed / contacted",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/agility.io/a92d8f85-e318-492f-862a-3e81573c08f5"
+    },
+    {
+      "id": "N0062",
+      "company": "Truelogic",
+      "title": "Senior Full-Stack Engineer (Node.js, Svelte, React)",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/truelogic/ee7ea2f4-0a5c-40ec-9894-8c97ae6bb15b"
+    },
+    {
+      "id": "N0063",
+      "company": "Katapult Labs",
+      "title": "Senior Full-Stack Builder",
+      "fit": 70,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/katapult-labs/563c86bc-6af3-441e-9a31-07f270785144"
+    },
+    {
+      "id": "N0064",
+      "company": "Truelogic",
+      "title": "Senior Full-Stack Engineer (React/Node), Real Estate",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/truelogic/0789e7ee-8070-4229-844c-9790db769b5a"
+    },
+    {
+      "id": "N0065",
+      "company": "Truelogic",
+      "title": "Senior Full-Stack Engineer (Elixir/React), Veterinary SaaS",
+      "fit": 50,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/truelogic/127dde15-3fb6-4ae2-ac03-4e7b3a738f76"
+    },
+    {
+      "id": "N0066",
+      "company": "South Geeks",
+      "title": "Senior Full-Stack Engineer (Node.js/TypeScript)",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/southgeeks/e0e15ab8-0d4e-47d3-a057-c50144efe9aa"
+    },
+    {
+      "id": "N0067",
+      "company": "LuxHyper",
+      "title": "Senior Full-Stack Engineer",
+      "fit": 40,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": null,
+      "url": "https://luxhyper.com/jobs/senior-fullstack-engineer-remote"
+    },
+    {
+      "id": "N0068",
+      "company": "SwiftGuest",
+      "title": "Senior Full-Stack Engineer",
+      "fit": 40,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": null,
+      "url": "https://swiftguest.com/careers/senior-fullstack-engineer/"
+    },
+    {
+      "id": "N0069",
+      "company": "Murano Global",
+      "title": "Senior Full Stack Engineer",
+      "fit": 20,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": null,
+      "url": "https://muranosoft.team/vacancy/5357"
+    },
+    {
+      "id": "N0070",
+      "company": "Truelogic",
+      "title": "Senior Full-Stack Engineer (Python/React or Vue), Investment",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/truelogic/560aa7b1-e8cd-43ad-8b96-f0c42513a96a"
+    },
+    {
+      "id": "N0071",
+      "company": "Agility IO",
+      "title": "Senior Full Stack Developer (TypeScript/React, Node/Python)",
+      "fit": 80,
+      "applicationStatus": "screening",
+      "reason": "Application history: screening",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/agility.io/2320547b-218a-4730-8c43-b55a85819c6b"
+    },
+    {
+      "id": "N0072",
+      "company": "MediaLab",
+      "title": "Senior Full Stack Engineer",
+      "fit": 50,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.lever.co/medialab/610a7b99-aa6d-4f19-bb96-dcbea387e933"
+    },
+    {
+      "id": "N0074",
+      "company": "Sigma Software",
+      "title": "Full Stack Developer (Python + React), E-commerce",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://career.sigma.software/vacancy/senior-full-stack-developer-29/"
+    },
+    {
+      "id": "N0075",
+      "company": "Bluelight Consulting",
+      "title": "Senior Python/Flask + React Fullstack Engineer",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.lever.co/bluelightconsulting/8cdd3adb-bf32-40d3-98e1-94a5889865ae"
+    },
+    {
+      "id": "N0076",
+      "company": "Kodalab",
+      "title": "Senior Full-Stack Engineer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://kodalab.ai/careers"
+    },
+    {
+      "id": "N0077",
+      "company": "Software Mind",
+      "title": "Senior Full-Stack Engineer (Python, AWS; Backend Focus)",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Company or posting already viewed / contacted",
+      "postedOn": null,
+      "url": "https://jobs.smartrecruiters.com/softwaremind/744000148920779--8nw-senior-full-stack-engineer-backend-focused-"
+    },
+    {
+      "id": "N0078",
+      "company": "Kubikware",
+      "title": "Senior Full-Stack Engineer (Node.js & React)",
+      "fit": 95,
+      "applicationStatus": "draft",
+      "reason": "Listing closed",
+      "postedOn": null,
+      "url": "https://kubikware.freshteam.com/jobs/UVIGv0czdJJW/full-stack-node-js-and-react-engineer-remote"
+    },
+    {
+      "id": "N0079",
+      "company": "Kubikware",
+      "title": "Senior Full-Stack Software Engineer (Python/Django)",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Listing closed",
+      "postedOn": null,
+      "url": "https://kubikware.freshteam.com/jobs/6TYxTDI0iI_3/senior-full-stack-software-engineer-python-django-remote"
+    },
+    {
+      "id": "N0080",
+      "company": "Moodsurf",
+      "title": "Senior Full-Stack Engineer",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.moodsurftech.com/careers/senior-full-stack-engineer"
+    },
+    {
+      "id": "N0081",
+      "company": "DevSavant",
+      "title": "Senior Fullstack Engineer (Cloud Cost Management)",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/devsavant/d8561ac7-4590-4c8e-9f0b-d59152fcfd7f"
+    },
+    {
+      "id": "N0082",
+      "company": "5Blue Software",
+      "title": "Senior Full Stack Engineer",
+      "fit": 45,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/5bluesoftware/eb14eac1-bf42-4b9d-8340-5b66252c7106/"
+    },
+    {
+      "id": "N0083",
+      "company": "Astreon AI Group",
+      "title": "Mid/Senior Full-Stack Engineer",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://cord.com/u/astreon-ai-group/jobs/426684-full-stack-engineer?category=edtech"
+    },
+    {
+      "id": "N0084",
+      "company": "Sigma Software",
+      "title": "Strong Middle/Senior Full-Stack Engineer",
+      "fit": 20,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": null,
+      "url": "https://career.sigma.software/vacancy/strong-middle-senior-full-stack-engineer-2/"
+    },
+    {
+      "id": "N0085",
+      "company": "TIMS (client confidential)",
+      "title": "Senior Software Engineer (Full-Stack Java/React)",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://remotenex.us/job/sr-software-engineer-bilinge-full-stack-javareact"
+    },
+    {
+      "id": "N0086",
+      "company": "We Built It",
+      "title": "Senior Full-Stack Engineer",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.getonbrd.com/jobs/programacion/senior-full-stack-engineer-we-built-it-remote"
+    },
+    {
+      "id": "N0087",
+      "company": "Cencosud via BC Tecnolog�a",
+      "title": "Full-Stack Developer (Node.js, TypeScript, React, AWS)",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.getonbrd.com/jobs/programming/fullstack-developer-node-js-typescript-react-aws-bc-tecnologia-remote"
+    },
+    {
+      "id": "N0088",
+      "company": "WiTi",
+      "title": "Full-Stack Developer (React, Next.js, Golang)",
+      "fit": 60,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.getonbrd.com/empleos/programacion/full-stack-developer-react-next-js-golang-witi-remote"
+    },
+    {
+      "id": "N0089",
+      "company": "Roadway Moving",
+      "title": "Senior Full-Stack Developer",
+      "fit": 55,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.getonbrd.com/empleos/programacion/senior-full-stack-developer-roadway-moving-remote"
+    },
+    {
+      "id": "N0090",
+      "company": "Niuro",
+      "title": "Senior Full-Stack Engineer (NestJS, Next.js, TypeScript, GCP)",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.getonbrd.com/jobs/programming/senior-full-stack-engineer-nestjs-nextjr-typescript-gcp-niuro-remote"
+    },
+    {
+      "id": "N0091",
+      "company": "Niuro",
+      "title": "Web App Full-Stack Engineer",
+      "fit": 50,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.getonbrd.com/empleos/programacion/web-app-full-stack-engineer-niuro-remote-4461"
+    },
+    {
+      "id": "N0092",
+      "company": "Bavardio",
+      "title": "Senior Full-Stack Engineer",
+      "fit": 50,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.getonbrd.com/jobs/programming/senior-full-stack-engineer-bavardio-remote"
+    },
+    {
+      "id": "N0094",
+      "company": "TalentCross (client confidential)",
+      "title": "Sr Fullstack Developer (React, Next, Node, Java)",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://talentcross.careers-page.com/jobs/7c697809-bcd8-44fc-b5e7-f2b0258fb4b1"
+    },
+    {
+      "id": "N0095",
+      "company": "Lynxiz",
+      "title": "Senior Full-Stack Developer",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://lynxiz.com/careers/senior-full-stack-developer"
+    },
+    {
+      "id": "N0096",
+      "company": "TeamStation",
+      "title": "Senior Software Engineer (Python/Django, React, Azure)",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.teamstation.dev/jobs/819/hiring-senior-software-engineer-pythondjango-react-azure-full-stack-lead-path"
+    },
+    {
+      "id": "N0097",
+      "company": "Techlumas",
+      "title": "Full Stack Engineer (React/Node)",
+      "fit": 75,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://techlumas.com/careers/full-stack-engineer-react-node-2/"
+    },
+    {
+      "id": "N0098",
+      "company": "Ruzora",
+      "title": "Fullstack TypeScript Engineer (React + Node)",
+      "fit": 75,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": "https://www.ruzora.com/jobs/fullstack-typescript-react-node"
+    },
+    {
+      "id": "N0099",
+      "company": "Truelogic",
+      "title": "Senior Full-Stack Engineer (TypeScript/AI Automation)",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/truelogic/6e4b2e7e-11aa-4a14-9b59-a20eb67587ef"
+    },
+    {
+      "id": "N0100",
+      "company": "MrBeast",
+      "title": "Senior Full Stack Engineer",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/mrbeastyoutube/jobs/6196323004"
+    },
+    {
+      "id": "N0101",
+      "company": "TIMS (client confidential)",
+      "title": "Senior Software Engineer (Full-Stack Java/React)",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://remotenex.us/job/sr-software-engineer-bilinge-full-stack-javareact?ref=latam"
+    },
+    {
+      "id": "N0102",
+      "company": "Azumo",
+      "title": "Fullstack JavaScript Developer",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://remotenex.us/job/fullstack-javascript-developer-latin-america-remote?src=azumo"
+    },
+    {
+      "id": "N0103",
+      "company": "Santex",
+      "title": "Senior React/Node Developer",
+      "fit": 35,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/santex/jobs/5750109004"
+    },
+    {
+      "id": "N0104",
+      "company": "Santex",
+      "title": "Principal Full-Stack Engineer (React + Python)",
+      "fit": 20,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/santex/jobs/5761845004"
+    },
+    {
+      "id": "N0105",
+      "company": "Newfire Global",
+      "title": "Senior/Lead Full Stack Engineer (Node.js + React)",
+      "fit": 60,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.newfireglobal.com/careers/senior-lead-full-stack-engineer-node-js-react/"
+    },
+    {
+      "id": "N0106",
+      "company": "Truelogic",
+      "title": "Senior Full-Stack Developer (Golang/React)",
+      "fit": 50,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/truelogic/7a79c4fc-f740-4a83-a412-6fb2da1d27a5"
+    },
+    {
+      "id": "N0107",
+      "company": "Truelogic",
+      "title": "Senior Full-Stack Engineer (HealthTech, Backend Heavy)",
+      "fit": 65,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/truelogic/71154626-7124-4c80-8f02-a7aa19eff83a"
+    },
+    {
+      "id": "N0108",
+      "company": "Truelogic",
+      "title": "Senior Full-Stack Engineer (Payroll)",
+      "fit": 50,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/truelogic/a9457260-c04d-4209-9a16-8ebba0a39131"
+    },
+    {
+      "id": "N0110",
+      "company": "Niuro",
+      "title": "Senior Full-Stack Engineer (Node.js, React, AI)",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.getonbrd.com/jobs/programming/full-stack-engineer-node-js-react-ai-niuro-remote"
+    },
+    {
+      "id": "N0111",
+      "company": "Sigma Software",
+      "title": "Strong Middle/Senior Full-Stack Engineer (Fintech)",
+      "fit": 20,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": null,
+      "url": "https://career.sigma.software/vacancy/strong-middle-senior-full-stack-engineer-2/?ref=fintech"
+    },
+    {
+      "id": "N0112",
+      "company": "Truelogic",
+      "title": "Senior Full-Stack Engineer (Payroll)",
+      "fit": 50,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/truelogic/a9457260-c04d-4209-9a16-8ebba0a39131?utm_source=archive"
+    },
+    {
+      "id": "N0113",
+      "company": "Sigma Software",
+      "title": "Strong Middle/Senior Full-Stack Engineer (Fintech)",
+      "fit": 20,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": null,
+      "url": "https://career.sigma.software/vacancy/strong-middle-senior-full-stack-engineer-2/?campaign=finance"
+    },
+    {
+      "id": "N0114",
+      "company": "WiTi",
+      "title": "Full-Stack Developer (React, Next.js, Golang)",
+      "fit": 55,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.getonbrd.com/empleos/programacion/full-stack-developer-react-next-js-golang-witi-remote?source=remote"
+    },
+    {
+      "id": "N0115",
+      "company": "We Built It",
+      "title": "Senior Full-Stack Engineer",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.getonbrd.com/jobs/programacion/senior-full-stack-engineer-we-built-it-remote?ref=archive"
+    },
+    {
+      "id": "N0116",
+      "company": "Sezzle",
+      "title": "Software Engineer II (LATAM)",
+      "fit": 60,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0117",
+      "company": "Ubiminds",
+      "title": "Solutions Developer | 6 or 12 month engagement (578)",
+      "fit": 30,
+      "applicationStatus": "rejected",
+      "reason": "Application history: rejected",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0118",
+      "company": "Infinity",
+      "title": "Senior Full Stack Engineer - Radiance",
+      "fit": 40,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0119",
+      "company": "Software Mind",
+      "title": "[8AI] Front-End Engineer (React)",
+      "fit": 40,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0120",
+      "company": "IT Accelerate",
+      "title": "Senior Java Engineer",
+      "fit": 50,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0121",
+      "company": "Confiz",
+      "title": "Role not stated in confirmation email",
+      "fit": 30,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0122",
+      "company": "Mahisoft",
+      "title": "Senior Full Stack Developer - All LATAM Countries - Fully Remote",
+      "fit": 65,
+      "applicationStatus": "rejected",
+      "reason": "Application history: rejected",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0123",
+      "company": "Tekton Labs",
+      "title": "Senior Backend Developer (Java)",
+      "fit": 45,
+      "applicationStatus": "rejected",
+      "reason": "Application history: rejected",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0124",
+      "company": "GovWorx",
+      "title": "Fullstack Engineer - LATAM",
+      "fit": 60,
+      "applicationStatus": "rejected",
+      "reason": "Application history: rejected",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0125",
+      "company": "Abstra",
+      "title": "Senior Java / React Full Stack Engineer",
+      "fit": 60,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0126",
+      "company": "Miratech",
+      "title": "Senior Full Stack Developer",
+      "fit": 40,
+      "applicationStatus": "rejected",
+      "reason": "Application history: rejected",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0127",
+      "company": "Spotter AI",
+      "title": "Remote FullStack Engineer - React + Django - AI Systems",
+      "fit": 50,
+      "applicationStatus": "screening",
+      "reason": "Application history: screening",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0128",
+      "company": "Zazmic",
+      "title": "Full Stack Developer (Python/React + AWS)",
+      "fit": 50,
+      "applicationStatus": "screening",
+      "reason": "Application history: screening",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0129",
+      "company": "Virtasant",
+      "title": "FullStack Developer",
+      "fit": 30,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0130",
+      "company": "micro1",
+      "title": "Sr. Full-Stack Software Engineer",
+      "fit": 40,
+      "applicationStatus": "screening",
+      "reason": "Application history: screening",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0131",
+      "company": "Lancesoft",
+      "title": "Role not stated",
+      "fit": 30,
+      "applicationStatus": "screening",
+      "reason": "Application history: screening",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0132",
+      "company": "Clera / Aleph",
+      "title": "Software Engineer",
+      "fit": 30,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0133",
+      "company": "SPECTRAFORCE",
+      "title": "Role not stated",
+      "fit": 30,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0134",
+      "company": "Franki",
+      "title": "Role not stated",
+      "fit": 30,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0135",
+      "company": "Devlane",
+      "title": "Sr. Fullstack Engineer (Python-Javascript/Typescript)",
+      "fit": 55,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0136",
+      "company": "Skilldlabs",
+      "title": "Frontend Developer (React, TypeScript) (Remote)",
+      "fit": 40,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0137",
+      "company": "SeedTrust",
+      "title": "Role not stated",
+      "fit": 30,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0138",
+      "company": "Oppizi",
+      "title": "Senior Product Engineer",
+      "fit": 40,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0139",
+      "company": "Jahnel Group",
+      "title": "Senior Full Stack Developer (Python / React)",
+      "fit": 60,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0140",
+      "company": "Zartis",
+      "title": "Senior Software Engineer (Backend Focused)",
+      "fit": 35,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0141",
+      "company": "Aubrant Digital",
+      "title": "Role not stated",
+      "fit": 30,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0142",
+      "company": "Airtm",
+      "title": "Senior Software Engineer (Full-stack Node + React)",
+      "fit": 60,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0143",
+      "company": "ThriveCart",
+      "title": "Role not stated",
+      "fit": 30,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0144",
+      "company": "AssureSoft",
+      "title": "Role not stated",
+      "fit": 30,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0145",
+      "company": "CommIT",
+      "title": "Senior Python+Django Engineer",
+      "fit": 50,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0146",
+      "company": "GreenSlate",
+      "title": "Senior Software Engineer II",
+      "fit": 40,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0147",
+      "company": "Playbypoint",
+      "title": "Senior Full Stack Software Engineer - Developer Platform (Remote LATAM)",
+      "fit": 65,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0148",
+      "company": "DaCodes",
+      "title": "Full Stack Engineer - TypeScript & AWS - English Required - Mexico & LATAM Only",
+      "fit": 60,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0149",
+      "company": "Cargill",
+      "title": "Software Engineer - Food",
+      "fit": 30,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0150",
+      "company": "McFadyen Digital",
+      "title": "Senior Full-Stack Developer - Remote",
+      "fit": 40,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0151",
+      "company": "The Bridge",
+      "title": "Javascript React Developer",
+      "fit": 40,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0152",
+      "company": "Find Job Latam",
+      "title": "Sr Full Stack Software Developer CD-02",
+      "fit": 40,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0153",
+      "company": "Customertimes",
+      "title": "JR-186652 Full stack Developer Senior",
+      "fit": 10,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0154",
+      "company": "Teravision Technologies",
+      "title": "Fullstack Developer",
+      "fit": 30,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0155",
+      "company": "Committed Staff",
+      "title": "Fullstack Developer",
+      "fit": 30,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0156",
+      "company": "Admios",
+      "title": "Role not stated",
+      "fit": 30,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0157",
+      "company": "GoFasti",
+      "title": "1146 - Fullstack Engineer",
+      "fit": 30,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0158",
+      "company": "Performa Centric",
+      "title": "Full Stack Developer",
+      "fit": 30,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": null,
+      "url": ""
+    },
+    {
+      "id": "N0159",
+      "company": "Ruzora",
+      "title": "Senior Full-Stack Python Engineer (React + Python)",
+      "fit": 95,
+      "applicationStatus": "draft",
+      "reason": "Company or posting already viewed / contacted",
+      "postedOn": null,
+      "url": "https://www.ruzora.com/jobs/fullstack-python-react"
+    },
+    {
+      "id": "N0160",
+      "company": "Truelogic",
+      "title": "Senior Full-Stack Engineer (Modern Backend + React) - Global Insights & Strategy",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/truelogic/9af508a7-c9ab-4634-954e-4ffa8126f7a8"
+    },
+    {
+      "id": "N0161",
+      "company": "iDelsoft",
+      "title": "Senior Software Engineer - Python/React (LATAM, Remote)",
+      "fit": 95,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.careers-page.com/idelsoft/job/6383VW7R"
+    },
+    {
+      "id": "N0162",
+      "company": "BairesDev",
+      "title": "Fullstack Python + React Engineer - Remote Work",
+      "fit": 95,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4480789703"
+    },
+    {
+      "id": "N0163",
+      "company": "Encora/Coforge",
+      "title": "Senior Full Stack Java + Angular Developer",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/encora10/jobs/5271910007"
+    },
+    {
+      "id": "N0164",
+      "company": "BairesDev",
+      "title": "Senior Python/React Fullstack Developer - Remote Work | REF#305579",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4476504128"
+    },
+    {
+      "id": "N0165",
+      "company": "Kake",
+      "title": "Senior Full Stack Engineer (Node/React) - Remote",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4473682404"
+    },
+    {
+      "id": "N0166",
+      "company": "BairesDev",
+      "title": "AI Full-stack Engineer (Next + Python) - Remote Work",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4481345876"
+    },
+    {
+      "id": "N0167",
+      "company": "ActiveProspect",
+      "title": "Senior Full Stack Product Engineer - Costa Rica",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4473180421"
+    },
+    {
+      "id": "N0168",
+      "company": "Coderio",
+      "title": "Senior Full-Stack Developer con experiencia en Node.js y React.js – Remoto (LATAM)",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4482709193"
+    },
+    {
+      "id": "N0169",
+      "company": "Avenue Code",
+      "title": "Sr Full Stack Engineer (Node + React)",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4467579274"
+    },
+    {
+      "id": "N0170",
+      "company": "FullStack",
+      "title": "Full Stack Engineer (Java + React) - Remote - Latin America",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4476381941"
+    },
+    {
+      "id": "N0171",
+      "company": "Proxify",
+      "title": "Senior Python Developer (Fullstack, BE-Heavy)",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Company or posting already viewed / contacted",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4418945535"
+    },
+    {
+      "id": "N0172",
+      "company": "Encora/Coforge",
+      "title": "Senior Java Engineer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/encora10/jobs/5265557007"
+    },
+    {
+      "id": "N0173",
+      "company": "Encora/Coforge",
+      "title": "Senior/Mid Full Stack Developer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/encora10/jobs/5271136007"
+    },
+    {
+      "id": "N0174",
+      "company": "Sezzle",
+      "title": "Senior Software Engineer Full stack (LATAM)",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Company or posting already viewed / contacted",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/sezzle/jobs/6605413003"
+    },
+    {
+      "id": "N0175",
+      "company": "BairesDev",
+      "title": "Senior Django Full Stack Engineer - Remote Work | REF#302830",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4462079370"
+    },
+    {
+      "id": "N0176",
+      "company": "Infinite Computer Solutions",
+      "title": "Full Stack Engineer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4476857215"
+    },
+    {
+      "id": "N0177",
+      "company": "Terminal",
+      "title": "Senior Fullstack Engineer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4480081391"
+    },
+    {
+      "id": "N0178",
+      "company": "Capgemini Engineering",
+      "title": "Senior Fullstack Engineer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4470401098"
+    },
+    {
+      "id": "N0179",
+      "company": "UST",
+      "title": "Full Stack Developer (Python)",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4445570286"
+    },
+    {
+      "id": "N0180",
+      "company": "Fujitsu",
+      "title": "Senior Python and Kafka Engineer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4476186301"
+    },
+    {
+      "id": "N0181",
+      "company": "Ampstek",
+      "title": "Senior Full Stack Engineer",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4481357728"
+    },
+    {
+      "id": "N0182",
+      "company": "BairesDev",
+      "title": "Django React Developer - Remote Work",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4480498104"
+    },
+    {
+      "id": "N0183",
+      "company": "Halo Media",
+      "title": "Senior Backend Developer Node/Python",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4449755285"
+    },
+    {
+      "id": "N0184",
+      "company": "Gorilla Logic",
+      "title": "Senior Fullstack Java Software Engineer - AA, Remote: Colombia - Costa Rica, Full Time",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://gorillalogic.bamboohr.com/careers/34"
+    },
+    {
+      "id": "N0185",
+      "company": "Software Mind",
+      "title": "[8FA] Senior Fullstack Software Engineer (Javascript, Typescript)",
+      "fit": 85,
+      "applicationStatus": "draft",
+      "reason": "Company or posting already viewed / contacted",
+      "postedOn": null,
+      "url": "https://jobs.smartrecruiters.com/SoftwareMind/744000155321629--8fa-senior-fullstack-software-engineer-javascript-typescript-"
+    },
+    {
+      "id": "N0186",
+      "company": "Able",
+      "title": "Senior Software Engineer (Full-Stack, JavaScript)",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/able/jobs/8390834002"
+    },
+    {
+      "id": "N0187",
+      "company": "Encora/Coforge",
+      "title": "Senior Backend Developer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://job-boards.greenhouse.io/encora10/jobs/5271899007"
+    },
+    {
+      "id": "N0188",
+      "company": "Truelogic",
+      "title": "Senior Back-End Developer (Java) - Global Insights & Strategy",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://jobs.ashbyhq.com/truelogic/7f318f1d-6787-4cbe-b20b-59169fcfd048"
+    },
+    {
+      "id": "N0189",
+      "company": "HCLTech",
+      "title": "Full Stack Lead Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4469068201"
+    },
+    {
+      "id": "N0190",
+      "company": "Publicis Re:Sources",
+      "title": "AI Full Stack Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4474316679"
+    },
+    {
+      "id": "N0191",
+      "company": "Veta Virtual",
+      "title": "Full Stack Software Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4478174076"
+    },
+    {
+      "id": "N0192",
+      "company": "FullStack",
+      "title": "Senior Full Stack Developer (Python + Vue.js) - Remote - Latin America",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4481794328"
+    },
+    {
+      "id": "N0193",
+      "company": "Emerson",
+      "title": "Senior Developer (Oracle SQL, Java, Spring Boot)",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4475831173"
+    },
+    {
+      "id": "N0194",
+      "company": "FullStack",
+      "title": "Forward Deployed Engineer (TypeScript + AI) - Remote - Latin America",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4482172822"
+    },
+    {
+      "id": "N0195",
+      "company": "BairesDev",
+      "title": "Full Stack AI Engineer - Remote Work",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4480715360"
+    },
+    {
+      "id": "N0196",
+      "company": "West Monroe",
+      "title": "Senior Software Engineer- Tech Ex AI Assets Foundry Team",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4461516108"
+    },
+    {
+      "id": "N0197",
+      "company": "Gorilla Logic",
+      "title": "Senior Forward Deployed Engineer, AI Platform - GP, Remote: Colombia - Costa Rica, Fulltime",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4466569887"
+    },
+    {
+      "id": "N0198",
+      "company": "Proxify",
+      "title": "Senior Backend Developer (Node.js / Nest.js)",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Company or posting already viewed / contacted",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4309391653"
+    },
+    {
+      "id": "N0199",
+      "company": "Kake",
+      "title": "Senior Backend Engineer (TypeScript/Python/C#) - Remote",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4474448321"
+    },
+    {
+      "id": "N0200",
+      "company": "Pearl",
+      "title": "Remote Full-Stack Software Engineer",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4478042631"
+    },
+    {
+      "id": "N0201",
+      "company": "FusionHit",
+      "title": "Senior Fullstack Software Engineer (Frontend-focused)",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4460107366"
+    },
+    {
+      "id": "N0202",
+      "company": "FusionHit",
+      "title": "Senior Fullstack Software Engineer (Backend-focused, Java/Spring Boot)",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4460123304"
+    },
+    {
+      "id": "N0203",
+      "company": "BC Tecnología",
+      "title": "Full-Stack Developer – Python / Fastapi / React",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Publication date unverified",
+      "postedOn": null,
+      "url": "https://www.linkedin.com/jobs/view/4465714539"
+    },
+    {
+      "id": "4460505048",
+      "company": "CI&T",
+      "title": "Senior Fullstack Developer (Java / React), Brazil",
+      "fit": 30,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-19",
+      "url": "https://br.linkedin.com/jobs/view/senior-fullstack-developer-java-react-brazil-at-ci-t-4460505048"
+    },
+    {
+      "id": "4438414943",
+      "company": "Thinkproject",
+      "title": "Senior Full-Stack Engineer (Java|React) (f/m/d)",
+      "fit": 30,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-17",
+      "url": "https://in.linkedin.com/jobs/view/senior-full-stack-engineer-java-react-f-m-d-at-thinkproject-4438414943"
+    },
+    {
+      "id": "4467130146",
+      "company": "ília",
+      "title": "SR Desenvolvimento Full Stack (Java e React)",
+      "fit": 30,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-16",
+      "url": "https://br.linkedin.com/jobs/view/sr-desenvolvimento-full-stack-java-e-react-at-%C3%ADlia-4467130146"
+    },
+    {
+      "id": "4465550982",
+      "company": "AYIGROUP",
+      "title": "Fullstack SR Java & React (Remoto-Solo ARG)",
+      "fit": 30,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-15",
+      "url": "https://ar.linkedin.com/jobs/view/fullstack-sr-java-react-remoto-solo-arg-at-ayigroup-4465550982"
+    },
+    {
+      "id": "4467219356",
+      "company": "EVOL (TSnet)",
+      "title": "Full Stack Semi Senior - Java / React / Node.js / Azure",
+      "fit": 40,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-14",
+      "url": "https://pe.linkedin.com/jobs/view/full-stack-semi-senior-java-react-node-js-azure-at-evol-tsnet-4467219356"
+    },
+    {
+      "id": "4464134076",
+      "company": "Softgic",
+      "title": "Desarrollador(a) Full Stack Semi Senior – Java + React",
+      "fit": 30,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-09",
+      "url": "https://co.linkedin.com/jobs/view/desarrollador-a-full-stack-semi-senior-%E2%80%93-java-%2B-react-at-softgic-4464134076"
+    },
+    {
+      "id": "4458220732",
+      "company": "Luxoft Singapore",
+      "title": "Senior Full Stack Developer (Java + React)",
+      "fit": 30,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-08-24",
+      "url": "https://sg.linkedin.com/jobs/view/senior-full-stack-developer-java-%2B-react-at-luxoft-singapore-4458220732"
+    },
+    {
+      "id": "4465881607",
+      "company": "Confiz",
+      "title": "Full Stack Developer - Level II (JAVA+REACT) Costa Rica ONLY",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Company or posting already viewed / contacted",
+      "postedOn": "2026-09-10",
+      "url": "https://cr.linkedin.com/jobs/view/full-stack-developer-level-ii-java%2Breact-costa-rica-only-at-confiz-4465881607"
+    },
+    {
+      "id": "4464695721",
+      "company": "BairesDev",
+      "title": "Senior Software Engineer (Java/React) - Remote Work | REF#294699",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Outside October 1–24, 2026",
+      "postedOn": "2026-09-08",
+      "url": "https://www.linkedin.com/jobs/view/senior-software-engineer-java-react-remote-work-ref%23294699-at-bairesdev-4464695721"
+    },
+    {
+      "id": "4442755427",
+      "company": "Emerson",
+      "title": "Full Stack Developer (Oracle APEX, Java & React)",
+      "fit": 80,
+      "applicationStatus": "draft",
+      "reason": "Outside October 1–24, 2026",
+      "postedOn": "2026-09-02",
+      "url": "https://cr.linkedin.com/jobs/view/full-stack-developer-oracle-apex-java-react-at-emerson-4442755427"
+    },
+    {
+      "id": "4469959138",
+      "company": "DBC Company",
+      "title": "Desenvolvimento Full-Stack (Java e React) Sênior (Vaga Afirmativa)",
+      "fit": 20,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-21",
+      "url": "https://br.linkedin.com/jobs/view/desenvolvimento-full-stack-java-e-react-s%C3%AAnior-vaga-afirmativa-at-dbc-company-4469959138"
+    },
+    {
+      "id": "4469225545",
+      "company": "Grupo Boticário",
+      "title": "Pessoa Desenvolvedora Fullstack React/Kotlin/Java Especialista I (RGM e Demanda)",
+      "fit": 10,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-18",
+      "url": "https://br.linkedin.com/jobs/view/pessoa-desenvolvedora-fullstack-react-kotlin-java-especialista-i-rgm-e-demanda-at-grupo-botic%C3%A1rio-4469225545"
+    },
+    {
+      "id": "4431460360",
+      "company": "Talent Connect",
+      "title": "Desarrollador Fullstack (Senior) – React / Java (Híbrido, CABA) | Ref. 183617-1",
+      "fit": 30,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-06-24",
+      "url": "https://ar.linkedin.com/jobs/view/desarrollador-fullstack-senior-%E2%80%93-react-java-h%C3%ADbrido-caba-ref-183617-1-at-talent-connect-4431460360"
+    },
+    {
+      "id": "4140301275",
+      "company": "BairesDev",
+      "title": "Full-Stack Java + React Technical Leader - Trabajo Remoto | REF#281061",
+      "fit": 20,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2025-01-31",
+      "url": "https://uy.linkedin.com/jobs/view/full-stack-java-%2B-react-technical-leader-trabajo-remoto-ref%23281061-at-bairesdev-4140301275"
+    },
+    {
+      "id": "4140196839",
+      "company": "BairesDev",
+      "title": "Full-Stack Java + React Technical Leader - Trabajo Remoto | REF#281065",
+      "fit": 40,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2025-01-31",
+      "url": "https://ar.linkedin.com/jobs/view/full-stack-java-%2B-react-technical-leader-trabajo-remoto-ref%23281065-at-bairesdev-4140196839"
+    },
+    {
+      "id": "4468177435",
+      "company": "GO | Tech Talent",
+      "title": "Senior React Developer (+Java)",
+      "fit": 25,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-21",
+      "url": "https://ar.linkedin.com/jobs/view/senior-react-developer-%2Bjava-at-go-tech-talent-4468177435"
+    },
+    {
+      "id": "4467134460",
+      "company": "dti digital",
+      "title": "Pessoa Desenvolvedora Fullstack - Java e React - Pleno (Modelo Híbrido)",
+      "fit": 20,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-16",
+      "url": "https://br.linkedin.com/jobs/view/pessoa-desenvolvedora-fullstack-java-e-react-pleno-modelo-h%C3%ADbrido-at-dti-digital-4467134460"
+    },
+    {
+      "id": "4464793739",
+      "company": "Aubay",
+      "title": "Ingénieur Full Stack Java/React (F/H) - Secteur de l'Energie",
+      "fit": 20,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-14",
+      "url": "https://fr.linkedin.com/jobs/view/ing%C3%A9nieur-full-stack-java-react-f-h-secteur-de-l-energie-at-aubay-4464793739"
+    },
+    {
+      "id": "4459060607",
+      "company": "BairesDev",
+      "title": "Senior Software Engineer (Java/React) - Remote Work | REF#302118",
+      "fit": 25,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-16",
+      "url": "https://co.linkedin.com/jobs/view/senior-software-engineer-java-react-remote-work-ref%23302118-at-bairesdev-4459060607"
+    },
+    {
+      "id": "4459051720",
+      "company": "BairesDev",
+      "title": "Senior Software Engineer (Java/React) - Remote Work | REF#302122",
+      "fit": 25,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-16",
+      "url": "https://br.linkedin.com/jobs/view/senior-software-engineer-java-react-remote-work-ref%23302122-at-bairesdev-4459051720"
+    },
+    {
+      "id": "4466071810",
+      "company": "Imagemaker",
+      "title": "Desarrollador Fullstack Java / React - CL",
+      "fit": 40,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-11",
+      "url": "https://cl.linkedin.com/jobs/view/desarrollador-fullstack-java-react-cl-at-imagemaker-4466071810"
+    },
+    {
+      "id": "4464824592",
+      "company": "Beyond Soluções",
+      "title": "Desenvolvedor(a) Fullstack Java/React Pleno (Híbrido)",
+      "fit": 20,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-11",
+      "url": "https://br.linkedin.com/jobs/view/desenvolvedor-a-fullstack-java-react-pleno-h%C3%ADbrido-at-beyond-solu%C3%A7%C3%B5es-4464824592"
+    },
+    {
+      "id": "4462841539",
+      "company": "Sopra Steria",
+      "title": "Développeur Fullstack Java React - Services Financiers - Ile-De-France",
+      "fit": 20,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-11",
+      "url": "https://fr.linkedin.com/jobs/view/d%C3%A9veloppeur-fullstack-java-react-services-financiers-ile-de-france-at-sopra-steria-4462841539"
+    },
+    {
+      "id": "4466040620",
+      "company": "Confiz",
+      "title": "Full Stack Level II - Java + React + AWS",
+      "fit": 30,
+      "applicationStatus": "draft",
+      "reason": "Company or posting already viewed / contacted",
+      "postedOn": "2026-09-10",
+      "url": "https://mx.linkedin.com/jobs/view/full-stack-level-ii-java-%2B-react-%2B-aws-at-confiz-4466040620"
+    },
+    {
+      "id": "4465629831",
+      "company": "Luxoft",
+      "title": "Full Stack Engineer - Java+React",
+      "fit": 20,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-10",
+      "url": "https://sg.linkedin.com/jobs/view/full-stack-engineer-java%2Breact-at-luxoft-4465629831"
+    },
+    {
+      "id": "4465347765",
+      "company": "Confiz",
+      "title": "Full Stack Developer - Level IV (JAVA/REACT/JAVASCRIPT) Mexico ONLY",
+      "fit": 20,
+      "applicationStatus": "draft",
+      "reason": "Company or posting already viewed / contacted",
+      "postedOn": "2026-09-09",
+      "url": "https://mx.linkedin.com/jobs/view/full-stack-developer-level-iv-java-react-javascript-mexico-only-at-confiz-4465347765"
+    },
+    {
+      "id": "4463507496",
+      "company": "The Adecco Group",
+      "title": "Programador full stack Java+React",
+      "fit": 20,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-08",
+      "url": "https://mx.linkedin.com/jobs/view/programador-full-stack-java%2Breact-at-the-adecco-group-4463507496"
+    },
+    {
+      "id": "4464908383",
+      "company": "BairesDev",
+      "title": "Senior Software Engineer (Java/React) - Remote Work | REF#303403",
+      "fit": 25,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-08",
+      "url": "https://ve.linkedin.com/jobs/view/senior-software-engineer-java-react-remote-work-ref%23303403-at-bairesdev-4464908383"
+    },
+    {
+      "id": "4464902609",
+      "company": "BairesDev",
+      "title": "Senior Software Engineer (Java/React) - Remote Work | REF#303402",
+      "fit": 25,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-08",
+      "url": "https://pe.linkedin.com/jobs/view/senior-software-engineer-java-react-remote-work-ref%23303402-at-bairesdev-4464902609"
+    },
+    {
+      "id": "4462081242",
+      "company": "BairesDev",
+      "title": "Senior Software Engineer (Java/React) - Remote Work | REF#302651",
+      "fit": 25,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-08",
+      "url": "https://ec.linkedin.com/jobs/view/senior-software-engineer-java-react-remote-work-ref%23302651-at-bairesdev-4462081242"
+    },
+    {
+      "id": "4462092022",
+      "company": "BairesDev",
+      "title": "Senior Software Engineer (Java/React) - Remote Work | REF#302653",
+      "fit": 25,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-08",
+      "url": "https://mx.linkedin.com/jobs/view/senior-software-engineer-java-react-remote-work-ref%23302653-at-bairesdev-4462092022"
+    },
+    {
+      "id": "4464907505",
+      "company": "BairesDev",
+      "title": "Senior Software Engineer (Java/React) - Remote Work | REF#303404",
+      "fit": 25,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-08",
+      "url": "https://hn.linkedin.com/jobs/view/senior-software-engineer-java-react-remote-work-ref%23303404-at-bairesdev-4464907505"
+    },
+    {
+      "id": "4459053664",
+      "company": "BairesDev",
+      "title": "Senior Software Engineer (Java/React) - Remote Work | REF#302119",
+      "fit": 25,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-08",
+      "url": "https://co.linkedin.com/jobs/view/senior-software-engineer-java-react-remote-work-ref%23302119-at-bairesdev-4459053664"
+    },
+    {
+      "id": "4462077311",
+      "company": "BairesDev",
+      "title": "Senior Software Engineer (Java/React) - Remote Work | REF#302654",
+      "fit": 25,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-08",
+      "url": "https://cl.linkedin.com/jobs/view/senior-software-engineer-java-react-remote-work-ref%23302654-at-bairesdev-4462077311"
+    },
+    {
+      "id": "4464902645",
+      "company": "BairesDev",
+      "title": "Senior Software Engineer (Java/React) - Remote Work | REF#303405",
+      "fit": 25,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-08",
+      "url": "https://mx.linkedin.com/jobs/view/senior-software-engineer-java-react-remote-work-ref%23303405-at-bairesdev-4464902645"
+    },
+    {
+      "id": "4460369895",
+      "company": "Imagemaker",
+      "title": "Desarrollador FullStack Java / React CL - Remote",
+      "fit": 20,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-08-28",
+      "url": "https://cl.linkedin.com/jobs/view/desarrollador-fullstack-java-react-cl-remote-at-imagemaker-4460369895"
+    },
+    {
+      "id": "4451252238",
+      "company": "Cresol Cooperativa",
+      "title": "Desenvolvedor de Sistemas | Fullstack | Java e React | Sistemas 4 | Riscos de Crédito | Cresol Confederação (Remoto)",
+      "fit": 20,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-08-14",
+      "url": "https://br.linkedin.com/jobs/view/desenvolvedor-de-sistemas-fullstack-java-e-react-sistemas-4-riscos-de-cr%C3%A9dito-cresol-confedera%C3%A7%C3%A3o-remoto-at-cresol-cooperativa-4451252238"
+    },
+    {
+      "id": "4451260187",
+      "company": "Cresol Cooperativa",
+      "title": "Desenvolvedor de Sistemas | Fullstack | Java e React | Sistemas 4 |Contábil | Cresol Confederação (Remoto)",
+      "fit": 20,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-08-14",
+      "url": "https://br.linkedin.com/jobs/view/desenvolvedor-de-sistemas-fullstack-java-e-react-sistemas-4-cont%C3%A1bil-cresol-confedera%C3%A7%C3%A3o-remoto-at-cresol-cooperativa-4451260187"
+    },
+    {
+      "id": "4456041005",
+      "company": "dti digital",
+      "title": "Pessoa Desenvolvedora Fullstack - Java e React - Sênior (Modelo Híbrido)",
+      "fit": 20,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-07-26",
+      "url": "https://br.linkedin.com/jobs/view/pessoa-desenvolvedora-fullstack-java-e-react-s%C3%AAnior-modelo-h%C3%ADbrido-at-dti-digital-4456041005"
+    },
+    {
+      "id": "4437372913",
+      "company": "BC Tecnología",
+      "title": "Desarrollador(a) Full-Stack Java/React",
+      "fit": 20,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-07-09",
+      "url": "https://cl.linkedin.com/jobs/view/desarrollador-a-full-stack-java-react-at-bc-tecnolog%C3%ADa-4437372913"
+    },
+    {
+      "id": "4436383112",
+      "company": "Capgemini",
+      "title": "Développeuse / Développeur Fullstack Java / React et/ou Angular",
+      "fit": 20,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-07-02",
+      "url": "https://fr.linkedin.com/jobs/view/d%C3%A9veloppeuse-d%C3%A9veloppeur-fullstack-java-react-et-ou-angular-at-capgemini-4436383112"
+    },
+    {
+      "id": "4431210719",
+      "company": "SoftDesign",
+      "title": "Software Engineer FullStack (Java/React)",
+      "fit": 20,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-06-23",
+      "url": "https://br.linkedin.com/jobs/view/software-engineer-fullstack-java-react-at-softdesign-4431210719"
+    },
+    {
+      "id": "4413159814",
+      "company": "Confiz",
+      "title": "Java + React Full Stack Engineer Level II (Production Experience Required)",
+      "fit": 30,
+      "applicationStatus": "draft",
+      "reason": "Company or posting already viewed / contacted",
+      "postedOn": "2026-05-11",
+      "url": "https://mx.linkedin.com/jobs/view/java-%2B-react-full-stack-engineer-level-ii-production-experience-required-at-confiz-4413159814"
+    },
+    {
+      "id": "4408816705",
+      "company": "Scalepex",
+      "title": "Mid Full Stack Developer - React & Java - remote ONLY MEXICO",
+      "fit": 30,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-04-11",
+      "url": "https://mx.linkedin.com/jobs/view/mid-full-stack-developer-react-java-remote-only-mexico-at-scalepex-4408816705"
+    },
+    {
+      "id": "4291376199",
+      "company": "Turtle Trax S.A.",
+      "title": "Full Stack Mid Java/React",
+      "fit": 30,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2025-08-26",
+      "url": "https://mx.linkedin.com/jobs/view/full-stack-mid-java-react-at-turtle-trax-s-a-4291376199"
+    },
+    {
+      "id": "4290995215",
+      "company": "Confiz",
+      "title": "Software Engineer Level III - Full Stack (Java + React)",
+      "fit": 30,
+      "applicationStatus": "draft",
+      "reason": "Company or posting already viewed / contacted",
+      "postedOn": "2025-08-25",
+      "url": "https://mx.linkedin.com/jobs/view/software-engineer-level-iii-full-stack-java-%2B-react-at-confiz-4290995215"
+    },
+    {
+      "id": "4212327820",
+      "company": "Capgemini",
+      "title": "Développeuse / Développeur Fullstack Java / React sénior",
+      "fit": 20,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2025-04-22",
+      "url": "https://fr.linkedin.com/jobs/view/d%C3%A9veloppeuse-d%C3%A9veloppeur-fullstack-java-react-s%C3%A9nior-at-capgemini-4212327820"
+    },
+    {
+      "id": "4449096166",
+      "company": "BairesDev",
+      "title": "Senior Software Engineer (Java/React) - Remote Work | REF#299768",
+      "fit": 25,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-08-04",
+      "url": "https://mx.linkedin.com/jobs/view/senior-software-engineer-java-react-remote-work-ref%23299768-at-bairesdev-4449096166"
+    },
+    {
+      "id": "4449082665",
+      "company": "BairesDev",
+      "title": "Senior Software Engineer (Java/React) - Remote Work | REF#299767",
+      "fit": 25,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-08-04",
+      "url": "https://br.linkedin.com/jobs/view/senior-software-engineer-java-react-remote-work-ref%23299767-at-bairesdev-4449082665"
+    },
+    {
+      "id": "4367649613",
+      "company": "WPS Digital",
+      "title": "Software Engineer Sênior / Tech Lead (Java | React | Python | Automação & IA)",
+      "fit": 25,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-01-28",
+      "url": "https://br.linkedin.com/jobs/view/software-engineer-s%C3%AAnior-tech-lead-java-react-python-automa%C3%A7%C3%A3o-ia-at-wps-digital-4367649613"
+    },
+    {
+      "id": "4469112851",
+      "company": "Sparq",
+      "title": "Senior Lead Full Stack Engineer (.NET/Vue)",
+      "fit": 50,
+      "applicationStatus": "draft",
+      "reason": "Outside October 1–24, 2026",
+      "postedOn": "2026-09-18",
+      "url": "https://cr.linkedin.com/jobs/view/senior-lead-full-stack-engineer-net-vue-at-sparq-4469112851"
+    },
+    {
+      "id": "4309384407",
+      "company": "Proxify",
+      "title": "Senior Fullstack Developer",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Company or posting already viewed / contacted",
+      "postedOn": "2026-09-14",
+      "url": "https://cr.linkedin.com/jobs/view/senior-fullstack-developer-at-proxify-4309384407"
+    },
+    {
+      "id": "4464595819",
+      "company": "Gorilla Logic",
+      "title": "Senior Fullstack React/Kotlin Engineer - GP, Remote: Colombia - Costa Rica, Fulltime",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Outside October 1–24, 2026",
+      "postedOn": "2026-09-10",
+      "url": "https://cr.linkedin.com/jobs/view/senior-fullstack-react-kotlin-engineer-gp-remote-colombia-costa-rica-fulltime-at-gorilla-logic-4464595819"
+    },
+    {
+      "id": "4459424094",
+      "company": "LPS",
+      "title": "Senior Full Stack Software Engineer",
+      "fit": 10,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-19",
+      "url": "https://br.linkedin.com/jobs/view/senior-full-stack-software-engineer-at-lps-4459424094"
+    },
+    {
+      "id": "4466881793",
+      "company": "Manulife",
+      "title": "Senior Full-Stack Software Engineer",
+      "fit": 10,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-16",
+      "url": "https://ca.linkedin.com/jobs/view/senior-full-stack-software-engineer-at-manulife-4466881793"
+    },
+    {
+      "id": "4469809825",
+      "company": "Bluelight",
+      "title": "Senior Python/Flask+React Fullstack Engineer - Remote, Latin America",
+      "fit": 90,
+      "applicationStatus": "draft",
+      "reason": "Outside October 1–24, 2026",
+      "postedOn": "2026-08-26",
+      "url": "https://cr.linkedin.com/jobs/view/senior-python-flask%2Breact-fullstack-engineer-remote-latin-america-at-bluelight-4469809825"
+    },
+    {
+      "id": "4466788890",
+      "company": "Xe.com",
+      "title": "Full Stack Engineer (Senior)",
+      "fit": 10,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-14",
+      "url": "https://cl.linkedin.com/jobs/view/full-stack-engineer-senior-at-xe-com-4466788890"
+    },
+    {
+      "id": "4454346102",
+      "company": "Appnovation",
+      "title": "Sr. Full-Stack Developer, AI Design-to-Dev",
+      "fit": 70,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": "2026-08-25",
+      "url": "https://cr.linkedin.com/jobs/view/sr-full-stack-developer-ai-design-to-dev-at-appnovation-4454346102"
+    },
+    {
+      "id": "4457109803",
+      "company": "CookUnity",
+      "title": "Senior Full Stack Engineer, Revenue Engine",
+      "fit": 65,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": "2026-08-24",
+      "url": "https://www.linkedin.com/jobs/view/senior-full-stack-engineer-revenue-engine-at-cookunity-4457109803"
+    },
+    {
+      "id": "4447381790",
+      "company": "Konrad",
+      "title": "Senior Full Stack Developer",
+      "fit": 70,
+      "applicationStatus": "applied",
+      "reason": "Application history: applied",
+      "postedOn": "2026-08-05",
+      "url": "https://cr.linkedin.com/jobs/view/senior-full-stack-developer-at-konrad-4447381790"
+    },
+    {
+      "id": "4433067654",
+      "company": "Lazer Technologies",
+      "title": "Senior Full Stack Engineer, Shopify",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Outside October 1–24, 2026",
+      "postedOn": "2026-06-25",
+      "url": "https://cr.linkedin.com/jobs/view/senior-full-stack-engineer-shopify-at-lazer-technologies-4433067654"
+    },
+    {
+      "id": "4382767942",
+      "company": "Concentrix",
+      "title": "SaaS Solution Architect",
+      "fit": 40,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-20",
+      "url": "https://cr.linkedin.com/jobs/view/saas-solution-architect-at-concentrix-4382767942"
+    },
+    {
+      "id": "4465699483",
+      "company": "Ford México",
+      "title": "Senior Full Stack Cloud Engineer",
+      "fit": 10,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-10",
+      "url": "https://mx.linkedin.com/jobs/view/senior-full-stack-cloud-engineer-at-ford-m%C3%A9xico-4465699483"
+    },
+    {
+      "id": "4463086888",
+      "company": "EY",
+      "title": "Senior Full Stack Engineer | Java & Angular",
+      "fit": 20,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-10",
+      "url": "https://br.linkedin.com/jobs/view/senior-full-stack-engineer-java-angular-at-ey-4463086888"
+    },
+    {
+      "id": "4465038863",
+      "company": "CI&T",
+      "title": "Senior Software Developer Fullstack - Kotlin/Next.js (React/TypeScript), Brazil",
+      "fit": 15,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-09",
+      "url": "https://br.linkedin.com/jobs/view/senior-software-developer-fullstack-kotlin-next-js-react-typescript-brazil-at-ci-t-4465038863"
+    },
+    {
+      "id": "4469105988",
+      "company": "Sparq",
+      "title": "Principal Solutions Architect",
+      "fit": 40,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-18",
+      "url": "https://cr.linkedin.com/jobs/view/principal-solutions-architect-at-sparq-4469105988"
+    },
+    {
+      "id": "4469273011",
+      "company": "NETCOM Business Contact Center",
+      "title": "Solution Architect",
+      "fit": 40,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-18",
+      "url": "https://cr.linkedin.com/jobs/view/solution-architect-at-netcom-business-contact-center-4469273011"
+    },
+    {
+      "id": "4462553270",
+      "company": "Topaz",
+      "title": "Developer Sr Analyst - FullStack",
+      "fit": 10,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-08",
+      "url": "https://co.linkedin.com/jobs/view/developer-sr-analyst-fullstack-at-topaz-4462553270"
+    },
+    {
+      "id": "4464085451",
+      "company": "Xe.com",
+      "title": "Full Stack Software Engineer (Senior)",
+      "fit": 10,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-07",
+      "url": "https://cl.linkedin.com/jobs/view/full-stack-software-engineer-senior-at-xe-com-4464085451"
+    },
+    {
+      "id": "4457008944",
+      "company": "AspenView Technology Partners",
+      "title": "Full Stack Engineer",
+      "fit": 60,
+      "applicationStatus": "draft",
+      "reason": "Outside October 1–24, 2026",
+      "postedOn": "2026-09-11",
+      "url": "https://www.linkedin.com/jobs/view/full-stack-engineer-at-aspenview-technology-partners-4457008944"
+    },
+    {
+      "id": "4465120041",
+      "company": "Deloitte",
+      "title": "Full-Stack Web Developer, Specialist Manager",
+      "fit": 20,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-11",
+      "url": "https://cr.linkedin.com/jobs/view/full-stack-web-developer-specialist-manager-at-deloitte-4465120041"
+    },
+    {
+      "id": "4389953163",
+      "company": "Brex",
+      "title": "Senior Software Engineer, Full Stack",
+      "fit": 10,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-06",
+      "url": "https://br.linkedin.com/jobs/view/senior-software-engineer-full-stack-at-brex-4389953163"
+    },
+    {
+      "id": "4461402325",
+      "company": "Getdata (CL)",
+      "title": "Desarrollador Full Stack Ssr",
+      "fit": 10,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-04",
+      "url": "https://cl.linkedin.com/jobs/view/desarrollador-full-stack-ssr-at-getdata-cl-4461402325"
+    },
+    {
+      "id": "4460795246",
+      "company": "Minsait",
+      "title": "Programador full stack senior",
+      "fit": 10,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-04",
+      "url": "https://pe.linkedin.com/jobs/view/programador-full-stack-senior-at-minsait-4460795246"
+    },
+    {
+      "id": "4432715446",
+      "company": "UST",
+      "title": "Java AWS Full Stack Software Engineer",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Outside October 1–24, 2026",
+      "postedOn": "2026-09-08",
+      "url": "https://cr.linkedin.com/jobs/view/java-aws-full-stack-software-engineer-at-ust-4432715446"
+    },
+    {
+      "id": "4461690488",
+      "company": "Caseware",
+      "title": "Fullstack Senior Software Developer",
+      "fit": 10,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-03",
+      "url": "https://co.linkedin.com/jobs/view/fullstack-senior-software-developer-at-caseware-4461690488"
+    },
+    {
+      "id": "4446916769",
+      "company": "CSC Generation",
+      "title": "Senior Software Engineer, Ecommerce Web Applications (Costa Rica)",
+      "fit": 60,
+      "applicationStatus": "draft",
+      "reason": "Outside October 1–24, 2026",
+      "postedOn": "2026-09-11",
+      "url": "https://cr.linkedin.com/jobs/view/senior-software-engineer-ecommerce-web-applications-costa-rica-at-csc-generation-4446916769"
+    },
+    {
+      "id": "4451456365",
+      "company": "Manulife",
+      "title": "Lead Full Stack Software Engineer",
+      "fit": 0,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-01",
+      "url": "https://ca.linkedin.com/jobs/view/lead-full-stack-software-engineer-at-manulife-4451456365"
+    },
+    {
+      "id": "4461209741",
+      "company": "Falabella",
+      "title": "Senior Fullstack Software Engineer",
+      "fit": 10,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-08-31",
+      "url": "https://cl.linkedin.com/jobs/view/senior-fullstack-software-engineer-at-falabella-4461209741"
+    },
+    {
+      "id": "4460077316",
+      "company": "HF Solutions",
+      "title": "Desarrollador Full-Stack Semi Senior",
+      "fit": 10,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-08-31",
+      "url": "https://cl.linkedin.com/jobs/view/desarrollador-full-stack-semi-senior-at-hf-solutions-4460077316"
+    },
+    {
+      "id": "4454492617",
+      "company": "Gorilla Logic",
+      "title": "Solution Architect (.NET/C#) - Cloud Enablement, Remote: Colombia - Costa Rica, Fulltime.",
+      "fit": 30,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-08",
+      "url": "https://cr.linkedin.com/jobs/view/solution-architect-net-c%23-cloud-enablement-remote-colombia-costa-rica-fulltime-at-gorilla-logic-4454492617"
+    },
+    {
+      "id": "4462871446",
+      "company": "Confiz",
+      "title": "Full Stack Developer - Level III (React / JavaScript / Go (Golang)) Costa Rica ONLY",
+      "fit": 70,
+      "applicationStatus": "draft",
+      "reason": "Company or posting already viewed / contacted",
+      "postedOn": "2026-09-03",
+      "url": "https://cr.linkedin.com/jobs/view/full-stack-developer-level-iii-react-javascript-go-golang-costa-rica-only-at-confiz-4462871446"
+    },
+    {
+      "id": "4412160295",
+      "company": "EY",
+      "title": "Desenvolvedor (a) Fullstack Java - Pleno",
+      "fit": 10,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-14",
+      "url": "https://br.linkedin.com/jobs/view/desenvolvedor-a-fullstack-java-pleno-at-ey-4412160295"
+    },
+    {
+      "id": "4423492204",
+      "company": "Fitch Ratings",
+      "title": "Engineering and Quality - Full Stack Engineer",
+      "fit": 0,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-18",
+      "url": "https://mx.linkedin.com/jobs/view/engineering-and-quality-full-stack-engineer-at-fitch-ratings-4423492204"
+    },
+    {
+      "id": "4466646571",
+      "company": "Accenture México",
+      "title": "Java Fullstack Dev",
+      "fit": 10,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-18",
+      "url": "https://mx.linkedin.com/jobs/view/java-fullstack-dev-at-accenture-m%C3%A9xico-4466646571"
+    },
+    {
+      "id": "4388665881",
+      "company": "Accenture Colombia",
+      "title": "Desarrolladores Fullstack",
+      "fit": 0,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-18",
+      "url": "https://co.linkedin.com/jobs/view/desarrolladores-fullstack-at-accenture-colombia-4388665881"
+    },
+    {
+      "id": "4466664260",
+      "company": "Accenture México",
+      "title": "Full Stack Developer",
+      "fit": 0,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-18",
+      "url": "https://mx.linkedin.com/jobs/view/full-stack-developer-at-accenture-m%C3%A9xico-4466664260"
+    },
+    {
+      "id": "4469164824",
+      "company": "Grupo Boticário",
+      "title": "Pessoa Desenvolvedora Fullstack Especialista I",
+      "fit": 0,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-18",
+      "url": "https://br.linkedin.com/jobs/view/pessoa-desenvolvedora-fullstack-especialista-i-at-grupo-botic%C3%A1rio-4469164824"
+    },
+    {
+      "id": "4423983804",
+      "company": "Citi",
+      "title": "React Full Stack Developer",
+      "fit": 10,
+      "applicationStatus": "draft",
+      "reason": "Below 50% deterministic fit",
+      "postedOn": "2026-09-18",
+      "url": "https://ca.linkedin.com/jobs/view/react-full-stack-developer-at-citi-4423983804"
+    }
+  ]
+}

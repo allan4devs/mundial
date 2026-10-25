@@ -12,8 +12,8 @@ import type {
 
 type GetApplication = (job: JobLead) => ApplicationState;
 
-export function isArchivedRow({ job, state }: Pick<JobRowModel, "job" | "state">): boolean {
-  return Boolean(job.seen) || state.status === "archived";
+export function isArchivedRow({ job, state, archiveReason }: Pick<JobRowModel, "job" | "state" | "archiveReason">): boolean {
+  return Boolean(archiveReason || job.seen) || state.status === "archived";
 }
 
 export function isFilledJob(job: JobLead): boolean {
@@ -21,8 +21,8 @@ export function isFilledJob(job: JobLead): boolean {
 }
 
 /** Rejected, archived or seen jobs keep their rating but rank below active ones. */
-export function isClosedRow({ job, state }: Pick<JobRowModel, "job" | "state">): boolean {
-  return job.listingStatus === "closed" || Boolean(job.seen) || state.status === "applied" || state.status === "rejected" || state.status === "archived";
+export function isClosedRow({ job, state, archiveReason }: Pick<JobRowModel, "job" | "state" | "archiveReason">): boolean {
+  return Boolean(archiveReason) || job.listingStatus === "closed" || Boolean(job.seen) || state.status === "applied" || state.status === "rejected" || state.status === "archived";
 }
 
 export function compareByRating(a: JobRowModel, b: JobRowModel): number {
@@ -53,7 +53,7 @@ export function jobPostingKey(url: string): string | null {
 }
 
 export function matchesJobFilters(
-  { job, state }: JobRowModel,
+  { job, state, archiveReason }: JobRowModel,
   {
     query,
     statusFilter,
@@ -68,7 +68,7 @@ export function matchesJobFilters(
     view: JobBoardView;
   },
 ): boolean {
-  if ((view === "archive") !== isArchivedRow({ job, state })) return false;
+  if ((view === "archive") !== isArchivedRow({ job, state, archiveReason })) return false;
   if (job.rating10 < minRating) return false;
   if (statusFilter !== "all" && state.status !== statusFilter) return false;
   if (trackFilter !== "all" && job.track !== trackFilter) return false;

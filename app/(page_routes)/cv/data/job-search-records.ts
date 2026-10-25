@@ -20,6 +20,9 @@ export type JobSearchRecord = {
   sourceStatus: string;
   firstSeen: string;
   lastSeen: string;
+  /** Employer publication date, only when supported by the linked source. */
+  postedOn?: string;
+  postedOnSource?: string;
   seenCount: number | string;
   url: string;
   nextStep: string;

@@ -8,6 +8,8 @@ export type JobLead = {
   location: string;
   url: string;
   postedOn?: string;
+  /** Source proving publication date; first/last seen are never publication dates. */
+  postedOnSource?: string;
   match: "tailored" | "strong" | "general";
   cvPath?: string;
   cvLabel?: string;
@@ -55,6 +57,9 @@ export type JobRowModel = {
   index: number;
   state: ApplicationState;
   hot: boolean;
+  /** Board-only archive decision; original application status and notes stay intact. */
+  archiveReason?: string;
+  auditRank?: number;
 };
 
 export type JobStats = {

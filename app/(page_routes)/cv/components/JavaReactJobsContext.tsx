@@ -17,6 +17,7 @@ import { createDefaultJobs } from "../java-react-jobs-data";
 import { calculateJobStats, isArchivedRow, jobPostingKey, selectJobRows, toJobRows } from "../java-react-jobs-helpers";
 import { formatHotIds, isHotCandidate, loadDismissedHotIds, loadHotIds, saveDismissedHotIds, saveHotIds, seedHotIds, selectHotIds } from "../java-react-jobs-hot";
 import { HOT_LIMIT } from "../java-react-jobs-constants";
+import { auditJobRows, jobCompanyKey } from "../java-react-jobs-audit";
 import { readStoredJobs, writeStoredJobs } from "../java-react-jobs-memory";
 import type {
   JobBoardView,
@@ -40,6 +41,7 @@ type JobBoardContextValue = {
   resetHot: () => void;
   hotExport: string;
   stats: JobStats;
+  auditCounts: { total: number; archived: number; selected: number };
   query: string;
   setQuery: Dispatch<SetStateAction<string>>;
   statusFilter: StatusFilter;
@@ -60,7 +62,7 @@ type JobBoardContextValue = {
 const JobBoardContext = createContext<JobBoardContextValue | null>(null);
 
 export function JobBoardProvider({ children, view }: { children: ReactNode; view: JobBoardView }) {
-  const { get: getStoredApplication, raw: storedApplications, update: updateApplication, ready } = useApplications();
+  const { get: getStoredApplication, raw: storedApplications, update: updateStoredApplication, ready } = useApplications();
   const [jobs, setJobs] = useState<JobLead[]>(createDefaultJobs);
   const [storageReady, setStorageReady] = useState(false);
   const [query, setQuery] = useState("");
@@ -101,13 +103,28 @@ export function JobBoardProvider({ children, view }: { children: ReactNode; view
   const getApplication = useCallback(
     (job: JobLead): ApplicationState => {
       const state = getStoredApplication(job.applicationSlug);
-      if (Object.prototype.hasOwnProperty.call(storedApplications, job.applicationSlug)) return state;
-      return { ...state, status: job.initialStatus, stage: job.nextStep, priority: job.initialPriority, notes: job.sourceNotes };
+      return {
+        ...state,
+        status: job.initialStatus,
+        stage: job.nextStep,
+        priority: job.initialPriority,
+        notes: job.sourceNotes,
+        ...storedApplications[job.applicationSlug],
+      };
     },
     [getStoredApplication, storedApplications],
   );
 
-  const candidateRows = useMemo(() => toJobRows(jobs, getApplication, new Set()), [getApplication, jobs]);
+  const updateApplication = useCallback((slug: string, patch: Partial<ApplicationState>) => {
+    const job = jobs.find((candidate) => candidate.applicationSlug === slug);
+    const current = job ? getApplication(job) : getStoredApplication(slug);
+    updateStoredApplication(slug, { ...current, ...patch });
+  }, [getApplication, getStoredApplication, jobs, updateStoredApplication]);
+
+  const candidateRows = useMemo(
+    () => auditJobRows(toJobRows(jobs, getApplication, new Set()), dismissedHotIds),
+    [dismissedHotIds, getApplication, jobs],
+  );
   const hotIds = useMemo(
     () => selectHotIds(candidateRows, preferredHotIds, dismissedHotIds),
     [candidateRows, dismissedHotIds, preferredHotIds],
@@ -117,8 +134,9 @@ export function JobBoardProvider({ children, view }: { children: ReactNode; view
     const row = candidateRows.find((candidate) => candidate.job.id === id);
     if (!row) return false;
     const postingKey = jobPostingKey(row.job.url);
+    const companyKey = jobCompanyKey(row.job.company);
     const samePostingIds = new Set(candidateRows
-      .filter((candidate) => candidate.job.id === id || (postingKey && jobPostingKey(candidate.job.url) === postingKey))
+      .filter((candidate) => candidate.job.id === id || jobCompanyKey(candidate.job.company) === companyKey || (postingKey && jobPostingKey(candidate.job.url) === postingKey))
       .map((candidate) => candidate.job.id));
     const isHot = hotIds.some((hotId) => samePostingIds.has(hotId));
     if (!isHot && !isHotCandidate(row)) return false;
@@ -138,8 +156,8 @@ export function JobBoardProvider({ children, view }: { children: ReactNode; view
   }, [candidateRows, dismissedHotIds, hotIds, preferredHotIds]);
 
   const allRows = useMemo(
-    () => toJobRows(jobs, getApplication, new Set(hotIds)),
-    [getApplication, hotIds, jobs],
+    () => candidateRows.map((row) => ({ ...row, hot: hotIds.includes(row.job.id) })),
+    [candidateRows, hotIds],
   );
   const rows = useMemo(
     () => selectJobRows({ rows: allRows, query, statusFilter, trackFilter, minRating, sortMode, view }),
@@ -161,6 +179,10 @@ export function JobBoardProvider({ children, view }: { children: ReactNode; view
     () => calculateJobStats(allRows.filter((row) => (view === "archive") === isArchivedRow(row)).map((row) => row.job), getApplication),
     [allRows, getApplication, view],
   );
+  const auditCounts = useMemo(() => {
+    const archived = allRows.filter(isArchivedRow).length;
+    return { total: allRows.length, archived, selected: allRows.length - archived };
+  }, [allRows]);
 
   const value = useMemo<JobBoardContextValue>(
     () => ({
@@ -173,6 +195,7 @@ export function JobBoardProvider({ children, view }: { children: ReactNode; view
       resetHot,
       hotExport,
       stats,
+      auditCounts,
       query,
       setQuery,
       statusFilter,
@@ -192,6 +215,7 @@ export function JobBoardProvider({ children, view }: { children: ReactNode; view
     }),
     [
       hotExport,
+      auditCounts,
       hotFromSeed,
       hotIds,
       hotRows,
