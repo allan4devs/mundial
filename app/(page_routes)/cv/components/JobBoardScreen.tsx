@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Archive, ArrowUp, BriefcaseBusiness, Copy, Filter, Flame, RotateCcw, Search } from "lucide-react";
+import { ArrowUp, BriefcaseBusiness, Copy, Filter, Flame, RotateCcw, Search } from "lucide-react";
 import { STATUS_LABEL, STATUS_ORDER, type ApplicationStatus } from "../applications";
 import { HOT_LIMIT } from "../java-react-jobs-constants";
 import type { SortMode } from "../java-react-jobs-types";
@@ -81,7 +81,8 @@ export function JobBoardScreen() {
           <Link href="/cv" className="shrink-0 text-xs font-black uppercase tracking-[0.14em] text-teal-300">CV workspace</Link>
           <div className="flex min-w-0 items-center gap-1 overflow-x-auto">
             <Link href="/cv/jobs" aria-current={view === "active" ? "page" : undefined} className={`shrink-0 rounded-lg px-3 py-2 text-xs font-bold ${view === "active" ? "bg-teal-500/15 text-teal-200" : "text-zinc-400 hover:bg-zinc-800 hover:text-white"}`}>Jobs</Link>
-            <Link href="/cv/archive" aria-current={view === "archive" ? "page" : undefined} className={`inline-flex shrink-0 items-center gap-1 rounded-lg px-3 py-2 text-xs font-bold ${view === "archive" ? "bg-teal-500/15 text-teal-200" : "text-zinc-400 hover:bg-zinc-800 hover:text-white"}`}><Archive size={13} /> Archive</Link>
+            <Link href="/cv/jobs/mid-level" className="shrink-0 rounded-lg px-3 py-2 text-xs font-bold text-teal-300 hover:bg-zinc-800">Semi-senior / Mid-level</Link>
+            <Link href="/comp" className="shrink-0 rounded-lg px-3 py-2 text-xs font-bold text-zinc-400 hover:bg-zinc-800 hover:text-white">Companies</Link>
             <Link href="/cv/cover-letter" className="shrink-0 rounded-lg px-3 py-2 text-xs font-semibold text-zinc-400 hover:bg-zinc-800 hover:text-white">Cover letter</Link>
             <Link href="/cv/stats" className="shrink-0 rounded-lg px-3 py-2 text-xs font-semibold text-zinc-400 hover:bg-zinc-800 hover:text-white">CV stats</Link>
           </div>
@@ -106,7 +107,7 @@ export function JobBoardScreen() {
             <Stat label="Active" value={stats.active} tone="emerald" />
             <Stat label="Offers" value={stats.offers} tone="amber" />
           </div>
-          {ready ? <p className="mt-3 text-xs text-zinc-400">Audited {auditCounts.total} records: {auditCounts.selected} shortlisted and {auditCounts.archived} in Archive. Application statuses and dates are preserved.</p> : null}
+          {ready ? <p className="mt-3 text-xs text-zinc-400">Audited {auditCounts.total} records: {auditCounts.selected} shortlisted and {auditCounts.archived} in the company directory. Application statuses and dates are preserved.</p> : null}
         </header>
 
         <section className="sticky top-12 z-40 mt-5 rounded-xl border border-zinc-800 bg-zinc-950/95 p-3 shadow-xl shadow-black/30 backdrop-blur-xl" aria-label="Filter job records">
@@ -146,7 +147,7 @@ export function JobBoardScreen() {
             </label>
             <button type="button" onClick={clearFilters} className="inline-flex items-center justify-center gap-2 rounded-lg border border-zinc-700 px-3 py-2 text-sm text-zinc-300 hover:bg-zinc-800"><RotateCcw size={14} /> Clear</button>
           </div>
-          <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-zinc-500"><Filter size={13} />{ready ? `${rows.length} matching records` : "Loading saved jobs…"}<span className="text-zinc-700">•</span> {view === "active" ? "HOT shows the full shortlist independently of filters. Use filters to search Archive." : "Changes are saved in this browser."}</div>
+          <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-zinc-500"><Filter size={13} />{ready ? `${rows.length} matching records` : "Loading saved jobs…"}<span className="text-zinc-700">•</span> {view === "active" ? "HOT shows the full shortlist independently of filters. Browse Companies for all saved jobs." : "Changes are saved in this browser."}</div>
         </section>
 
         {ready && view === "active" ? <section className="mt-4 rounded-xl border border-orange-500/30 bg-orange-500/5 p-3" aria-label="HOT jobs">
@@ -157,7 +158,7 @@ export function JobBoardScreen() {
               {hotFromSeed ? null : <button type="button" onClick={resetHot} className="inline-flex items-center gap-1 rounded-lg border border-zinc-700 px-2 py-1.5 text-[11px] font-semibold text-zinc-400 hover:bg-zinc-800"><RotateCcw size={12} /> Reset HOT preferences</button>}
             </div>
           </div>
-          <p className="mb-3 text-xs leading-relaxed text-zinc-400">Up to {HOT_LIMIT} new October postings, ranked by fit and freshness, with one per company. Mark reviewed jobs Seen or Archived; the flame dismisses a job from this shortlist. Older, viewed, applied and dismissed jobs stay in Archive. Check listings marked Verify before applying.</p>
+          <p className="mb-3 text-xs leading-relaxed text-zinc-400">Up to {HOT_LIMIT} new October postings, ranked by fit and freshness, with one per company. Mark reviewed jobs Seen or Archived; the flame dismisses a job from this shortlist. Older, viewed, applied and dismissed jobs stay in the company directory. Check listings marked Verify before applying.</p>
           {hotNotice ? <p className="mb-2 text-[11px] text-orange-200" role="status">{hotNotice}</p> : null}
           <div className="space-y-2">
             {hotRows.length ? hotRows.map(renderRow) : <p className="rounded-lg border border-dashed border-zinc-700 p-4 text-center text-xs text-zinc-500">No eligible new October 2026 postings remain. New postings need a source publication date to join the shortlist.</p>}

@@ -1,3 +1,4 @@
+import companyResearch from "./data/latam-company-research.json";
 import { JAVA_REACT_CAMPAIGN_JOBS } from "./data/cv-campaign-java-react";
 import { JOB_SEARCH_RECORDS, type JobSearchRecord } from "./data/job-search-records";
 import { NEW_JOB_SEARCH_RECORDS } from "./data/job-search-new";
@@ -232,3 +233,27 @@ export function createDefaultJobs(): JobLead[] {
 export const JOB_TRACKS = [
   ...new Set([...ALL_JOB_SEARCH_RECORDS.map((job) => job.track), "Java + React Full Stack"].filter(Boolean)),
 ].sort((a, b) => a.localeCompare(b));
+
+/** Complete search history for the directory; shortlist eligibility never limits this list. */
+export function createAllSearchedJobs(): JobLead[] {
+  const tracked = createDefaultJobs();
+  const ids = new Set(tracked.map(job => job.id));
+  const omittedResearch = RESEARCHED_JOBS.filter(job => !ids.has(job.id)).map(researchedJobLead);
+  const tailored = campaignJobs.map(job => ({
+    ...researchedJobLead({ id: `campaign:${job.key}`, company: job.company, title: job.postingTitle, location: job.location, postedOn: "", url: job.jobUrl, match: "search" }),
+    applicationSlug: `java-react-2026/${job.key}`,
+    cvPath: `/cv/cv-archive/java-react-2026/${job.key}`,
+    sources: "Tailored CV campaign",
+    sourceNotes: job.proof,
+  }));
+  const employerResearch = companyResearch.map((job, index) => ({
+    ...researchedJobLead({ id: `employer-research:${index}`, company: job.company, title: job.role, location: job.region, postedOn: "", url: job.source, match: "search" }),
+    track: job.track,
+    workMode: job.workMode,
+    sourceNotes: job.notes,
+    sources: "Employer hiring research",
+    firstSeen: job.checkedOn,
+    lastSeen: job.checkedOn,
+  }));
+  return [...tracked, ...omittedResearch, ...tailored, ...employerResearch];
+}
