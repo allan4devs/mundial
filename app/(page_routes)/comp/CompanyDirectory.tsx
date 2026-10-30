@@ -1,12 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowUpRight, Building2, Check, Copy, Heart, Pencil, Plus, ThumbsDown } from "lucide-react";
+import { ArrowUpRight, Building2, Check, ChevronDown, Copy, Heart, Pencil, Plus, ThumbsDown } from "lucide-react";
 import type { CompanyCard } from "./company-catalog";
 import { validatePreference, type CompanyPreference } from "@/lib/comp/types";
-import { companySignals, matchesCompanyFilters, TECHNOLOGIES, ROLE_TYPES, LEVELS, TARGET_COMPANIES } from "./company-catalog";
-
-const PAGE_SIZE = 48;
+import { companySignals, companyJobCategory, JOB_CATEGORIES, matchesCompanyFilters, TECHNOLOGIES, ROLE_TYPES, LEVELS, TARGET_COMPANIES } from "./company-catalog";
 
 const COMPANY_PREFERENCES_KEY = "cv-company-preferences-v1";
 const CATEGORIES = [
@@ -22,9 +20,10 @@ const CATEGORIES = [
   { key: "outsourcing", label: "Outsourcing & consulting", group: "Company type" }, { key: "direct", label: "Direct employers", group: "Company type" },
   { key: "othermodel", label: "Model to review", group: "Company type" },
   { key: "latam", label: "LATAM evidence", group: "Location" },
+  ...JOB_CATEGORIES.map(({ key, label }) => ({ key, label, group: "Job category" as const })),
   { key: "likes", label: "Likes", group: "Saved" }, { key: "dislikes", label: "Dislikes", group: "Saved" },
 ] as const;
-const CATEGORY_GROUPS = ["Browse", "Technology", "Role", "Level", "Company type", "Location", "Saved"] as const;
+const CATEGORY_GROUPS = ["Browse", "Job category", "Technology", "Role", "Level", "Company type", "Location", "Saved"] as const;
 type Category = typeof CATEGORIES[number]["key"];
 
 export function CompanyDirectory() {
@@ -164,7 +163,7 @@ export function CompanyDirectory() {
   const [role, setRole] = useState("all");
   const [level, setLevel] = useState("all");
   const [region, setRegion] = useState("all");
-  const [limit, setLimit] = useState(PAGE_SIZE);
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const researched = companies.filter(company => company.research);
   const nearshoreCount = companies.filter(company => company.nearshore).length;
   function matchesCategory(company: CompanyCard, category: Category, preference = preferences[company.key]) {
@@ -175,6 +174,7 @@ export function CompanyDirectory() {
     if (category === "nearshore") return !!company.nearshore;
     if (category === "outsourcing" || category === "direct") return company.model === category;
     if (category === "latam") return !!company.research;
+    if (JOB_CATEGORIES.some(jobCategory => jobCategory.key === category)) return company.jobs.some(job => companyJobCategory(job) === category);
     const signals = companySignals(company);
     const technologyCategories: Partial<Record<Category, string>> = { java: "Java", react: "React", python: "Python", node: "Node.js", javascript: "JavaScript", typescript: "TypeScript" };
     const roleCategories: Partial<Record<Category, string>> = { fullstack: "Full stack", backend: "Backend", frontend: "Frontend" };
@@ -190,7 +190,9 @@ export function CompanyDirectory() {
   }
   const visibleCompanies = (researchOnly && tab !== "nearshore" ? researched : companies).filter(company =>
     matchesCategory(company, tab) && matchesCompanyFilters(company, { query, technology, role, level, region }));
-  const displayedCompanies = visibleCompanies.slice(0, limit);
+  const categoryJobCount = (category: Category) => companies.reduce((count, company) => count + company.jobs.filter(job => companyJobCategory(job) === category).length, 0);
+  const activeFilterCount = [query.trim(), technology !== "all", role !== "all", level !== "all", region !== "all", researchOnly && tab !== "nearshore"].filter(Boolean).length;
+  const resetFilters = () => { setQuery(""); setTechnology("all"); setRole("all"); setLevel("all"); setRegion("all"); setResearchOnly(false); };
   const matchingMidLevel = companies.filter(company => companySignals(company).levels.includes("Mid-level")).length;
   const groups = [
     { key: "outsourcing", title: "Outsourcing & consulting", description: "Development agencies, staff augmentation, recruiters, and consulting firms hiring for client teams." },
@@ -256,19 +258,32 @@ export function CompanyDirectory() {
         <div><p className="text-sm text-teal-200">{matchingMidLevel} companies with mid-level signals</p><p className="mt-2 text-xs text-zinc-400">Match titles and source evidence, then check the current opening.</p></div>
         <div><p className="text-sm text-teal-200">{nearshoreCount} nearshore companies</p><p className="mt-2 text-xs text-zinc-400">Your saved likes, dislikes, and careers links stay with each company.</p></div>
       </div>
-      <div className="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        <label className="text-xs text-zinc-400 sm:col-span-2 lg:col-span-3">Search companies or roles<input type="search" value={query} onChange={event => { setQuery(event.target.value); setLimit(PAGE_SIZE); }} placeholder="Company, technology, job title, or location" className="mt-2 block w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-3 text-sm text-white" /></label>
-        {[{ label: "Technology", value: technology, values: TECHNOLOGIES, change: setTechnology }, { label: "Role type", value: role, values: ROLE_TYPES, change: setRole }, { label: "Seniority signal", value: level, values: LEVELS, change: setLevel }].map(filter => <label key={filter.label} className="text-xs text-zinc-400">{filter.label}<select value={filter.value} onChange={event => { filter.change(event.target.value); setLimit(PAGE_SIZE); }} className="mt-2 block w-full rounded-xl border border-zinc-700 bg-zinc-900 px-3 py-3 text-sm text-white"><option value="all">All</option>{filter.values.map(value => <option key={value} value={value}>{value}</option>)}</select></label>)}
-        <label className="text-xs text-zinc-400">Reported hiring region<select value={region} onChange={event => { setRegion(event.target.value); setLimit(PAGE_SIZE); }} className="mt-2 block w-full rounded-xl border border-zinc-700 bg-zinc-900 px-3 py-3 text-sm text-white"><option value="all">All regions</option><option value="global">Worldwide / global</option><option value="americas">Americas / LATAM</option></select></label>
-        <label className="flex items-center gap-2 text-xs text-zinc-400"><input type="checkbox" disabled={tab === "nearshore"} checked={researchOnly && tab !== "nearshore"} onChange={event => { setResearchOnly(event.target.checked); setLimit(PAGE_SIZE); }} /> LATAM hiring evidence only ({researched.length})</label>
-        <button type="button" onClick={() => { setQuery(""); setTechnology("all"); setRole("all"); setLevel("all"); setRegion("all"); setResearchOnly(false); setLimit(PAGE_SIZE); }} className="rounded-xl border border-zinc-800 px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-900">Clear filters</button>
-      </div>
-      <div className="mb-6 space-y-3 rounded-2xl border border-zinc-800 p-4">
-        <p className="text-xs leading-5 text-zinc-400">All {companies.length.toLocaleString()} companies are grouped below. Companies can match several filters; unspecified groups keep companies with missing evidence included. Counts show the full category before search and dropdown filters.</p>
-        {CATEGORY_GROUPS.map(group => <div key={group} className="flex flex-col gap-2 sm:flex-row sm:items-start"><p className="w-28 shrink-0 pt-2 text-xs font-semibold text-zinc-500">{group}</p><div role="tablist" aria-label={`${group} company filters`} className="flex flex-wrap gap-2">{CATEGORIES.filter(category => category.group === group).map(({ key, label }) => <button key={key} type="button" role="tab" id={`${key}-tab`} aria-selected={tab === key} aria-controls="company-panel" onClick={() => { setTab(key); setLimit(PAGE_SIZE); setTechnology("all"); setRole("all"); setLevel("all"); setRegion("all"); setResearchOnly(false); }} className={`rounded-lg px-3 py-2 text-xs font-semibold ${tab === key ? "bg-teal-400 text-zinc-950" : "bg-zinc-900 text-zinc-300 hover:bg-zinc-800"}`}>{label} ({companies.filter(company => matchesCategory(company, key)).length})</button>)}</div></div>)}
-      </div>
+      <section aria-label="Company filters" className="mb-6 overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/40">
+        <div className="grid gap-3 p-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end sm:p-5">
+          <label className="text-xs font-medium text-zinc-400">Search companies or roles<input type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="Company, technology, job title, or location" className="mt-2 block w-full rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-3 text-sm text-white placeholder:text-zinc-600" /></label>
+          <div className="flex gap-2">
+            <button type="button" aria-expanded={filtersOpen} onClick={() => setFiltersOpen(value => !value)} className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-zinc-700 px-4 text-sm font-semibold text-zinc-200 hover:bg-zinc-800"><ChevronDown size={16} className={`transition-transform ${filtersOpen ? "rotate-180" : ""}`} />Filters{activeFilterCount ? <span className="rounded-full bg-teal-400 px-2 py-0.5 text-xs text-zinc-950">{activeFilterCount}</span> : null}</button>
+            {activeFilterCount ? <button type="button" onClick={resetFilters} className="rounded-xl px-3 text-sm text-zinc-400 hover:text-white">Clear</button> : null}
+          </div>
+        </div>
+        {filtersOpen ? <div className="grid gap-3 border-t border-zinc-800 p-4 sm:grid-cols-2 lg:grid-cols-4 sm:p-5">
+          {[{ label: "Technology", value: technology, values: TECHNOLOGIES, change: setTechnology }, { label: "Role type", value: role, values: ROLE_TYPES, change: setRole }, { label: "Seniority signal", value: level, values: LEVELS, change: setLevel }].map(filter => <label key={filter.label} className="text-xs text-zinc-400">{filter.label}<select value={filter.value} onChange={event => filter.change(event.target.value)} className="mt-2 block w-full rounded-xl border border-zinc-700 bg-zinc-950 px-3 py-3 text-sm text-white"><option value="all">All</option>{filter.values.map(value => <option key={value} value={value}>{value}</option>)}</select></label>)}
+          <label className="text-xs text-zinc-400">Reported hiring region<select value={region} onChange={event => setRegion(event.target.value)} className="mt-2 block w-full rounded-xl border border-zinc-700 bg-zinc-950 px-3 py-3 text-sm text-white"><option value="all">All regions</option><option value="global">Worldwide / global</option><option value="americas">Americas / LATAM</option></select></label>
+          <label className="flex items-center gap-2 text-xs text-zinc-400 sm:col-span-2 lg:col-span-4"><input type="checkbox" disabled={tab === "nearshore"} checked={researchOnly && tab !== "nearshore"} onChange={event => setResearchOnly(event.target.checked)} /> LATAM hiring evidence only ({researched.length})</label>
+        </div> : null}
+        <div className="border-t border-zinc-800 px-4 py-4 sm:px-5">
+          <div role="tablist" aria-label="Company views and job categories" className="flex flex-wrap gap-2 pb-1">
+            {CATEGORIES.filter(category => category.group === "Browse" || category.group === "Saved" || category.group === "Job category").map(({ key, label, group }) => <button key={key} type="button" role="tab" id={`${key}-tab`} aria-selected={tab === key} aria-controls="company-panel" onClick={() => { setTab(key); resetFilters(); }} className={`shrink-0 rounded-lg px-3 py-2 text-sm font-semibold ${tab === key ? "bg-teal-400 text-zinc-950" : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"}`}>{label}<span className={`ml-2 text-xs ${tab === key ? "text-zinc-800" : "text-zinc-500"}`}>{group === "Job category" ? `${categoryJobCount(key)} jobs` : companies.filter(company => matchesCategory(company, key)).length.toLocaleString()}</span></button>)}
+          </div>
+          <details className="group mt-3 border-t border-zinc-800 pt-3">
+            <summary className="flex cursor-pointer list-none items-center justify-between text-xs font-medium text-zinc-400 marker:hidden">Browse by profile signal<span className="flex items-center gap-2 text-zinc-500">{CATEGORIES.filter(category => !["Browse", "Saved", "Job category"].includes(category.group)).length} views <ChevronDown size={14} className="transition-transform group-open:rotate-180" /></span></summary>
+            <p className="mt-2 text-xs leading-5 text-zinc-500">Counts show each full category before search and advanced filters. Companies with missing evidence remain in the unspecified groups.</p>
+            <div className="mt-3 space-y-3">{CATEGORY_GROUPS.filter(group => group !== "Browse" && group !== "Saved" && group !== "Job category").map(group => <div key={group} className="flex flex-col gap-2 sm:flex-row sm:items-start"><p className="w-28 shrink-0 pt-2 text-xs font-semibold text-zinc-500">{group}</p><div className="flex flex-wrap gap-2">{CATEGORIES.filter(category => category.group === group).map(({ key, label }) => <button key={key} type="button" onClick={() => { setTab(key); resetFilters(); }} className={`rounded-lg px-3 py-2 text-xs font-semibold ${tab === key ? "bg-teal-400 text-zinc-950" : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"}`}>{label} ({companies.filter(company => matchesCategory(company, key)).length})</button>)}</div></div>)}</div>
+          </details>
+        </div>
+      </section>
       {tab === "nearshore" ? <p className="mb-5 text-sm text-zinc-400">{nearshoreCount} nearshore companies serving US teams from Latin America. Company sources checked October 29, 2026. Openings and eligible countries vary by role. Like a company to also find it in Likes.</p> : null}
-      <p className="mb-3 text-sm text-zinc-400" aria-live="polite">Showing {Math.min(limit, visibleCompanies.length)} of {visibleCompanies.length} matching companies</p>
+      <p className="mb-3 text-sm text-zinc-400" aria-live="polite">Showing {visibleCompanies.length.toLocaleString()} matching companies</p>
       <p className="mb-5 text-xs leading-5 text-zinc-500">Likes, dislikes, and careers links are saved {canSync ? "to your account" : "in this browser"}. Company sources and role boards were checked October 29, 2026. A company listing or seniority signal does not guarantee a current vacancy or country eligibility.</p>
       <p role="status" className="mb-4 text-sm text-amber-300">{notice}</p>
       <span role="status" className="sr-only">{copied ? "Copied to clipboard." : ""}</span>
@@ -279,7 +294,7 @@ export function CompanyDirectory() {
       {tab === "likes" && !loading && !loadError && !visibleCompanies.length ? <p className="mb-8 text-sm text-zinc-400">No liked companies match this view. Like a company in the Companies tab to save it here.</p> : null}
       {tab === "dislikes" && !loading && !loadError && !visibleCompanies.length ? <p className="mb-8 text-sm text-zinc-400">No disliked companies match this view. Dislike a company to save it here; undo a dislike to return it to browsing.</p> : null}
       {groups.map(group => {
-        const members = displayedCompanies.filter(company => company.model === group.key);
+        const members = visibleCompanies.filter(company => company.model === group.key);
         const totalMembers = visibleCompanies.filter(company => company.model === group.key).length;
         if (!members.length) return null;
         return <section key={group.key} aria-labelledby={group.key + "-heading"} className="mb-12">
@@ -313,7 +328,6 @@ export function CompanyDirectory() {
         </section>;
       })}
       </div>
-      {visibleCompanies.length > limit ? <div className="mb-10 text-center"><button type="button" onClick={() => setLimit(value => value + PAGE_SIZE)} className="rounded-xl bg-teal-400 px-6 py-3 text-sm font-semibold text-zinc-950">Show {Math.min(PAGE_SIZE, visibleCompanies.length - limit)} more companies</button></div> : null}
       <footer className="border-t border-zinc-800 py-5 text-xs text-zinc-500">Additional company profiles: <a href="https://remoteintech.company/" target="_blank" rel="noopener noreferrer" className="text-teal-300 underline">Remote In Tech</a>. Profile information is attributed on each card; employer feeds provide role evidence.</footer>
       {!loading && !loadError && !companies.length ? <div className="rounded-2xl border border-zinc-800 py-20 text-center"><h2 className="text-xl font-semibold">No companies saved yet</h2><p className="mt-2 text-sm text-zinc-400">Your companies will appear here.</p></div> : null}
     </div>

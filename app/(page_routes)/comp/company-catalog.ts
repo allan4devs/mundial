@@ -31,6 +31,28 @@ export const TECHNOLOGIES = ["Java", "React", "Python", "Node.js", "JavaScript",
 export const ROLE_TYPES = ["Full stack", "Backend", "Frontend"] as const;
 export const LEVELS = ["Mid-level", "Junior", "Senior"] as const;
 
+/** Mutually exclusive role buckets for every saved job record in the directory. */
+export const JOB_CATEGORIES = [
+  { key: "job-fullstack", label: "Full stack", patterns: [/\bfull[\s-]?stack\b/i] },
+  { key: "job-backend", label: "Backend & APIs", patterns: [/\bback[\s-]?end\b/i, /\bapi(?:s)?\b/i, /\bplatform engineer\b/i] },
+  { key: "job-frontend", label: "Frontend & web", patterns: [/\bfront[\s-]?end\b/i, /\bweb (?:engineer|developer)\b/i, /\bui engineer\b/i] },
+  { key: "job-data", label: "Data & AI", patterns: [/\bdata\b/i, /\bmachine learning\b|\bml engineer\b|\bai engineer\b|\bartificial intelligence\b/i, /\banalytics\b/i] },
+  { key: "job-cloud", label: "Cloud & DevOps", patterns: [/\bdevops\b|\bsre\b|\bsite reliability\b|\binfrastructure\b|\bcloud engineer\b|\bplatform operations\b/i] },
+  { key: "job-qa", label: "QA & testing", patterns: [/\bqa\b|\bquality assurance\b|\btest(?:ing)? engineer\b|\bautomation test/i] },
+  { key: "job-mobile", label: "Mobile apps", patterns: [/\bmobile\b|\bios engineer\b|\bandroid engineer\b|\breact native\b|\bflutter\b/i] },
+  { key: "job-security", label: "Security", patterns: [/\bsecurity\b|\bapplication security\b|\bcyber/i] },
+  { key: "job-product", label: "Product & design", patterns: [/\bproduct manager\b|\bproduct designer\b|\bux\b|\bui\/ux\b|\bdesign(?:er)?\b/i] },
+  { key: "job-other", label: "Other / unspecified", patterns: [] },
+] as const;
+
+export type JobCategoryKey = typeof JOB_CATEGORIES[number]["key"];
+
+/** Assign each job exactly one primary category; uncategorized evidence stays visible. */
+export function companyJobCategory(job: CompanyJob): JobCategoryKey {
+  const text = [job.title, job.stack || "", job.technologies?.join(" ") || "", job.roles?.join(" ") || ""].join(" ");
+  return JOB_CATEGORIES.find(category => category.patterns.some(pattern => pattern.test(text)))?.key || "job-other";
+}
+
 export function normalizeCompanyName(name: string): string {
   return name.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]/g, "");
 }
