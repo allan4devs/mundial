@@ -1,18 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getCompanies, getPreferences, savePreference } from "@/lib/comp/store";
+import { getCategories, getCompanies, getPreferences, savePreference } from "@/lib/comp/store";
 import { validatePreference } from "@/lib/comp/types";
 import { getAdminFromRequest } from "@/lib/admin-auth";
-import { companies as catalogCompanies } from "@/app/(page_routes)/comp/company-data";
+import { companies as catalogCompanies } from "@/lib/comp/companies";
+import { COMPANY_CATEGORIES, companyCategoryKeys } from "@/lib/comp/categories";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export async function GET(request: NextRequest) {
   try {
     const admin = getAdminFromRequest(request);
-    return NextResponse.json({ companies: await getCompanies(), preferences: admin ? await getPreferences(admin.id) : {}, canEdit: !!admin, storage: "mongodb" }, { headers: { "Cache-Control": "private, no-store" } });
+    const [companies, categories] = await Promise.all([getCompanies(), getCategories()]);
+    return NextResponse.json({ companies, categories, preferences: admin ? await getPreferences(admin.id) : {}, canEdit: !!admin, storage: "mongodb" }, { headers: { "Cache-Control": "private, no-store" } });
   } catch {
     // Keep the researched directory usable before a database connection is configured.
     // Saving remains disabled; this does not claim that account preferences were loaded.
-    return NextResponse.json({ companies: catalogCompanies, preferences: {}, canEdit: false, storage: "catalog" }, { headers: { "Cache-Control": "private, no-store" } });
+    return NextResponse.json({ companies: catalogCompanies.map(company => ({ ...company, categories: companyCategoryKeys(company) })), categories: COMPANY_CATEGORIES, preferences: {}, canEdit: false, storage: "catalog" }, { headers: { "Cache-Control": "private, no-store" } });
   }
 }
 export async function PUT(request: NextRequest) {
@@ -36,7 +38,13 @@ export async function PUT(request: NextRequest) {
     const companies = await getCompanies();
     const aliases = new Map(companies.flatMap(company => [company.key, ...(company.legacyKeys || [])].map(key => [key, company.key] as const)));
     if (changes.some(([key]) => !aliases.has(key))) return NextResponse.json({ error: "Unknown company." }, { status: 400 });
-    for (const [key, preference] of changes) await savePreference(admin.id, aliases.get(key)!, preference, importOnly);
+    const writes = changes.map(([key, preference]) => [aliases.get(key)!, preference] as const);
+    const batchSize = 32;
+    for (let start = 0; start < writes.length; start += batchSize) {
+      await Promise.all(writes.slice(start, start + batchSize).map(([companyKey, preference]) =>
+        savePreference(admin.id, companyKey, preference, importOnly),
+      ));
+    }
     return NextResponse.json({ preferences: await getPreferences(admin.id) });
   } catch { return NextResponse.json({ error: "Changes could not be saved. Please retry." }, { status: 503 }); }
 }

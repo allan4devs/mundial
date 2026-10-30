@@ -14,7 +14,7 @@ These are company-level signals, not 1,000 guaranteed current vacancies. Region 
 
 ## Research and reproduction
 
-The research reviewed 1,024 profiles and 261 public employer boards. The source inputs and response metadata are in `output/comp-*.json`; the published records are in `app/(page_routes)/comp/expanded-companies.json` and `employer-roles.json`. `catalog-summary.json` records aggregate counts. License attribution is in the adjacent `DATA-SOURCES.md` file.
+The research reviewed 1,024 profiles and 261 public employer boards. The source inputs and response metadata are in `output/comp-*.json`; the published bootstrap records are in `lib/comp/data/expanded-companies.json` and `employer-roles.json`. `catalog-summary.json` records aggregate counts. License attribution is in `docs/comp/DATA-SOURCES.md`.
 
 1. Download Remote In Tech at commit `fa2253f1ed02cc4d8f59ab3ccc831b008cdd7189` into `output/remoteintech-source`.
 2. Run `node scripts/import-comp-expansion.cjs --prepare` to prepare company profiles plus the retained official-employer candidates.
@@ -27,6 +27,6 @@ The importer uses the existing check dates in this research snapshot. Refresh th
 
 ## Runtime checks
 
-The browser was checked against the final catalog: all four primary technology filters, all three role filters, mid-level filtering, and loading 96 results from the initial 48. Search and filtering run across the whole catalog, while only the selected result page is rendered.
+The original browser check covered all four primary technology filters, all three role filters, mid-level filtering, and the former pagination controls. The directory now displays every matching company at once. Search and filtering continue to run across the whole catalog.
 
 The concurrent MongoDB storage work is preserved. The catalog API falls back to the checked-in company data for browsing if MongoDB is unavailable; account writes remain disabled in that mode. Database-backed preference persistence requires the separate MongoDB configuration and authenticated account.

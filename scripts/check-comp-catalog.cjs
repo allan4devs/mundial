@@ -5,18 +5,22 @@ const ts = require("typescript");
 require.extensions[".ts"] = (module, filename) => module._compile(ts.transpileModule(fs.readFileSync(filename, "utf8"), {
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020, esModuleInterop: true },
 }).outputText, filename);
-const base = "../app/(page_routes)/comp/";
-const { companies } = require(base + "company-data.ts");
-const { companyDomain, normalizeCompanyName, companySignals, matchesCompanyFilters, buildCompanyCatalog } = require(base + "company-catalog.ts");
-const imported = require(base + "expanded-companies.json");
-const summary = require(base + "catalog-summary.json");
-const nearshore = require(base + "nearshore.json");
-const originals = require(base + "companies.json");
+const base = "../lib/comp/";
+const data = base + "data/";
+const { companies } = require(base + "companies.ts");
+const { companyDomain, normalizeCompanyName, companySignals, matchesCompanyFilters, buildCompanyCatalog } = require(base + "catalog.ts");
+const imported = require(data + "expanded-companies.json");
+const summary = require(data + "catalog-summary.json");
+const nearshore = require(data + "nearshore.json");
+const originals = require(data + "companies.json");
 const checks = require("../output/comp-expansion-checks.json");
 const roles = require("../output/comp-role-checks.json");
 
 assert.equal(companies.length, 1000, "The full 1,000-company goal must be reached");
 assert.equal(new Set(companies.map(company => company.key)).size, companies.length, "Duplicate company keys");
+for (const company of companies) {
+  assert.equal(new Set(company.jobs.map(job => job.id)).size, company.jobs.length, `${company.name}: duplicate job keys`);
+}
 const domains = companies.map(company => companyDomain(company.website)).filter(Boolean);
 assert.equal(new Set(domains).size, domains.length, "Duplicate companies under rebranded domains");
 const names = companies.map(company => normalizeCompanyName(company.name));

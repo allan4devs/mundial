@@ -20,6 +20,7 @@ export type CompanyDiscovery = {
 export type CompanyCard = {
   key: string; name: string; names: string[]; website?: string; careersUrl?: string;
   tracks: string[]; locations: string[]; records: number; model: string;
+  categories?: string[];
   jobs: CompanyJob[]; legacyKeys?: string[];
   nearshore?: NearshoreCompany; discovery?: CompanyDiscovery;
   roleEvidence?: { source: string; checkedOn: string };
@@ -103,6 +104,18 @@ function nameKey(name: string): string {
 
 function unique<T>(values: T[]): T[] { return [...new Set(values)]; }
 
+/** ATS IDs identify postings even when sources vary the URL spelling. */
+export function mergeCompanyJobs(...sources: CompanyJob[][]): CompanyJob[] {
+  const jobs = new Map<string, CompanyJob>();
+  const idsByUrl = new Map<string, string>();
+  for (const job of sources.flat()) {
+    const key = jobs.has(job.id) ? job.id : idsByUrl.get(job.url) || job.id || job.url;
+    jobs.set(key, { ...jobs.get(key), ...job });
+    if (job.url) idsByUrl.set(job.url, key);
+  }
+  return [...jobs.values()];
+}
+
 /** Existing keys win merges so browser preferences keep working after imports. */
 export function buildCompanyCatalog(base: CompanyCard[], nearshore: NearshoreCompany[], expansion: CompanyCard[] = []): CompanyCard[] {
   const result: CompanyCard[] = [];
@@ -114,8 +127,6 @@ export function buildCompanyCatalog(base: CompanyCard[], nearshore: NearshoreCom
     const existing = (domain ? domains.get(domain) : undefined) || names.get(nameKey(incoming.name));
     let company: CompanyCard;
     if (existing) {
-      const jobs = new Map(existing.jobs.map(job => [job.url || job.id, job]));
-      for (const job of incoming.jobs) jobs.set(job.url || job.id, { ...jobs.get(job.url || job.id), ...job });
       company = existing;
       company.names = unique([...company.names, ...incoming.names, incoming.name]);
       company.legacyKeys = unique([...(company.legacyKeys || []), incoming.key, ...(incoming.legacyKeys || [])]).filter(key => key !== company.key);
@@ -123,13 +134,13 @@ export function buildCompanyCatalog(base: CompanyCard[], nearshore: NearshoreCom
       company.careersUrl ||= incoming.careersUrl;
       company.tracks = unique([...company.tracks, ...incoming.tracks]);
       company.locations = unique([...company.locations, ...incoming.locations]);
-      company.jobs = [...jobs.values()];
+      company.jobs = mergeCompanyJobs(company.jobs, incoming.jobs);
       company.records = company.jobs.length;
       company.nearshore ||= incoming.nearshore;
       company.discovery ||= incoming.discovery;
       company.research ||= incoming.research;
     } else {
-      company = { ...incoming, names: [...incoming.names], tracks: [...incoming.tracks], locations: [...incoming.locations], jobs: [...incoming.jobs] };
+      company = { ...incoming, names: [...incoming.names], tracks: [...incoming.tracks], locations: [...incoming.locations], jobs: mergeCompanyJobs(incoming.jobs) };
       result.push(company);
     }
     if (domain) domains.set(domain, company);
@@ -161,25 +172,42 @@ const levelPatterns: Record<string, RegExp> = {
   Senior: /\bsenior\b|\bstaff (?:software|engineer)\b|\bprincipal (?:software|engineer)\b/i,
 };
 
-export function companySignals(company: CompanyCard) {
+export type CompanySignals = { technologies: string[]; roles: string[]; levels: string[] };
+const companySignalsCache = new WeakMap<CompanyCard, CompanySignals>();
+
+export function companySignals(company: CompanyCard): CompanySignals {
+  const cached = companySignalsCache.get(company);
+  if (cached) return cached;
   const techText = [...company.tracks, ...company.jobs.flatMap(job => [job.title, job.stack || ""])].join(" ");
   const roleText = [...company.tracks, ...company.jobs.map(job => job.title), company.research?.role || ""].join(" ");
-  return {
+  const signals = {
     technologies: unique([...(company.discovery?.technologies || []), ...company.jobs.flatMap(job => job.technologies || []), ...TECHNOLOGIES.filter(tech => techPatterns[tech].test(techText))]),
     roles: unique([...(company.discovery?.roles || []), ...company.jobs.flatMap(job => job.roles || []), ...ROLE_TYPES.filter(role => rolePatterns[role].test(roleText))]),
     levels: unique([...(company.discovery?.levels || []), ...company.jobs.flatMap(job => job.levels || []), ...LEVELS.filter(level => levelPatterns[level].test(company.jobs.map(job => job.title).join(" | ")))]),
   };
+  companySignalsCache.set(company, signals);
+  return signals;
 }
 
 export type CompanyFilters = { query: string; technology: string; role: string; level: string; region: string };
+const companySearchTextCache = new WeakMap<CompanyCard, string>();
 
-export function matchesCompanyFilters(company: CompanyCard, filters: CompanyFilters): boolean {
-  const signals = companySignals(company);
+function companySearchText(company: CompanyCard, signals: CompanySignals) {
+  const cached = companySearchTextCache.get(company);
+  if (cached) return cached;
   const text = [company.name, ...company.names, company.website || "", ...company.tracks, ...company.locations,
     ...signals.technologies, ...signals.roles, ...signals.levels, ...company.jobs.flatMap(job => [job.title, job.stack || ""]),
     company.discovery?.region || "", company.nearshore ? "nearshore" : ""].join(" ").toLowerCase();
+  companySearchTextCache.set(company, text);
+  return text;
+}
+
+export function matchesCompanyFilters(company: CompanyCard, filters: CompanyFilters): boolean {
+  const signals = companySignals(company);
+  const text = companySearchText(company, signals);
   const region = company.discovery?.region || company.locations.join(" ");
-  return filters.query.trim().toLowerCase().split(/\s+/).every(word => text.includes(word))
+  const queryWords = filters.query.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  return queryWords.every(word => text.includes(word))
     && (filters.technology === "all" || signals.technologies.includes(filters.technology))
     && (filters.role === "all" || signals.roles.includes(filters.role))
     && (filters.level === "all" || signals.levels.includes(filters.level))

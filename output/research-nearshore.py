@@ -13,7 +13,7 @@ class Page(HTMLParser):
   if tag in ('script','style'): self.skip=max(0,self.skip-1)
  def handle_data(self,data):
   if not self.skip: self.text.append(data)
-companies=json.loads(Path('app/(page_routes)/comp/companies.json').read_text(encoding='utf-8'))
+companies=json.loads(Path('lib/comp/data/companies.json').read_text(encoding='utf-8'))
 names='Admios|AgileEngine|Applaudo Studios|Arionkoder|AssureSoft|Auxis|Avenue Code|Azumo|BairesDev|Bluelight Consulting|BYDREC|Cafeto Software|CloudDevs|Coderio|CodeRoad|DaCodes|Darwoft|Devlane|DevSavant|Distillery|Edify Software Consulting|Encora|First Factory|FullStack Labs|FusionHit|GoFasti|Gorilla Logic|Growth Acceleration Partners|Halo Media|Howdy|Huenei|Improving|Intertec International|Kambda|Koombea|Kubikware|Lumenalta|Mahisoft|Modus Create|Moovx|N-iX|NaNLABS|Nearsure|Novacomp|Oowlish|Perficient|Praxent|Revelo|Rootstack|Santex|Scalepex|Software Mind|Solvd|Sophilabs|South Geeks|Sparq|Svitla Systems|TeamStation|Tecla|Tekton Labs|Teravision Technologies|Terminal|Truelogic|Ubiminds|Wizeline|X-Team|Zaelot|Zartis|Zazmic'.split('|')
 selected=[c for c in companies if c['name'] in names and c.get('website')]
 def check(c):

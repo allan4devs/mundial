@@ -7,6 +7,7 @@ const source = ts.transpileModule(fs.readFileSync('app/(page_routes)/comp/Compan
   compilerOptions: { module: ts.ModuleKind.CommonJS, jsx: ts.JsxEmit.ReactJSX },
 }).outputText;
 const company = { key: 'example', name: 'Example', model: 'direct', locations: [], tracks: [], jobs: [] };
+const extraCompanies = Array.from({ length: 60 }, (_, index) => ({ ...company, key: `extra-${index}`, name: `Extra ${index}` }));
 const storage = new Map();
 const key = 'cv-company-preferences-v1';
 function mount() {
@@ -20,7 +21,7 @@ function mount() {
     localStorage: { getItem: key => storage.get(key) ?? null, setItem: (key, value) => storage.set(key, value) },
     fetch: async (_url, options) => {
       assert.equal(options.method, undefined, 'Guest reactions must not call the protected PUT endpoint');
-      return { ok: true, json: async () => ({ companies: [company], preferences: {}, canEdit: false, storage: 'catalog' }) };
+      return { ok: true, json: async () => ({ companies: [company, ...extraCompanies], preferences: {}, canEdit: false, storage: 'catalog' }) };
     },
     require: id => {
       if (id === 'react') return {
@@ -53,6 +54,8 @@ const settle = () => new Promise(resolve => setImmediate(resolve));
   await settle();
   const button = label => app.find(node => node.type === 'button' && node.props['aria-label'] === label);
   assert.equal(button('Like Example').props.disabled, false);
+  assert.ok(button('Like Extra 59'), 'All companies must render beyond the former 48-card limit');
+  assert.equal(app.find(node => node.type === 'button' && JSON.stringify(node.props.children).includes('more companies')), undefined, 'No pagination button should remain');
   const liking = button('Like Example').props.onClick();
   assert.match(button('Like Example').props.className, /reaction-pop/, 'Clicked button animates before removal');
   assert.equal(button('Like Example').props.disabled, true, 'Prevent repeated clicks during animation');

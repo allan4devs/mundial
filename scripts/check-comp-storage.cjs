@@ -32,6 +32,7 @@ Module._load = function(id, parent, main) {
   return original.call(this, id, parent, main);
 };
 const { validatePreference } = require('../lib/comp/types.ts');
+const { companyCategoryKeys } = require('../lib/comp/categories.ts');
 const store = require('../lib/comp/store.ts');
 const api = require('../app/api/comp/route.ts');
 const { NextRequest } = require('next/server');
@@ -42,10 +43,16 @@ function request(body, authenticated = true, origin = 'http://localhost') {
   const companies = await store.getCompanies();
   assert.equal(companies.length, 1000);
   await store.getCompanies();
-  assert.equal(imports, 1, 'Catalog should only import once');
+  assert.equal(imports, 2, 'Catalog import and category backfill should each run once');
+  for (const company of companies) {
+    assert.deepEqual(company.categories, companyCategoryKeys(company));
+  }
   const key = companies[0].key;
   await store.savePreference('owner', key, { liked: true, careersUrl: 'https://example.com/jobs' });
+  const preferenceId = 'comp_preferences' + JSON.stringify(['owner', key]);
+  assert.deepEqual(records.get(preferenceId).categories, ['likes']);
   await store.savePreference('owner', key, { disliked: true });
+  assert.deepEqual(records.get(preferenceId).categories, ['dislikes']);
   let saved = await store.getPreferences('owner');
   assert.equal(saved[key].liked, false);
   assert.equal(saved[key].disliked, true);
@@ -61,6 +68,11 @@ function request(body, authenticated = true, origin = 'http://localhost') {
   saved = await store.getPreferences('owner');
   assert.equal(saved[key].liked, true);
   assert.equal(saved[key].disliked, false);
+  assert.deepEqual(records.get(preferenceId).categories, ['likes']);
+  await store.savePreference('owner', key, { careersUrl: 'https://example.com/careers' });
+  assert.deepEqual(records.get(preferenceId).categories, ['likes'], 'Editing a link preserves its category');
+  await store.savePreference('owner', key, { liked: false });
+  assert.deepEqual(records.get(preferenceId).categories, [], 'Undo clears the saved category');
   const publicResponse = await api.GET(new NextRequest('http://localhost/api/comp'));
   const publicData = await publicResponse.json();
   assert.equal(publicData.companies.length, 1000);

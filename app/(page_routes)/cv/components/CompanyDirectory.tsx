@@ -1,1 +1,1 @@
-export { CompanyDirectory } from "../../comp/CompanyDirectory";
+export { CompanyDirectory } from "../../comp/company-directory.context";

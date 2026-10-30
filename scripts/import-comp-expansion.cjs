@@ -9,8 +9,8 @@ const write = (file, value) => fs.writeFileSync(path.join(root, file), JSON.stri
 require.extensions[".ts"] = (module, filename) => module._compile(ts.transpileModule(fs.readFileSync(filename, "utf8"), {
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020, esModuleInterop: true },
 }).outputText, filename);
-const { buildCompanyCatalog, companyDomain, normalizeCompanyName, companySignals, TARGET_COMPANIES } = require("../app/(page_routes)/comp/company-catalog.ts");
-const basePath = "app/(page_routes)/comp/";
+const { buildCompanyCatalog, companyDomain, normalizeCompanyName, companySignals, TARGET_COMPANIES } = require("../lib/comp/catalog.ts");
+const basePath = "lib/comp/data/";
 const base = read(basePath + "companies.json");
 const nearshore = read(basePath + "nearshore.json");
 const sourcePath = path.join(root, "output/remoteintech-source/src/companies");
